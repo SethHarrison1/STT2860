@@ -1,0 +1,135 @@
+---
+title: "Correlation Regression Presentation---Group#1"
+author: "Davis, Delph, Harrison"
+date: 'Last compiled: `r format(Sys.time(), "%b %d, %Y")`'
+output: 
+  ioslides_presentation:
+    logo: "./PICS/UCI.png"
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+##Load file
+file = "./Data/auto-mpg.data"
+data <- read.table(file, sep = "" , header = F , nrows = 398,
+                     na.strings ="", stringsAsFactors= F)
+carData <- as.tibble(data)
+##Rename Column heads
+names(carData)[1] <- "mpg"
+names(carData)[2] <- "cylinders"
+names(carData)[3] <- "displacement"
+names(carData)[4] <- "horsepower"
+names(carData)[5] <- "weight"
+names(carData)[6] <- "acceleration"
+names(carData)[7] <- "modelYear"
+names(carData)[8] <- "origin"
+names(carData)[9] <- "carName"
+
+##remove 6 data points missing horsepower data
+carDataReduced <- carData
+carDataReduced$horsepower <- replace(carDataReduced$horsepower, carDataReduced$horsepower == "?", NA)
+carDataReduced <- na.omit(carDataReduced)
+carDataReduced$horsepower <- as.numeric(carDataReduced$horsepower)
+```
+
+## Correlation Analysis 
+For our dataset, we selected `Auto MPG` and conducted correlation and regression analysis on fuel efficiency, which was measured in miles per gallon (mpg). The `Auto MPG` dataset included 8 variables, 2 of which were read in as categorical. However, after some data cleaning, we were able to remove the data points missing horsepower values to develop a regression function for horsepower.
+
+Correlations were run for the 7 eligible variables, and the highest correlations were observed as follows: 
+
+* MPG and Displacement produced r = - .804 
+
+* MPG and Weight produced r = - .831
+
+## Correlation Code
+
+```{r, echo = TRUE, results='hide'}
+carData %>% 
+  summarize(N=n(), r = cor(displacement, mpg, use = "pairwise.complete.obs"))
+carData %>%
+  summarize(N=n(), r = cor(weight, mpg, use = "pairwise.complete.obs"))
+```
+
+## Regression: Diplacement Graph 
+
+```{r, echo=FALSE, message=FALSE}
+ggplot(carData, aes(displacement, mpg))+ 
+  geom_point()+ 
+  geom_smooth(method = "lm", se = FALSE)+
+  theme_bw()+
+  labs(title = "Fuel Efficiency",
+  subtitle = "MPG as a function of Displacement",
+  x = "Displacement",
+  y = "MPG"
+  )
+```
+
+## Regression: Displacement Code
+
+```{r, echo=TRUE, message=FALSE, eval=FALSE}
+ggplot(carData, aes(displacement, mpg))+ geom_point()+ 
+  geom_smooth(method = "lm", se = FALSE)+
+  theme_bw()+labs(title = "Fuel Efficiency",
+  subtitle = "MPG as a function of Displacement", 
+  x = "Displacement",
+  y = "MPG"
+  )
+```
+
+## Linear Model: Displacement
+```{r, echo=TRUE}
+disp_model <- lm(mpg~displacement, data = carData)
+```
+
+$$\widehat{MPG} = 35.175 + -.06\cdot{displacement}$$ 
+
+
+Interpretation: 
+
+
+For every unit increase in displacement, fuel efficiency is expected to decrease by 0.06 mpg. 
+
+## Regression: Weight Graph 
+```{r, echo=FALSE, message=FALSE}
+ggplot(carData, aes(weight, mpg))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  theme_bw()+
+  labs(
+    title = "Fuel Efficiency",
+    subtitle = "MPG as a function of Weight",
+    x = "Weight",
+    y = "MPG"
+  )
+```
+
+## Regression: Weight Code 
+```{r, echo=TRUE,message =FALSE, eval=FALSE}
+ggplot(carData, aes(weight, mpg))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  theme_bw()+
+  labs(
+    title = "Fuel Efficiency",
+    subtitle = "MPG as a function of Weight",
+    x = "Weight",
+    y = "MPG"
+  )
+```
+
+## Linear Model: Weight 
+```{r, echo=TRUE}
+wgt_model <- lm(mpg~weight, data = carData)
+```
+$$\widehat{MPG} = 46.317 + -.008\cdot{weight}$$
+
+
+Interpretation: 
+
+
+For every unit increase in weight, fuel efficiency is expected to decrease by 0.008 mpg. 
+
