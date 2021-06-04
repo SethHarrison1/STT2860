@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Logistic Regression Model Presentation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Kyera McCrimmon, Cori Ferguson, Kayla Friend" />
+    <link rel="stylesheet" href="appstate.css" type="text/css" />
+    <link rel="stylesheet" href="appstate-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, right, inverse, title-slide
+
+# Logistic Regression Model Presentation
+### Kyera McCrimmon, Cori Ferguson, Kayla Friend
+### updated: 2021-03-18
+
+---
+
+class: inverse, center, middle
+
+
+
+
+# Dataset Summary
+
+This data set has collected data on forest fires in the northeast region of Portugal. It’s data includes data about the moisture code and fire behavior indexes described by the Fire Weather Index (FWI) System. Some of the recorded data variables that we used were Duff Moisture Code (DMC), Drought Code (DC), temp in degrees celsius, and we added summer as a sub-variable of season which we created from the month variable using the transmutate function in R. 
+
+**Variable Descriptions:** 
+
+* DMC- Duff Moisture Code- Fuel moisture of the decomposed organic material underneath the litter i.e leaves, twings, etc. 
+* DC- Drought Code- measures the dryness of the soil in the area. 
+* Temp- In degrees celsius 
+* Summer- A sub-variable of season when we created from the month variable using the transmutate function in R. 
+
+---
+
+## Predictors of Duff Moisture Code
+
+`$$\widehat{DMC} = 10.87 + above.avgDC(68.53) + 2.76(temp)$$`
+
+
+```
+
+Call:
+lm(formula = DMC ~ above.avgDC + temp, data = ff)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-103.911  -29.194   -8.283   18.281  182.164 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     10.8677     7.3602   1.477     0.14    
+above.avgDCYes  68.5293     5.2582  13.033  &lt; 2e-16 ***
+temp             2.7610     0.4161   6.636 8.19e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 49.12 on 514 degrees of freedom
+Multiple R-squared:  0.4141,	Adjusted R-squared:  0.4118 
+F-statistic: 181.7 on 2 and 514 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+## Duff Moisture Code Graph
+
+
+```r
+ggplot(ff, aes(temp, DMC, color = above.avgDC)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(title = "Drought Code vs Duff Moisture Code")
+```
+
+&lt;img src="KKC_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Predictors of Drought Code
+
+
+```r
+mod_summer &lt;- lm(DC ~ temp + summer, ff_separate)
+```
+`$$\widehat{DC}=139.11+22.48\cdot temp-35.21\cdot summer$$`
+
+```r
+mod_spring &lt;- lm(DC ~ temp + spring, ff_separate)
+```
+`$$\widehat{DC}=402.63+10.82\cdot temp-470.52\cdot spring$$`
+
+```r
+mod_winter &lt;- lm(DC ~ temp + winter, ff_separate)
+```
+`$$\widehat{DC}=249.48+16.55\cdot temp-236.63\cdot winter$$`
+
+```r
+mod_fall &lt;- lm(DC ~ temp + fall, ff_separate)
+```
+`$$\widehat{DC}=76.75+19.81\cdot temp+266.50\cdot fall$$`
+
+---
+
+# Drought Code Graph 
+
+
+```r
+ggplot(ff_separate, aes(temp, DC, color = season)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Drought Code vs Temperature(Celcius)")
+```
+
+&lt;img src="KKC_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+# Dr. A comments
+### Following the suggestions in the description
+ff_old &lt;- read.csv("./Data/cc.csv") # Using to get factors easier...
+ff_old$areaT &lt;- log(ff_old$area + 1)
+ff_a &lt;- ff_old %&gt;% 
+  select(-area)
+# summary(ff)
+library(caret)
+set.seed(123)
+trainIndexFF &lt;- createDataPartition(y = ff_a$areaT,
+                                    p = 0.80,
+                                    list = FALSE,
+                                    times = 1)
+trainingFF &lt;- ff_a[trainIndexFF,  ]
+testingFF  &lt;- ff_a[-trainIndexFF, ]
+dim(trainingFF)
+```
+
+```
+[1] 416  13
+```
+
+```r
+dim(testingFF)
+```
+
+```
+[1] 101  13
+```
+
+---
+
+First Model --- Not so Great
+
+
+```r
+mod_lm &lt;- train(areaT ~ .,
+                data = trainingFF,
+                method = "lm")
+mod_lm$results
+```
+
+```
+  intercept     RMSE    Rsquared    MAE     RMSESD  RsquaredSD      MAESD
+1      TRUE 1.498092 0.006163921 1.2132 0.07176412 0.006708646 0.05678446
+```
+
+```r
+# summary(mod_lm)
+```
+
+---
+
+Forward Selection
+
+
+```r
+mod_FS &lt;- train(areaT ~.,
+                data = trainingFF,
+                method = "leapForward",
+                tuneLength = 5)
+```
+
+```
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+Reordering variables and trying again:
+```
+
+```r
+mod_FS$results
+```
+
+```
+  nvmax     RMSE   Rsquared      MAE     RMSESD RsquaredSD      MAESD
+1     2 1.409544 0.02111539 1.152086 0.08290663 0.01577962 0.05137761
+2     3 1.419306 0.01578370 1.157793 0.08526929 0.01425820 0.05290954
+3     4 1.428893 0.01194669 1.161096 0.08078901 0.01292583 0.04814045
+4     5 1.430597 0.01221904 1.160400 0.07783929 0.01446602 0.04811822
+5     6 1.438695 0.01003805 1.167665 0.07736643 0.01285853 0.04696666
+```
+
+```r
+coef(mod_FS$finalModel, id = mod_FS$bestTune$nvmax)
+```
+
+```
+(Intercept)    monthdec        temp 
+ 0.46640526  1.99346822  0.03246404 
+```
+
+
+___
+
+# Testing RMSE
+
+
+```r
+RMSE(predict(mod_lm, testingFF), testingFF$areaT)
+```
+
+```
+[1] 1.535356
+```
+
+```r
+RMSE(predict(mod_FS, testingFF), testingFF$areaT)
+```
+
+```
+[1] 1.409824
+```
+
+---
+
+Maybe a TREE?
+
+
+```r
+mod_tree &lt;- train(areaT ~ .,
+                  data = trainingFF,
+                  method = "rpart",
+                  tuneLength = 10)
+mod_tree
+```
+
+```
+CART 
+
+416 samples
+ 12 predictor
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+Summary of sample sizes: 416, 416, 416, 416, 416, 416, ... 
+Resampling results across tuning parameters:
+
+  cp           RMSE      Rsquared     MAE     
+  0.007968479  1.679616  0.007396976  1.298408
+  0.008281529  1.677714  0.007295752  1.296446
+  0.009527346  1.669267  0.007287695  1.293331
+  0.011128355  1.656173  0.007409847  1.289163
+  0.011706619  1.652247  0.007106259  1.287004
+  0.012283533  1.650546  0.006493325  1.287240
+  0.013160100  1.644339  0.005903619  1.285397
+  0.015853013  1.617685  0.006837851  1.274445
+  0.019719238  1.583137  0.006518599  1.261155
+  0.023055914  1.558179  0.007099485  1.251089
+
+RMSE was used to select the optimal model using the smallest value.
+The final value used for the model was cp = 0.02305591.
+```
+
+```r
+library(rpart)
+mod_treeA &lt;- rpart(areaT ~ ., data = trainingFF, cp = mod_tree$bestTune)
+```
+
+---
+
+Graph of a Tree
+
+
+```r
+library(rpart.plot)
+rpart.plot(mod_treeA)
+```
+
+![](KKC_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+---
+
+Random Forest Model
+
+
+
+```r
+mod_RF &lt;- train(areaT ~.,
+                data = trainingFF,
+                tuneLength = 5,
+                method = "rf")
+# mod_RF
+RF_pred &lt;- predict(mod_RF, newdata = testingFF)
+RMSE(pred = RF_pred, obs = testingFF$areaT)
+```
+
+```
+[1] 1.396981
+```
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+---
+title: "Logistic Regression Model Presentation"
+author: "Kyera McCrimmon, Cori Ferguson, Kayla Friend"
+date: "updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    seal: true
+    # lib_dir: libs
+    css: [appstate.css, appstate-fonts.css]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: [top, right, inverse]
+      # autoplay: 40000
+      # countdown: 30000
+---
+class: inverse, center, middle
+
+```{r label = "setup", include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
+library(ISLR)
+library(tidyverse)
+library(ggplot2)
+library(magrittr)
+library(readr)
+library(dplyr)
+
+url <- "http://www.dsi.uminho.pt/~pcortez/forestfires/forestfires.csv"
+  if(!file.exists("./Data/cc.csv")){download.file(url, destfile = "./Data/cc.csv")}
+
+ff_old <- read_csv("./Data/cc.csv")
+
+ff <- ff_old %>% 
+  transmute(X, Y, month, day, FFMC, DMC, DC, ISI, temp, RH, wind, rain, area,
+    temperature = cut(temp, c(0,10,30,35)),
+    above.avgDC = ifelse(DC > 547.9, "Yes", "No"),
+    season = ifelse(month %in% c("dec", "jan", "feb"), "Winter", ifelse(month %in% c("mar", "apr", "may"), "Spring", 
+                     ifelse(month %in% c("jun", "jul", "aug"), "Summer", 
+                            ifelse(month %in% c("sep", "oct", "nov"), "Fall", NA)))))
+
+
+ff_separate <- ff %>%
+  mutate(summer = ifelse(season == "Summer", "Yes", "No"), spring = ifelse(season == "Spring", "Yes", "No"), winter = ifelse(season == "Winter", "Yes", "No"), fall = ifelse(season == "Fall", "Yes", "No"))
+```
+
+
+# Dataset Summary
+
+This data set has collected data on forest fires in the northeast region of Portugal. It’s data includes data about the moisture code and fire behavior indexes described by the Fire Weather Index (FWI) System. Some of the recorded data variables that we used were Duff Moisture Code (DMC), Drought Code (DC), temp in degrees celsius, and we added summer as a sub-variable of season which we created from the month variable using the transmutate function in R. 
+
+**Variable Descriptions:** 
+
+* DMC- Duff Moisture Code- Fuel moisture of the decomposed organic material underneath the litter i.e leaves, twings, etc. 
+* DC- Drought Code- measures the dryness of the soil in the area. 
+* Temp- In degrees celsius 
+* Summer- A sub-variable of season when we created from the month variable using the transmutate function in R. 
+
+---
+
+## Predictors of Duff Moisture Code
+
+$$\widehat{DMC} = 10.87 + above.avgDC(68.53) + 2.76(temp)$$
+
+```{r echo=FALSE}
+mod1 <- lm(DMC ~ above.avgDC + temp, ff) 
+summary(mod1)
+```
+
+---
+
+## Duff Moisture Code Graph
+
+```{r, fig.align= 'center', fig.width=8, fig.height=5}
+ggplot(ff, aes(temp, DMC, color = above.avgDC)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(title = "Drought Code vs Duff Moisture Code")
+```
+
+---
+
+# Predictors of Drought Code
+
+```{r}
+mod_summer <- lm(DC ~ temp + summer, ff_separate)
+```
+$$\widehat{DC}=139.11+22.48\cdot temp-35.21\cdot summer$$
+```{r}
+mod_spring <- lm(DC ~ temp + spring, ff_separate)
+```
+$$\widehat{DC}=402.63+10.82\cdot temp-470.52\cdot spring$$
+```{r}
+mod_winter <- lm(DC ~ temp + winter, ff_separate)
+```
+$$\widehat{DC}=249.48+16.55\cdot temp-236.63\cdot winter$$
+```{r}
+mod_fall <- lm(DC ~ temp + fall, ff_separate)
+```
+$$\widehat{DC}=76.75+19.81\cdot temp+266.50\cdot fall$$
+
+---
+
+# Drought Code Graph 
+
+```{r, fig.align='center', fig.height=5}
+ggplot(ff_separate, aes(temp, DC, color = season)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Drought Code vs Temperature(Celcius)")
+```
+
+---
+
+```{r}
+# Dr. A comments
+### Following the suggestions in the description
+ff_old <- read.csv("./Data/cc.csv") # Using to get factors easier...
+ff_old$areaT <- log(ff_old$area + 1)
+ff_a <- ff_old %>% 
+  select(-area)
+# summary(ff)
+library(caret)
+set.seed(123)
+trainIndexFF <- createDataPartition(y = ff_a$areaT,
+                                    p = 0.80,
+                                    list = FALSE,
+                                    times = 1)
+trainingFF <- ff_a[trainIndexFF,  ]
+testingFF  <- ff_a[-trainIndexFF, ]
+dim(trainingFF)
+dim(testingFF)
+```
+
+---
+
+First Model --- Not so Great
+
+```{r}
+mod_lm <- train(areaT ~ .,
+                data = trainingFF,
+                method = "lm")
+mod_lm$results
+# summary(mod_lm)
+```
+
+---
+
+Forward Selection
+
+```{r}
+mod_FS <- train(areaT ~.,
+                data = trainingFF,
+                method = "leapForward",
+                tuneLength = 5)
+mod_FS$results
+coef(mod_FS$finalModel, id = mod_FS$bestTune$nvmax)
+```
+
+
+___
+
+# Testing RMSE
+
+```{r}
+RMSE(predict(mod_lm, testingFF), testingFF$areaT)
+RMSE(predict(mod_FS, testingFF), testingFF$areaT)
+```
+
+---
+
+Maybe a TREE?
+
+```{r}
+mod_tree <- train(areaT ~ .,
+                  data = trainingFF,
+                  method = "rpart",
+                  tuneLength = 10)
+mod_tree
+library(rpart)
+mod_treeA <- rpart(areaT ~ ., data = trainingFF, cp = mod_tree$bestTune)
+```
+
+---
+
+Graph of a Tree
+
+```{r}
+library(rpart.plot)
+rpart.plot(mod_treeA)
+```
+
+---
+
+Random Forest Model
+
+
+```{r}
+mod_RF <- train(areaT ~.,
+                data = trainingFF,
+                tuneLength = 5,
+                method = "rf")
+# mod_RF
+RF_pred <- predict(mod_RF, newdata = testingFF)
+RMSE(pred = RF_pred, obs = testingFF$areaT)
+```
+
+---

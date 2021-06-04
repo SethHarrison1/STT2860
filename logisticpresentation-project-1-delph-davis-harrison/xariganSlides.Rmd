@@ -1,0 +1,241 @@
+---
+title: "Logistic Regression Presentation"
+author: "Delph, Davis, Harrison"
+date: "updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    seal: true
+    # lib_dir: libs
+    css: [appstate.css, appstate-fonts.css]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: [top, right, inverse]
+      # autoplay: 40000
+      # countdown: 30000
+---
+class: inverse, center, middle
+
+```{r label = "setup", include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
+library(ISLR)
+library(tidyverse)
+```
+
+```{r, echo = FALSE, include=FALSE}
+#Reading in the data set
+file = "./Data/imports-85.data"
+data <- read.table(file, sep = "," , header = F , nrows = 205,
+                     na.strings ="", stringsAsFactors= F)
+names(data)[1] <- "Symboling" #
+names(data)[2] <- "Normalized_Loss" 
+names(data)[3] <- "Make" # Make of the Vehicle 
+names(data)[4] <- "Fuel-Type" # Diesel or Gas 
+names(data)[5] <- "Aspiration" # Standard or Turbo
+names(data)[6] <- "Doors" # Number of Doors 
+names(data)[7] <- "Body" # Body Style 
+names(data)[8] <- "Drive" # 4WD or 2WD
+names(data)[9] <- "Engine_Loc" # Engine Location 
+names(data)[10] <- "Wheel_base" # continuous 
+names(data)[11] <- "length" # continuous
+names(data)[12] <- "width" #continuous 
+names(data)[13] <- "height" #continuous
+names(data)[14] <- "curb-weight" #continuous 
+names(data)[15] <- "engine-type" #dohc, dohcv, l, ohc, ohcf, ohcv, rotor.
+names(data)[16] <- "num-of-cylinders" 
+names(data)[17] <- "engine-size" #continuous 
+names(data)[18] <- "fuel-system"
+names(data)[19] <- "bore" #continuous 
+names(data)[20] <- "stroke" #continuous 
+names(data)[21] <- "compression-ratio" #continuous
+names(data)[22] <- "horsepower" #continuous 
+names(data)[23] <- "peak-rpm" #continuous 
+names(data)[24] <- "city-mpg" #continuous 
+names(data)[25] <- "highway-mpg" #continuous 
+names(data)[26] <- "price" #continuous 
+```
+
+
+```{r, echo = FALSE}
+# Dr.A comments
+cars <- read.csv("./Data/imports-85.data", 
+                 col.names=c("symbolizing", "normalized_loss", 
+                             "make", "fuel_type", "aspiration",
+                             "num_of_doors", "body_type", 
+                             "drive_wheels", "engine_location",
+                             "wheel_base","length", "width", 
+                             "height", "curb_weight", "engine_type",
+                             "num_of_cylinders", "engine_size",
+                             "fuel_system", "bore", "stroke",
+                             "compression_ratio", "horsepower", 
+                             "peak_rpm", "city_mpg", "highway_mpg",
+                             "price"), na.strings = "?")
+cars[1:6, 1:4]
+cars <- na.omit(cars)
+```
+
+
+
+```{r, include= FALSE}
+library(dplyr)
+mod_data <- data %>% mutate(`Fuel-Type`=ifelse(`Fuel-Type`=="gas",0,1)) %>% mutate(price = as.numeric(price))
+glimpse(mod_data)
+```
+
+```{r, echo = FALSE}
+# Dr. A comment
+library(dplyr)
+cars2 <- cars %>% mutate(fuel_type = ifelse(fuel_type == "gas", 0, 1)) 
+glimpse(cars2)
+```
+
+
+# Dataset Information
+
+* Our dataset was the Automobile Data Set, which included 26 attributes 
+
+* In order to achieve a binomial variable, we selected `Fuel-Type` and mutated the original character response to a 0 = gas and 1 = diesel
+
+* For our model and prediction, we decided to use our `Fuel-Type` variable as a function of `price`. `Price` was mutated from a character to a numeric utilizing the `as_numeric()` function.
+
+* We hypothesized that on average diesel vehicles will cost more than gas vehicles. 
+
+---
+# Fuel-Type as a function of Price:
+
+```{r, echo = FALSE, include = FALSE}
+model <- glm(`Fuel-Type`~price, family = binomial, data = mod_data)
+coef(model)
+```
+$$\frac{\widehat{y}}{1-\widehat{y}} = -2.746 + .000038123 * Price$$
+```{r}
+# Dr. A comment
+mod <- glm(fuel_type ~ price, family = binomial, data = cars2)
+coef(mod)
+```
+
+Note: the quantity $\pi(x)=E(Y|x)$ is used to represent the conditional mean of $Y$ given $x$ when the logistic regression is the _logit transformation_.  This transformation is defined, in terms of $\pi(x)$, as:
+
+$$g(x) = \ln \left(\frac{\pi(x)}{1 - \pi(x)}\right) = \beta_0 + \beta_1x$$
+---
+# Using `ggplot2` to illustrate the model
+
+```{r, echo = FALSE, fig.align = "center", fig.width = 7, fig.height = 5}
+#Dr A comments
+ggplot(data = cars2, aes(x = price, y = fuel_type)) + 
+  geom_jitter(width = 0, height = 0.05, alpha = 0.1) + 
+  theme_bw() + 
+  labs(x = "Price", 
+       y = "Fuel Type (Gas and Diesel)",
+       title = "Fuel Type General Linear Model",
+       subtitle = "Fuel Type as a funtion of price (Gas = 0, Diesel = 1)") + 
+  geom_smooth(method = "glm", se = FALSE, 
+              method.args = list(family = binomial(link = "logit")),
+              color = "red") 
+```
+It appears as if there is a slight increase in price near the end of the model. However, this does not appear to reflect our hypothesis very well. 
+
+---
+
+# Prediction
+
+```{r, echo=FALSE}
+library(broom)
+```
+```{r}
+pred <- data.frame(price = c(15000, 25000, 40000))
+augment(model, newdata = pred, type.predict = "response")
+```
+
+Based on this prediction, a vehicle that cost 15K, 25K, and 40K have a 10%, 14%, and 23% probability of being a diesel. 
+
+---
+## Conclusions:
+
+Our hypothesis assumptions may be flawed due to high-end, luxury sports cars being gas rather than diesel. 
+
+It doesn't appear that our model is a very strong predictor because: 
+
+--
+
+1. There is only a slight slope to our model
+
+--
+
+2. The predicted probabilities are rather small
+
+--
+
+As such, this model is not very useful, but at least we tried
+
+---
+
+```{r}
+# Dr A comments
+summary(mod)$coef
+```
+
+Note: The results suggest that the change in log-odds of `fuel_type` per one dollar increase in `price` is $`r summary(mod)$coef[2,1]`$.
+
+Note: The estimated logistic probability of a diesel vehicle with a price of $15,000 is:
+
+$$\pi(15000) = \frac{\exp\hat{g}(15000)}{1 + \exp\hat{g}(15000)} = \frac{\exp-2.73 + 3.8\times 10^{-5}\times15000}{1 + \exp-2.73 + 3.8\times 10^{-5}\times15000} = 0.1025973$$
+
+```{r}
+nullmod <- glm(fuel_type ~ 1, family="binomial", data = cars2)
+PR2 <- 1 - logLik(mod)/logLik(nullmod)
+PR2 # McFadden's R2 --- Can we get a better model?
+```
+ 
+---
+
+```{r}
+mymod <- glm(fuel_type ~ aspiration + height + bore + stroke, data = cars2, family = "binomial")
+summary(mymod)
+nullmod <- glm(fuel_type ~ 1, family="binomial", data = cars2)
+```
+
+---
+
+```{r}
+PR2 <- 1 - logLik(mymod)/logLik(nullmod)
+PR2 # McFadden's R2 --- Can we get a better model?
+```
+
+---
+
+
+```{r}
+mymod2 <- glm(fuel_type ~ horsepower + price + horsepower:price
+              , data = cars2, family = "binomial")
+summary(mymod2)
+```
+
+---
+
+```{r}
+PR2 <- 1 - logLik(mymod2)/logLik(nullmod)
+PR2 # McFadden's R2 --- Can we get a better model?
+```
+
+```{r}
+mymod3 <- glm(fuel_type ~ price + engine_size + engine_size:horsepower, data = cars2, family = "binomial")
+summary(mymod3)
+```
+
+
+---
+
+How well are we doing?
+
+```{r}
+DG <- predict(mymod3, type ="response")
+DG <- (ifelse(DG > .5, "diesel", "gas"))
+p_class <- factor(DG, levels = c("diesel", "gas"))
+library(caret)
+confusionMatrix(p_class, cars$fuel_type)
+```
+
+
+

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Logistic Regression Presentation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Delph, Davis, Harrison" />
+    <link rel="stylesheet" href="appstate.css" type="text/css" />
+    <link rel="stylesheet" href="appstate-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, right, inverse, title-slide
+
+# Logistic Regression Presentation
+### Delph, Davis, Harrison
+### updated: 2021-03-15
+
+---
+
+class: inverse, center, middle
+
+
+
+
+
+
+
+```
+  symbolizing normalized_loss        make fuel_type
+1           3              NA alfa-romero       gas
+2           1              NA alfa-romero       gas
+3           2             164        audi       gas
+4           2             164        audi       gas
+5           2              NA        audi       gas
+6           1             158        audi       gas
+```
+
+
+
+
+
+
+```
+Rows: 159
+Columns: 26
+$ symbolizing       &lt;int&gt; 2, 2, 1, 1, 2, 0, 0, 0, 2, 1, 0, 1, 1, 1, 1, 1, 1, -…
+$ normalized_loss   &lt;int&gt; 164, 164, 158, 158, 192, 192, 188, 188, 121, 98, 81,…
+$ make              &lt;fct&gt; audi, audi, audi, audi, bmw, bmw, bmw, bmw, chevrole…
+$ fuel_type         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ aspiration        &lt;fct&gt; std, std, std, turbo, std, std, std, std, std, std, …
+$ num_of_doors      &lt;fct&gt; four, four, four, four, two, four, two, four, two, t…
+$ body_type         &lt;fct&gt; sedan, sedan, sedan, sedan, sedan, sedan, sedan, sed…
+$ drive_wheels      &lt;fct&gt; fwd, 4wd, fwd, fwd, rwd, rwd, rwd, rwd, fwd, fwd, fw…
+$ engine_location   &lt;fct&gt; front, front, front, front, front, front, front, fro…
+$ wheel_base        &lt;dbl&gt; 99.8, 99.4, 105.8, 105.8, 101.2, 101.2, 101.2, 101.2…
+$ length            &lt;dbl&gt; 176.6, 176.6, 192.7, 192.7, 176.8, 176.8, 176.8, 176…
+$ width             &lt;dbl&gt; 66.2, 66.4, 71.4, 71.4, 64.8, 64.8, 64.8, 64.8, 60.3…
+$ height            &lt;dbl&gt; 54.3, 54.3, 55.7, 55.9, 54.3, 54.3, 54.3, 54.3, 53.2…
+$ curb_weight       &lt;int&gt; 2337, 2824, 2844, 3086, 2395, 2395, 2710, 2765, 1488…
+$ engine_type       &lt;fct&gt; ohc, ohc, ohc, ohc, ohc, ohc, ohc, ohc, l, ohc, ohc,…
+$ num_of_cylinders  &lt;fct&gt; four, five, five, five, four, four, six, six, three,…
+$ engine_size       &lt;int&gt; 109, 136, 136, 131, 108, 108, 164, 164, 61, 90, 90, …
+$ fuel_system       &lt;fct&gt; mpfi, mpfi, mpfi, mpfi, mpfi, mpfi, mpfi, mpfi, 2bbl…
+$ bore              &lt;dbl&gt; 3.19, 3.19, 3.19, 3.13, 3.50, 3.50, 3.31, 3.31, 2.91…
+$ stroke            &lt;dbl&gt; 3.40, 3.40, 3.40, 3.40, 2.80, 2.80, 3.19, 3.19, 3.03…
+$ compression_ratio &lt;dbl&gt; 10.00, 8.00, 8.50, 8.30, 8.80, 8.80, 9.00, 9.00, 9.5…
+$ horsepower        &lt;int&gt; 102, 115, 110, 140, 101, 101, 121, 121, 48, 70, 70, …
+$ peak_rpm          &lt;int&gt; 5500, 5500, 5500, 5500, 5800, 5800, 4250, 4250, 5100…
+$ city_mpg          &lt;int&gt; 24, 18, 19, 17, 23, 23, 21, 21, 47, 38, 38, 37, 31, …
+$ highway_mpg       &lt;int&gt; 30, 22, 25, 20, 29, 29, 28, 28, 53, 43, 43, 41, 38, …
+$ price             &lt;int&gt; 13950, 17450, 17710, 23875, 16430, 16925, 20970, 211…
+```
+
+
+# Dataset Information
+
+* Our dataset was the Automobile Data Set, which included 26 attributes 
+
+* In order to achieve a binomial variable, we selected `Fuel-Type` and mutated the original character response to a 0 = gas and 1 = diesel
+
+* For our model and prediction, we decided to use our `Fuel-Type` variable as a function of `price`. `Price` was mutated from a character to a numeric utilizing the `as_numeric()` function.
+
+* We hypothesized that on average diesel vehicles will cost more than gas vehicles. 
+
+---
+# Fuel-Type as a function of Price:
+
+
+`$$\frac{\widehat{y}}{1-\widehat{y}} = -2.746 + .000038123 * Price$$`
+
+```r
+# Dr. A comment
+mod &lt;- glm(fuel_type ~ price, family = binomial, data = cars2)
+coef(mod)
+```
+
+```
+  (Intercept)         price 
+-3.7503224008  0.0001128698 
+```
+
+Note: the quantity `\(\pi(x)=E(Y|x)\)` is used to represent the conditional mean of `\(Y\)` given `\(x\)` when the logistic regression is the _logit transformation_.  This transformation is defined, in terms of `\(\pi(x)\)`, as:
+
+`$$g(x) = \ln \left(\frac{\pi(x)}{1 - \pi(x)}\right) = \beta_0 + \beta_1x$$`
+---
+# Using `ggplot2` to illustrate the model
+
+&lt;img src="xariganSlides_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+It appears as if there is a slight increase in price near the end of the model. However, this does not appear to reflect our hypothesis very well. 
+
+---
+
+# Prediction
+
+
+
+```r
+pred &lt;- data.frame(price = c(15000, 25000, 40000))
+augment(model, newdata = pred, type.predict = "response")
+```
+
+```
+# A tibble: 3 x 2
+  price .fitted
+  &lt;dbl&gt;   &lt;dbl&gt;
+1 15000   0.102
+2 25000   0.143
+3 40000   0.228
+```
+
+Based on this prediction, a vehicle that cost 15K, 25K, and 40K have a 10%, 14%, and 23% probability of being a diesel. 
+
+---
+## Conclusions:
+
+Our hypothesis assumptions may be flawed due to high-end, luxury sports cars being gas rather than diesel. 
+
+It doesn't appear that our model is a very strong predictor because: 
+
+--
+
+1. There is only a slight slope to our model
+
+--
+
+2. The predicted probabilities are rather small
+
+--
+
+As such, this model is not very useful, but at least we tried
+
+---
+
+
+```r
+# Dr A comments
+summary(mod)$coef
+```
+
+```
+                 Estimate   Std. Error   z value     Pr(&gt;|z|)
+(Intercept) -3.7503224008 6.283184e-01 -5.968824 2.389691e-09
+price        0.0001128698 3.771984e-05  2.992320 2.768656e-03
+```
+
+Note: The results suggest that the change in log-odds of `fuel_type` per one dollar increase in `price` is `\(1.1286984\times 10^{-4}\)`.
+
+Note: The estimated logistic probability of a diesel vehicle with a price of $15,000 is:
+
+`$$\pi(15000) = \frac{\exp\hat{g}(15000)}{1 + \exp\hat{g}(15000)} = \frac{\exp-2.73 + 3.8\times 10^{-5}\times15000}{1 + \exp-2.73 + 3.8\times 10^{-5}\times15000} = 0.1025973$$`
+
+
+```r
+nullmod &lt;- glm(fuel_type ~ 1, family="binomial", data = cars2)
+PR2 &lt;- 1 - logLik(mod)/logLik(nullmod)
+PR2 # McFadden's R2 --- Can we get a better model?
+```
+
+```
+'log Lik.' 0.08633392 (df=2)
+```
+ 
+---
+
+
+```r
+mymod &lt;- glm(fuel_type ~ aspiration + height + bore + stroke, data = cars2, family = "binomial")
+summary(mymod)
+```
+
+```
+
+Call:
+glm(formula = fuel_type ~ aspiration + height + bore + stroke, 
+    family = "binomial", data = cars2)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-1.62853  -0.30396  -0.13320  -0.06819   2.96868  
+
+Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)     -42.1050    11.5220  -3.654 0.000258 ***
+aspirationturbo   3.0709     0.8350   3.678 0.000235 ***
+height            0.5195     0.1629   3.190 0.001422 ** 
+bore             -3.0549     1.7154  -1.781 0.074937 .  
+stroke            6.0502     1.8840   3.211 0.001321 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 99.364  on 158  degrees of freedom
+Residual deviance: 55.247  on 154  degrees of freedom
+AIC: 65.247
+
+Number of Fisher Scoring iterations: 7
+```
+
+```r
+nullmod &lt;- glm(fuel_type ~ 1, family="binomial", data = cars2)
+```
+
+---
+
+
+```r
+PR2 &lt;- 1 - logLik(mymod)/logLik(nullmod)
+PR2 # McFadden's R2 --- Can we get a better model?
+```
+
+```
+'log Lik.' 0.443988 (df=5)
+```
+
+---
+
+
+
+```r
+mymod2 &lt;- glm(fuel_type ~ horsepower + price + horsepower:price
+              , data = cars2, family = "binomial")
+summary(mymod2)
+```
+
+```
+
+Call:
+glm(formula = fuel_type ~ horsepower + price + horsepower:price, 
+    family = "binomial", data = cars2)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-1.53690  -0.08938  -0.02210  -0.00030   3.08162  
+
+Coefficients:
+                   Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)       2.671e+00  4.955e+00   0.539  0.58979   
+horsepower       -3.029e-01  9.678e-02  -3.130  0.00175 **
+price             2.509e-03  8.423e-04   2.979  0.00289 **
+horsepower:price -9.373e-06  5.409e-06  -1.733  0.08311 . 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 99.364  on 158  degrees of freedom
+Residual deviance: 27.123  on 155  degrees of freedom
+AIC: 35.123
+
+Number of Fisher Scoring iterations: 9
+```
+
+---
+
+
+```r
+PR2 &lt;- 1 - logLik(mymod2)/logLik(nullmod)
+PR2 # McFadden's R2 --- Can we get a better model?
+```
+
+```
+'log Lik.' 0.7270309 (df=4)
+```
+
+---
+
+How well are we doing?
+
+
+```r
+DG &lt;- predict(mymod2, type ="response")
+DG &lt;- (ifelse(DG &gt; .5, "diesel", "gas"))
+p_class &lt;- factor(DG, levels = c("diesel", "gas"))
+library(caret)
+confusionMatrix(p_class, cars$fuel_type)
+```
+
+```
+Confusion Matrix and Statistics
+
+          Reference
+Prediction diesel gas
+    diesel     13   2
+    gas         2 142
+                                          
+               Accuracy : 0.9748          
+                 95% CI : (0.9368, 0.9931)
+    No Information Rate : 0.9057          
+    P-Value [Acc &gt; NIR] : 0.0005627       
+                                          
+                  Kappa : 0.8528          
+                                          
+ Mcnemar's Test P-Value : 1.0000000       
+                                          
+            Sensitivity : 0.86667         
+            Specificity : 0.98611         
+         Pos Pred Value : 0.86667         
+         Neg Pred Value : 0.98611         
+             Prevalence : 0.09434         
+         Detection Rate : 0.08176         
+   Detection Prevalence : 0.09434         
+      Balanced Accuracy : 0.92639         
+                                          
+       'Positive' Class : diesel          
+                                          
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
