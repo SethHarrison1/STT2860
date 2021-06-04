@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Model Fit | Correlation and Regression</title>
+  <meta name="description" content="This is starter code for using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Model Fit | Correlation and Regression" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is starter code for using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Model Fit | Correlation and Regression" />
+  
+  <meta name="twitter:description" content="This is starter code for using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Seth Harrison" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="interpreting-regression-models.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Correlation and Regression</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html"><i class="fa fa-check"></i><b>2</b> Visualizing two variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#scatterplots"><i class="fa fa-check"></i><b>2.1</b> Scatterplots</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#boxplots-as-discretizedconditioned-scatterplots"><i class="fa fa-check"></i><b>2.2</b> Boxplots as discretized/conditioned scatterplots</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-1"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#creating-scatterplots"><i class="fa fa-check"></i><b>2.3</b> Creating scatterplots</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-2"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#characterizing-scatterplots"><i class="fa fa-check"></i>Characterizing scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#transformations"><i class="fa fa-check"></i><b>2.4</b> Transformations</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-3"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#identifying-outliers"><i class="fa fa-check"></i><b>2.5</b> Identifying outliers</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-4"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>3</b> Correlation</a><ul>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#understanding-correlation-scale"><i class="fa fa-check"></i>Understanding correlation scale</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#understanding-correlation-sign"><i class="fa fa-check"></i>Understanding correlation sign</a></li>
+<li class="chapter" data-level="3.1" data-path="correlation.html"><a href="correlation.html#computing-correlation"><i class="fa fa-check"></i><b>3.1</b> Computing correlation</a><ul>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#exercise-5"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="correlation.html"><a href="correlation.html#exploring-anscombe"><i class="fa fa-check"></i><b>3.2</b> Exploring Anscombe</a><ul>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#exercise-6"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#perception-of-correlation"><i class="fa fa-check"></i>Perception of correlation</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#perception-of-correlation-2"><i class="fa fa-check"></i>Perception of correlation (2)</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#exercise-7"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#interpreting-correlation-in-context"><i class="fa fa-check"></i>Interpreting correlation in context</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#correlation-and-causation"><i class="fa fa-check"></i>Correlation and causation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="correlation.html"><a href="correlation.html#spurious-correlation-in-random-data"><i class="fa fa-check"></i><b>3.3</b> Spurious correlation in random data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>4</b> Simple linear regression</a><ul>
+<li class="chapter" data-level="4.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#the-best-fit-line"><i class="fa fa-check"></i><b>4.1</b> The “best fit” line</a><ul>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#exercise-8"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#uniqueness-of-least-squares-regression-line"><i class="fa fa-check"></i><b>4.2</b> Uniqueness of least squares regression line</a><ul>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-model-terminology"><i class="fa fa-check"></i>Regression model terminology</a></li>
+<li class="chapter" data-level="4.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-model-output-terminology"><i class="fa fa-check"></i><b>4.2.1</b> Regression model output terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#fitting-a-linear-model-by-hand"><i class="fa fa-check"></i><b>4.3</b> Fitting a linear model “by hand”</a></li>
+<li class="chapter" data-level="4.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-to-the-mean"><i class="fa fa-check"></i><b>4.4</b> Regression to the mean</a><ul>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#exercise-9"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-in-the-parlance-of-our-time"><i class="fa fa-check"></i>“Regression” in the parlance of our time</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html"><i class="fa fa-check"></i><b>5</b> Interpreting regression models</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#interpretation-of-coefficients"><i class="fa fa-check"></i>Interpretation of coefficients</a></li>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#interpretation-in-context"><i class="fa fa-check"></i>Interpretation in context</a></li>
+<li class="chapter" data-level="5.1" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#fitting-simple-linear-models"><i class="fa fa-check"></i><b>5.1</b> Fitting simple linear models</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise"><i class="fa fa-check"></i>Excercise</a></li>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#units-and-scale"><i class="fa fa-check"></i>Units and scale</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#the-lm-summary-output"><i class="fa fa-check"></i><b>5.2</b> The lm summary output</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-1"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#fitted-values-and-residuals"><i class="fa fa-check"></i><b>5.3</b> Fitted values and residuals</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#exercise-10"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#tidying-your-linear-model"><i class="fa fa-check"></i><b>5.4</b> Tidying your linear model</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-2"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#making-predictions"><i class="fa fa-check"></i><b>5.5</b> Making predictions</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-3"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#adding-a-regression-line-to-a-plot-manually"><i class="fa fa-check"></i><b>5.6</b> Adding a regression line to a plot manually</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-4"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="model-fit.html"><a href="model-fit.html"><i class="fa fa-check"></i><b>6</b> Model Fit</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#rmse"><i class="fa fa-check"></i>RMSE</a></li>
+<li class="chapter" data-level="6.1" data-path="model-fit.html"><a href="model-fit.html#standard-error-of-residuals"><i class="fa fa-check"></i><b>6.1</b> Standard error of residuals</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#exercise-11"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="model-fit.html"><a href="model-fit.html#assessing-simple-linear-model-fit"><i class="fa fa-check"></i><b>6.2</b> Assessing simple linear model fit</a><ul>
+<li><a href="model-fit.html#interpretation-of-r2">Interpretation of <span class="math inline">\(R^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="model-fit.html"><a href="model-fit.html#linear-vs.-average"><i class="fa fa-check"></i><b>6.3</b> Linear vs. average</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#excercise-5"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="model-fit.html"><a href="model-fit.html#leverage"><i class="fa fa-check"></i><b>6.4</b> Leverage</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#excercise-6"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="model-fit.html"><a href="model-fit.html#influence"><i class="fa fa-check"></i><b>6.5</b> Influence</a></li>
+<li class="chapter" data-level="6.6" data-path="model-fit.html"><a href="model-fit.html#removing-outliers"><i class="fa fa-check"></i><b>6.6</b> Removing outliers</a></li>
+<li class="chapter" data-level="6.7" data-path="model-fit.html"><a href="model-fit.html#high-leverage-points"><i class="fa fa-check"></i><b>6.7</b> High leverage points</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><a href="https://www.datacamp.com/courses/correlation-and-regression">Correlation and Regression</a></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="model-fit" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Model Fit</h1>
+<p>In this final chapter, you’ll learn how to assess the “fit” of a simple linear regression model.</p>
+<iframe src="https://drive.google.com/file/d/1s7PZa-yRLU0GVhBY0nivqPwGCCXKRpwb/preview" width="740" height="420">
+</iframe>
+<div id="rmse" class="section level3 unnumbered">
+<h3>RMSE</h3>
+<p>The residual standard error reported for the regression model for poverty rate of U.S. counties in terms of high school graduation rate is 4.67. What does this mean?</p>
+<ul>
+<li><p><strong>The typical difference between the observed poverty rate and the poverty rate predicted by the model is about 4.67 percentage points.</strong></p></li>
+<li><p>The typical difference between the observed poverty rate and the poverty rate predicted by the model is about 4.67%.</p></li>
+</ul>
+<p>*The model explains about 4.67% of the variability in poverty rate among counties.</p>
+<ul>
+<li>The model correctly predicted the poverty rate of 4.67% of the counties.</li>
+</ul>
+<hr />
+</div>
+<div id="standard-error-of-residuals" class="section level2">
+<h2><span class="header-section-number">6.1</span> Standard error of residuals</h2>
+<p>One way to assess strength of fit is to consider how far off the model is for a typical case. That is, for some observations, the fitted value will be very close to the actual value, while for others it will not. The magnitude of a typical residual can give us a sense of generally how close our estimates are.</p>
+<p>However, recall that some of the residuals are positive, while others are negative. In fact, it is guaranteed by the least squares fitting procedure that the mean of the residuals is zero. Thus, it makes more sense to compute the square root of the mean squared residual, or root mean squared error (RMSE). R calls this quantity the <em>residual standard error</em>.</p>
+<p>To make this estimate unbiased, you have to divide the sum of the squared residuals by the degrees of freedom in the model. Thus,</p>
+<p><span class="math display">\[\begin{equation}
+RMSE = \sqrt{\frac{\sum_i e_i^2}{d.f.}} = \sqrt{\frac{SSE}{d.f.}}
+\end{equation}\]</span></p>
+<p>You can recover the residuals from <code>mod</code> with <code>residuals()</code>, and the degrees of freedom with <code>df.residual()</code>.</p>
+<hr />
+<div id="exercise-11" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>*View a <code>summary()</code> of <code>mod</code>.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="model-fit.html#cb86-1"></a><span class="co"># View summary of model</span></span>
+<span id="cb86-2"><a href="model-fit.html#cb86-2"></a><span class="kw">summary</span>(mod)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = wgt ~ hgt, data = bdims)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-18.743  -6.402  -1.231   5.059  41.103 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -105.01125    7.53941  -13.93   &lt;2e-16 ***
+hgt            1.01762    0.04399   23.14   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 9.308 on 505 degrees of freedom
+Multiple R-squared:  0.5145,    Adjusted R-squared:  0.5136 
+F-statistic: 535.2 on 1 and 505 DF,  p-value: &lt; 2.2e-16</code></pre>
+<ul>
+<li>Compute the mean of the <code>residuals()</code> and verify that it is approximately zero.</li>
+</ul>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="model-fit.html#cb88-1"></a><span class="co"># Compute the mean of the residuals</span></span>
+<span id="cb88-2"><a href="model-fit.html#cb88-2"></a><span class="kw">mean</span>(<span class="kw">resid</span>(mod))</span></code></pre></div>
+<pre><code>[1] -3.665467e-16</code></pre>
+<ul>
+<li>Use <code>residuals()</code> and <code>df.residual()</code> to compute the root mean squared error (RMSE), a.k.a. <em>residual standard error</em>.</li>
+</ul>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="model-fit.html#cb90-1"></a><span class="co"># Compute RMSE</span></span>
+<span id="cb90-2"><a href="model-fit.html#cb90-2"></a><span class="kw">sqrt</span>(<span class="kw">sum</span>(<span class="kw">residuals</span>(mod)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">df.residual</span>(mod))</span></code></pre></div>
+<pre><code>[1] 9.30804</code></pre>
+<hr />
+<iframe src="https://drive.google.com/file/d/14yHcXR5wiwtTIKCkqy687VOGd8-TcHCM/preview" width="740" height="420">
+</iframe>
+</div>
+</div>
+<div id="assessing-simple-linear-model-fit" class="section level2">
+<h2><span class="header-section-number">6.2</span> Assessing simple linear model fit</h2>
+<p>Recall that the coefficient of determination (<span class="math inline">\(R^2\)</span>), can be computed as</p>
+<p><span class="math display">\[\begin{equation}
+R^2 = 1 − \frac{SSE}{SST} = 1 − \frac{Var(e)}{Var(y)},
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(e\)</span> is the vector of residuals and <span class="math inline">\(y\)</span> is the response variable. This gives us the interpretation of <span class="math inline">\(R^2\)</span> as the percentage of the variability in the response that is explained by the model, since the residuals are the part of that variability that remains unexplained by the model.</p>
+<hr />
+<p>The <code>bdims_tidy</code> data frame is the result of <code>augment()</code>-ing the <code>bdims</code> data frame with the mod for wgt as a function of <code>hgt</code>.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="model-fit.html#cb92-1"></a>bdims_tidy &lt;-<span class="st"> </span><span class="kw">augment</span>(mod)</span></code></pre></div>
+<ul>
+<li>Use the <code>summary()</code> function to view the full results of mod.</li>
+</ul>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="model-fit.html#cb93-1"></a><span class="co"># View model summary</span></span>
+<span id="cb93-2"><a href="model-fit.html#cb93-2"></a><span class="kw">summary</span>(mod)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = wgt ~ hgt, data = bdims)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-18.743  -6.402  -1.231   5.059  41.103 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -105.01125    7.53941  -13.93   &lt;2e-16 ***
+hgt            1.01762    0.04399   23.14   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 9.308 on 505 degrees of freedom
+Multiple R-squared:  0.5145,    Adjusted R-squared:  0.5136 
+F-statistic: 535.2 on 1 and 505 DF,  p-value: &lt; 2.2e-16</code></pre>
+<ul>
+<li>Use the <code>bdims_tidy</code> data frame to compute the <span class="math inline">\(R^2\)</span> of <code>mod</code> manually using the formula above, by computing the ratio of the variance of the residuals to the variance of the response variable.</li>
+</ul>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="model-fit.html#cb95-1"></a>bdims_tidy <span class="op">%&gt;%</span></span>
+<span id="cb95-2"><a href="model-fit.html#cb95-2"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">var_y =</span> <span class="kw">var</span>(wgt), <span class="dt">var_e =</span> <span class="kw">var</span>(.resid)) <span class="op">%&gt;%</span></span>
+<span id="cb95-3"><a href="model-fit.html#cb95-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">R_squared =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>var_e<span class="op">/</span>var_y)</span></code></pre></div>
+<pre><code># A tibble: 1 x 3
+  var_y var_e R_squared
+  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+1  178.  86.5     0.515</code></pre>
+<p>This means that 51.4% of the variability in weight is explained by height.</p>
+<hr />
+<div id="interpretation-of-r2" class="section level3 unnumbered">
+<h3>Interpretation of <span class="math inline">\(R^2\)</span></h3>
+<p>The <span class="math inline">\(R^2\)</span> reported for the regression model for poverty rate of U.S. counties in terms of high school graduation rate is 0.464.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="model-fit.html#cb97-1"></a><span class="kw">lm</span>(<span class="dt">formula =</span> poverty <span class="op">~</span><span class="st"> </span>hs_grad, <span class="dt">data =</span> countyComplete) <span class="op">%&gt;%</span></span>
+<span id="cb97-2"><a href="model-fit.html#cb97-2"></a><span class="st">  </span><span class="kw">summary</span>()</span></code></pre></div>
+<p>How should this result be interpreted?</p>
+<hr />
+<ul>
+<li><p>46.4% of the variability in high school graduate rate among U.S. counties can be explained by poverty rate.</p></li>
+<li><p><strong>46.4% of the variability in poverty rate among U.S. counties can be explained by high school graduation rate.</strong></p></li>
+<li><p>This model is 46.4% effective.</p></li>
+<li><p>The correlation between poverty rate and high school graduation rate is 0.464.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="linear-vs.-average" class="section level2">
+<h2><span class="header-section-number">6.3</span> Linear vs. average</h2>
+<p>The <span class="math inline">\(R^2\)</span> gives us a numerical measurement of the strength of fit relative to a null model based on the average of the response variable:</p>
+<p><span class="math display">\[\begin{equation}
+\hat{y}=\bar{y}
+\end{equation}\]</span></p>
+<p>This model has an <span class="math inline">\(R^2\)</span> of zero because <span class="math inline">\(SSE = SST\)</span>. That is, since the fitted values (<span class="math inline">\(\hat{y}_{null}\)</span>) are all equal to the average (<span class="math inline">\(\bar{y}\)</span>), the residual for each observation is the distance between that observation and the mean of the response. Since we can always fit the null model, it serves as a baseline against which all other models will be compared.</p>
+<p>In Figure <a href="model-fit.html#fig:fig1">6.1</a>, we visualize the residuals for the null model (<code>mod_null</code> at left) vs. the simple linear regression model (<code>mod_hgt</code> at right) with height as a single explanatory variable. Try to convince yourself that, if you squared the lengths of the grey arrows on the left and summed them up, you would get a larger value than if you performed the same operation on the grey arrows on the right.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig1"></span>
+<img src="CorrRegSC_files/figure-html/fig1-1.png" alt="At left, the model based on overall average weight. At right, the simple linear regression model." width="768" />
+<p class="caption">
+Figure 6.1: At left, the model based on overall average weight. At right, the simple linear regression model.
+</p>
+</div>
+<p>It may be useful to preview these <code>augment()</code>-ed data frames with <code>glimpse()</code>:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="model-fit.html#cb98-1"></a><span class="kw">glimpse</span>(mod_null)</span>
+<span id="cb98-2"><a href="model-fit.html#cb98-2"></a><span class="kw">glimpse</span>(mod_hgt)</span></code></pre></div>
+<hr />
+<div id="excercise-5" class="section level3 unnumbered">
+<h3>Excercise</h3>
+<ul>
+<li>Compute the sum of the squared residuals (<span class="math inline">\(SSE\)</span>) for the null model <code>mod_null</code>.</li>
+</ul>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="model-fit.html#cb99-1"></a><span class="co"># Compute SSE for null model</span></span>
+<span id="cb99-2"><a href="model-fit.html#cb99-2"></a>mod_null <span class="op">%&gt;%</span></span>
+<span id="cb99-3"><a href="model-fit.html#cb99-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">SSE =</span> <span class="kw">var</span>(wgt))</span></code></pre></div>
+<pre><code># A tibble: 1 x 1
+    SSE
+  &lt;dbl&gt;
+1  178.</code></pre>
+<ul>
+<li>Compute the sum of the squared residuals (<span class="math inline">\(SSE\)</span>) for the regression model <code>mod_hgt</code>.</li>
+</ul>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="model-fit.html#cb101-1"></a><span class="co"># Compute SSE for regression model</span></span>
+<span id="cb101-2"><a href="model-fit.html#cb101-2"></a>mod_hgt <span class="op">%&gt;%</span></span>
+<span id="cb101-3"><a href="model-fit.html#cb101-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">SSE =</span> <span class="kw">var</span>(.resid))</span></code></pre></div>
+<pre><code># A tibble: 1 x 1
+    SSE
+  &lt;dbl&gt;
+1  86.5</code></pre>
+<hr />
+<iframe src="https://drive.google.com/file/d/1k-IMtpd38QkPrtHFTXif7ktEtWoi_Kpu/preview" width="740" height="420">
+</iframe>
+</div>
+</div>
+<div id="leverage" class="section level2">
+<h2><span class="header-section-number">6.4</span> Leverage</h2>
+<p>The leverage of an observation in a regression model is defined entirely in terms of the distance of that observation from the mean of the explanatory variable. That is, observations close to the mean of the explanatory variable have low leverage, while observations far from the mean of the explanatory variable have high leverage. Points of high leverage may or may not be influential.</p>
+<p>The <code>augment()</code> function from the <code>broom</code> package will add the leverage scores (<code>.hat</code>) to a model data frame.</p>
+<hr />
+<div id="excercise-6" class="section level3 unnumbered">
+<h3>Excercise</h3>
+<ul>
+<li>Use <code>augment()</code> to list the top 6 observations by their leverage scores, in descending order.</li>
+</ul>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="model-fit.html#cb103-1"></a>mod &lt;-<span class="st"> </span><span class="kw">lm</span>(slg <span class="op">~</span><span class="st"> </span>obp, <span class="dt">data =</span> mlbbat10)</span>
+<span id="cb103-2"><a href="model-fit.html#cb103-2"></a><span class="co"># Rank points of high leverage</span></span>
+<span id="cb103-3"><a href="model-fit.html#cb103-3"></a>mod <span class="op">%&gt;%</span></span>
+<span id="cb103-4"><a href="model-fit.html#cb103-4"></a><span class="st">  </span><span class="kw">augment</span>() <span class="op">%&gt;%</span></span>
+<span id="cb103-5"><a href="model-fit.html#cb103-5"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(.hat)) <span class="op">%&gt;%</span></span>
+<span id="cb103-6"><a href="model-fit.html#cb103-6"></a><span class="st">  </span><span class="kw">head</span>()</span></code></pre></div>
+<pre><code># A tibble: 6 x 8
+    slg   obp .fitted .resid   .hat .sigma .cooksd .std.resid
+  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+1     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+2     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+3     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+4     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+5     4     1    1.12  2.88  0.0184  0.108 4.22        21.2  
+6     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882</code></pre>
+</div>
+</div>
+<div id="influence" class="section level2">
+<h2><span class="header-section-number">6.5</span> Influence</h2>
+<p>As noted previously, observations of high leverage may or may not be influential. The influence of an observation depends not only on its leverage, but also on the magnitude of its residual. Recall that while leverage only takes into account the explanatory variable (<span class="math inline">\(\hat{x}\)</span>), the residual depends on the response variable (<span class="math inline">\(\hat{y}\)</span>) and the fitted value (<span class="math inline">\(\hat{y}\)</span>).</p>
+<p>Influential points are likely to have high leverage and deviate from the general relationship between the two variables. We measure influence using Cook’s distance, which incorporates both the leverage and residual of each observation.</p>
+<hr />
+<ul>
+<li>Use <code>augment()</code> to list the top 6 observations by their Cook’s distance (<code>.cooksd</code>), in descending order.</li>
+</ul>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="model-fit.html#cb105-1"></a><span class="co"># Rank influential points</span></span>
+<span id="cb105-2"><a href="model-fit.html#cb105-2"></a>mod <span class="op">%&gt;%</span></span>
+<span id="cb105-3"><a href="model-fit.html#cb105-3"></a><span class="st"> </span><span class="kw">augment</span>() <span class="op">%&gt;%</span></span>
+<span id="cb105-4"><a href="model-fit.html#cb105-4"></a><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(.cooksd)) <span class="op">%&gt;%</span></span>
+<span id="cb105-5"><a href="model-fit.html#cb105-5"></a><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
+<pre><code># A tibble: 6 x 8
+    slg   obp .fitted .resid    .hat .sigma .cooksd .std.resid
+  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+1  4    1       1.12   2.88  0.0184   0.108   4.22       21.2 
+2  0    1       1.12  -1.12  0.0184   0.133   0.638      -8.25
+3  0    1       1.12  -1.12  0.0184   0.133   0.638      -8.25
+4  0    1       1.12  -1.12  0.0184   0.133   0.638      -8.25
+5  0    1       1.12  -1.12  0.0184   0.133   0.638      -8.25
+6  1.67 0.667   0.750  0.917 0.00676  0.134   0.154       6.72</code></pre>
+<hr />
+<iframe src="https://drive.google.com/file/d/1AS3GSfkhQEmlI0Y8TKGr1h_DatRZrUlT/preview" width="740" height="420">
+</iframe>
+</div>
+<div id="removing-outliers" class="section level2">
+<h2><span class="header-section-number">6.6</span> Removing outliers</h2>
+<p>Observations can be outliers for a number of different reasons. Statisticians must always be careful—and more importantly, transparent—when dealing with outliers. Sometimes, a better model fit can be achieved by simply removing outliers and re-fitting the model. However, one must have strong justification for doing this. A desire to have a higher <span class="math inline">\(R^2\)</span>is not a good enough reason!</p>
+<p>In the <code>mlbBat10</code> data, the outlier with an OBP of 0.550 is Bobby Scales, an infielder who had four hits in 13 at-bats for the Chicago Cubs. Scales also walked seven times, resulting in his unusually high OBP. The justification for removing Scales here is weak. While his performance was unusual, there is nothing to suggest that it is not a valid data point, nor is there a good reason to think that somehow we will learn more about Major League Baseball players by excluding him.</p>
+<p>Nevertheless, we can demonstrate how removing him will affect our model.</p>
+<hr />
+<ul>
+<li>Use <code>filter()</code> to create a subset of <code>mlbBat10</code> called <code>nontrivial_players</code> consisting of only those players with at least 10 at-bats and <code>OBP</code> of below 0.500.</li>
+</ul>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="model-fit.html#cb107-1"></a><span class="co"># Create nontrivial_players</span></span>
+<span id="cb107-2"><a href="model-fit.html#cb107-2"></a>nontrivial_players &lt;-<span class="st"> </span>mlbbat10 <span class="op">%&gt;%</span></span>
+<span id="cb107-3"><a href="model-fit.html#cb107-3"></a><span class="st"> </span><span class="kw">filter</span>(at_bat <span class="op">&gt;=</span><span class="st"> </span><span class="dv">10</span>, obp <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.500</span>)</span></code></pre></div>
+<ul>
+<li>Fit the linear model for <code>SLG</code> as a function of <code>OBP</code> for the <code>nontrivial_players</code>. Save the result as <code>mod_cleaner</code>.</li>
+</ul>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="model-fit.html#cb108-1"></a><span class="co"># Fit model to new data</span></span>
+<span id="cb108-2"><a href="model-fit.html#cb108-2"></a>mod_cleaner &lt;-<span class="st"> </span><span class="kw">lm</span>(slg <span class="op">~</span><span class="st"> </span>obp, <span class="dt">data =</span> nontrivial_players)</span></code></pre></div>
+<ul>
+<li>View the <code>summary()</code> of the new model and compare the slope and <span class="math inline">\(R^2\)</span> to those of <code>mod</code>, the original model fit to the data on all players.</li>
+</ul>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="model-fit.html#cb109-1"></a><span class="co"># View model summary</span></span>
+<span id="cb109-2"><a href="model-fit.html#cb109-2"></a><span class="kw">summary</span>(mod_cleaner)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = slg ~ obp, data = nontrivial_players)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.31383 -0.04165 -0.00261  0.03992  0.35819 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.043326   0.009823  -4.411 1.18e-05 ***
+obp          1.345816   0.033012  40.768  &lt; 2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.07011 on 734 degrees of freedom
+Multiple R-squared:  0.6937,    Adjusted R-squared:  0.6932 
+F-statistic:  1662 on 1 and 734 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="model-fit.html#cb111-1"></a><span class="kw">summary</span>(mod_cleaner)<span class="op">$</span>r.square</span></code></pre></div>
+<pre><code>[1] 0.6936567</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="model-fit.html#cb113-1"></a><span class="co"># Original with all players</span></span>
+<span id="cb113-2"><a href="model-fit.html#cb113-2"></a><span class="kw">summary</span>(mod)<span class="op">$</span>r.square</span></code></pre></div>
+<pre><code>[1] 0.6635126</code></pre>
+<ul>
+<li>Visualize the new model with <code>ggplot()</code> and the appropriate <code>geom_*()</code> functions.</li>
+</ul>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="model-fit.html#cb115-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> nontrivial_players, <span class="kw">aes</span>(<span class="dt">x =</span> obp, <span class="dt">y =</span> slg)) <span class="op">+</span></span>
+<span id="cb115-2"><a href="model-fit.html#cb115-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.33</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb115-3"><a href="model-fit.html#cb115-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb115-4"><a href="model-fit.html#cb115-4"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<pre><code>`geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="CorrRegSC_files/figure-html/unnamed-chunk-72-1.png" width="384" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="high-leverage-points" class="section level2">
+<h2><span class="header-section-number">6.7</span> High leverage points</h2>
+<p>Not all points of high leverage are influential. While the high leverage observation corresponding to Bobby Scales in the previous exercise is influential, the three observations for players with OBP and SLG values of 0 are not influential.</p>
+<p>This is because they happen to lie right near the regression anyway. Thus, while their extremely low OBP gives them the power to exert influence over the slope of the regression line, their low SLG prevents them from using it.</p>
+<hr />
+<ul>
+<li>The linear model, <code>mod</code>, is available in your workspace. Use a combination of <code>augment()</code>, <code>arrange()</code> with two arguments, and <code>head()</code> to find the top 6 observations with the highest leverage but the lowest Cook’s distance.</li>
+</ul>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="model-fit.html#cb117-1"></a><span class="co"># Rank high leverage points</span></span>
+<span id="cb117-2"><a href="model-fit.html#cb117-2"></a>mod <span class="op">%&gt;%</span></span>
+<span id="cb117-3"><a href="model-fit.html#cb117-3"></a><span class="st"> </span><span class="kw">augment</span>() <span class="op">%&gt;%</span></span>
+<span id="cb117-4"><a href="model-fit.html#cb117-4"></a><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(.hat), .cooksd) <span class="op">%&gt;%</span></span>
+<span id="cb117-5"><a href="model-fit.html#cb117-5"></a><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
+<pre><code># A tibble: 6 x 8
+    slg   obp .fitted .resid   .hat .sigma .cooksd .std.resid
+  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+1     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+2     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+3     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+4     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+5     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882
+6     1     1    1.12 -0.120 0.0184  0.137 0.00729     -0.882</code></pre>
+<iframe src="https://drive.google.com/file/d/1RcDzjHOTH7WbRnQkTF4UIE856YgCQDUf/preview" width="740" height="420">
+</iframe>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="interpreting-regression-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["CorrRegSC.pdf", "CorrRegSC.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
