@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Simple linear regression | Correlation and Regression</title>
+  <meta name="description" content="This is starter code for using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Simple linear regression | Correlation and Regression" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is starter code for using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Simple linear regression | Correlation and Regression" />
+  
+  <meta name="twitter:description" content="This is starter code for using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Seth Harrison" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="correlation.html"/>
+<link rel="next" href="interpreting-regression-models.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Correlation and Regression</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html"><i class="fa fa-check"></i><b>2</b> Visualizing two variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#scatterplots"><i class="fa fa-check"></i><b>2.1</b> Scatterplots</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#boxplots-as-discretizedconditioned-scatterplots"><i class="fa fa-check"></i><b>2.2</b> Boxplots as discretized/conditioned scatterplots</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-1"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#creating-scatterplots"><i class="fa fa-check"></i><b>2.3</b> Creating scatterplots</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-2"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#characterizing-scatterplots"><i class="fa fa-check"></i>Characterizing scatterplots</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#transformations"><i class="fa fa-check"></i><b>2.4</b> Transformations</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-3"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#identifying-outliers"><i class="fa fa-check"></i><b>2.5</b> Identifying outliers</a><ul>
+<li class="chapter" data-level="" data-path="visualizing-two-variables.html"><a href="visualizing-two-variables.html#exercise-4"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>3</b> Correlation</a><ul>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#understanding-correlation-scale"><i class="fa fa-check"></i>Understanding correlation scale</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#understanding-correlation-sign"><i class="fa fa-check"></i>Understanding correlation sign</a></li>
+<li class="chapter" data-level="3.1" data-path="correlation.html"><a href="correlation.html#computing-correlation"><i class="fa fa-check"></i><b>3.1</b> Computing correlation</a><ul>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#exercise-5"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="correlation.html"><a href="correlation.html#exploring-anscombe"><i class="fa fa-check"></i><b>3.2</b> Exploring Anscombe</a><ul>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#exercise-6"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#perception-of-correlation"><i class="fa fa-check"></i>Perception of correlation</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#perception-of-correlation-2"><i class="fa fa-check"></i>Perception of correlation (2)</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#exercise-7"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#interpreting-correlation-in-context"><i class="fa fa-check"></i>Interpreting correlation in context</a></li>
+<li class="chapter" data-level="" data-path="correlation.html"><a href="correlation.html#correlation-and-causation"><i class="fa fa-check"></i>Correlation and causation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="correlation.html"><a href="correlation.html#spurious-correlation-in-random-data"><i class="fa fa-check"></i><b>3.3</b> Spurious correlation in random data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>4</b> Simple linear regression</a><ul>
+<li class="chapter" data-level="4.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#the-best-fit-line"><i class="fa fa-check"></i><b>4.1</b> The “best fit” line</a><ul>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#exercise-8"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#uniqueness-of-least-squares-regression-line"><i class="fa fa-check"></i><b>4.2</b> Uniqueness of least squares regression line</a><ul>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-model-terminology"><i class="fa fa-check"></i>Regression model terminology</a></li>
+<li class="chapter" data-level="4.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-model-output-terminology"><i class="fa fa-check"></i><b>4.2.1</b> Regression model output terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#fitting-a-linear-model-by-hand"><i class="fa fa-check"></i><b>4.3</b> Fitting a linear model “by hand”</a></li>
+<li class="chapter" data-level="4.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-to-the-mean"><i class="fa fa-check"></i><b>4.4</b> Regression to the mean</a><ul>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#exercise-9"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-in-the-parlance-of-our-time"><i class="fa fa-check"></i>“Regression” in the parlance of our time</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html"><i class="fa fa-check"></i><b>5</b> Interpreting regression models</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#interpretation-of-coefficients"><i class="fa fa-check"></i>Interpretation of coefficients</a></li>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#interpretation-in-context"><i class="fa fa-check"></i>Interpretation in context</a></li>
+<li class="chapter" data-level="5.1" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#fitting-simple-linear-models"><i class="fa fa-check"></i><b>5.1</b> Fitting simple linear models</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise"><i class="fa fa-check"></i>Excercise</a></li>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#units-and-scale"><i class="fa fa-check"></i>Units and scale</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#the-lm-summary-output"><i class="fa fa-check"></i><b>5.2</b> The lm summary output</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-1"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#fitted-values-and-residuals"><i class="fa fa-check"></i><b>5.3</b> Fitted values and residuals</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#exercise-10"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#tidying-your-linear-model"><i class="fa fa-check"></i><b>5.4</b> Tidying your linear model</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-2"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#making-predictions"><i class="fa fa-check"></i><b>5.5</b> Making predictions</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-3"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#adding-a-regression-line-to-a-plot-manually"><i class="fa fa-check"></i><b>5.6</b> Adding a regression line to a plot manually</a><ul>
+<li class="chapter" data-level="" data-path="interpreting-regression-models.html"><a href="interpreting-regression-models.html#excercise-4"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="model-fit.html"><a href="model-fit.html"><i class="fa fa-check"></i><b>6</b> Model Fit</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#rmse"><i class="fa fa-check"></i>RMSE</a></li>
+<li class="chapter" data-level="6.1" data-path="model-fit.html"><a href="model-fit.html#standard-error-of-residuals"><i class="fa fa-check"></i><b>6.1</b> Standard error of residuals</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#exercise-11"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="model-fit.html"><a href="model-fit.html#assessing-simple-linear-model-fit"><i class="fa fa-check"></i><b>6.2</b> Assessing simple linear model fit</a><ul>
+<li><a href="model-fit.html#interpretation-of-r2">Interpretation of <span class="math inline">\(R^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="model-fit.html"><a href="model-fit.html#linear-vs.-average"><i class="fa fa-check"></i><b>6.3</b> Linear vs. average</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#excercise-5"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="model-fit.html"><a href="model-fit.html#leverage"><i class="fa fa-check"></i><b>6.4</b> Leverage</a><ul>
+<li class="chapter" data-level="" data-path="model-fit.html"><a href="model-fit.html#excercise-6"><i class="fa fa-check"></i>Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="model-fit.html"><a href="model-fit.html#influence"><i class="fa fa-check"></i><b>6.5</b> Influence</a></li>
+<li class="chapter" data-level="6.6" data-path="model-fit.html"><a href="model-fit.html#removing-outliers"><i class="fa fa-check"></i><b>6.6</b> Removing outliers</a></li>
+<li class="chapter" data-level="6.7" data-path="model-fit.html"><a href="model-fit.html#high-leverage-points"><i class="fa fa-check"></i><b>6.7</b> High leverage points</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><a href="https://www.datacamp.com/courses/correlation-and-regression">Correlation and Regression</a></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="simple-linear-regression" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Simple linear regression</h1>
+<p>With the notion of correlation under your belt, we’ll now turn our attention to simple linear models in this chapter.</p>
+<iframe src="https://drive.google.com/file/d/1-zHQbTCfwFmQGcjx8no3pAUfO1_J85gO/preview" width="740" height="420">
+</iframe>
+<div id="the-best-fit-line" class="section level2">
+<h2><span class="header-section-number">4.1</span> The “best fit” line</h2>
+<p>The simple linear regression model for a numeric response as a function of a numeric explanatory variable can be visualized on the corresponding scatterplot by a straight line. This is a “best fit” line that cuts through the data in a way that minimizes the distance between the line and the data points.</p>
+<p>We might consider linear regression to be a specific example of a larger class of smooth models. The <code>geom_smooth()</code> function allows you to draw such models over a scatterplot of the data itself. This technique is known as visualizing the model in the data space. The method argument to <code>geom_smooth()</code> allows you to specify what class of smooth model you want to see. Since we are exploring linear models, we’ll set this argument to the value <code>"lm"</code>.</p>
+<p>Note that <code>geom_smooth()</code> also takes an <code>se</code> argument that controls the standard error, which we will ignore for now.</p>
+<hr />
+<div id="exercise-8" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Create a scatterplot of body weight as a function of height for all individuals in the <code>bdims</code> dataset with a simple linear model plotted over the data.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="simple-linear-regression.html#cb43-1"></a><span class="kw">library</span>(openintro)</span>
+<span id="cb43-2"><a href="simple-linear-regression.html#cb43-2"></a><span class="co"># Scatterplot with regression line</span></span>
+<span id="cb43-3"><a href="simple-linear-regression.html#cb43-3"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> bdims, <span class="kw">aes</span>(<span class="dt">x =</span> hgt, <span class="dt">y =</span> wgt)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb43-4"><a href="simple-linear-regression.html#cb43-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.33</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb43-5"><a href="simple-linear-regression.html#cb43-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb43-6"><a href="simple-linear-regression.html#cb43-6"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<p><img src="CorrRegSC_files/figure-html/unnamed-chunk-26-1.png" width="384" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="uniqueness-of-least-squares-regression-line" class="section level2">
+<h2><span class="header-section-number">4.2</span> Uniqueness of least squares regression line</h2>
+<p>The least squares criterion implies that the slope of the regression line is unique. In practice, the slope is computed by R. In this exercise, you will experiment with trying to find the optimal value for the regression slope for weight as a function of height in the <code>bdims</code> dataset via trial-and-error.</p>
+<p>To help, we’ve built a custom function for you called <code>add_line()</code>, which takes a single argument: the proposed slope coefficient.</p>
+<p>The <code>bdims</code> dataset is available in your workspace. Experiment with different values (to the nearest integer) of the <code>my_slope</code> parameter until you find one that you think fits best.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="simple-linear-regression.html#cb44-1"></a><span class="co"># Estimate optimal value of my_slope</span></span>
+<span id="cb44-2"><a href="simple-linear-regression.html#cb44-2"></a><span class="kw">add_line</span>(<span class="dt">my_slope =</span> <span class="fl">1.0</span>)</span></code></pre></div>
+<p><img src="CorrRegSC_files/figure-html/unnamed-chunk-28-1.png" width="384" style="display: block; margin: auto;" /></p>
+<iframe src="https://drive.google.com/file/d/1HqqJW9VHLsGZv2GyHOBl4mugjqYO2DhC/preview" width="740" height="420">
+</iframe>
+<hr />
+<div id="regression-model-terminology" class="section level3 unnumbered">
+<h3>Regression model terminology</h3>
+<p>Consider a linear regression model of the form:</p>
+<p><span class="math inline">\(Y=\beta_0+ \beta_1\cdot X + \varepsilon\)</span>, where <span class="math inline">\(\varepsilon \sim(0, \sigma_{\varepsilon})\)</span></p>
+<p>The slope coefficient is:</p>
+<ul>
+<li><p><span class="math inline">\(Y\)</span></p></li>
+<li><p><span class="math inline">\(\beta_0\)</span></p></li>
+<li><p><span class="math inline">\(\mathbf{\beta_1}\)</span></p></li>
+<li><p><span class="math inline">\(\varepsilon\)</span></p></li>
+</ul>
+<hr />
+</div>
+<div id="regression-model-output-terminology" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Regression model output terminology</h3>
+<p>The fitted model for the poverty rate of U.S. counties as a function of high school graduation rate is:</p>
+<p><span class="math inline">\(\widehat{poverty} = 64.594 − 0.591 \cdot hs\_grad\)</span></p>
+<p>In Hampshire County in western Massachusetts, the high school graduation rate is 92.4%. These two facts imply that the poverty rate in Hampshire County is ___.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="simple-linear-regression.html#cb45-1"></a><span class="fl">64.594</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.591</span> <span class="op">*</span><span class="st"> </span><span class="fl">92.4</span></span></code></pre></div>
+<pre><code>[1] 9.9856</code></pre>
+<ul>
+<li><p>exactly 11.7%</p></li>
+<li><p>exactly 10.0%</p></li>
+<li><p><strong>expected to be about 10.0%</strong></p></li>
+<li><p>expected to be about 11.7%</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="fitting-a-linear-model-by-hand" class="section level2">
+<h2><span class="header-section-number">4.3</span> Fitting a linear model “by hand”</h2>
+<p>Recall the simple linear regression model:
+<span class="math display">\[Y=b_0 + b_1\cdot X\]</span>
+Two facts enable you to compute the slope <span class="math inline">\(b_1\)</span> and intercept <span class="math inline">\(b_0\)</span> of a simple linear regression model from some basic summary statistics.</p>
+<p>First, the slope can be defined as:</p>
+<p><span class="math display">\[b_1=r_{X,Y}\cdot \frac{s_Y}{s_X}\]</span>
+where <span class="math inline">\(r_{X,Y}\)</span> represents the correlation (<code>cor()</code>) of <code>X</code> and <code>Y</code> and <span class="math inline">\(s_X\)</span> and <span class="math inline">\(s_Y\)</span> represent the standard deviation (<code>sd()</code>) of <code>X</code> and <code>Y</code>, respectively.</p>
+<p>Second, the point <span class="math inline">\((\bar{x}, \bar{y})\)</span> is always on the least squares regression line, where <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\bar{y}\)</span> denote the average of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, respectively.</p>
+<p>The <code>bdims_summary</code> data frame contains all of the information you need to compute the slope and intercept of the least squares regression line for body weight (<code>Y</code>) as a function of height (<code>X</code>). You might need to do some algebra to solve for <span class="math inline">\(b_0\)</span>!</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="simple-linear-regression.html#cb47-1"></a>bdims_summary &lt;-<span class="st"> </span>bdims <span class="op">%&gt;%</span></span>
+<span id="cb47-2"><a href="simple-linear-regression.html#cb47-2"></a><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">N =</span> <span class="kw">n</span>(), <span class="dt">r =</span> <span class="kw">cor</span>(wgt, hgt), <span class="dt">mean_hgt =</span> <span class="kw">mean</span>(hgt),</span>
+<span id="cb47-3"><a href="simple-linear-regression.html#cb47-3"></a>    <span class="dt">sd_hgt =</span> <span class="kw">sd</span>(hgt), <span class="dt">mean_wgt =</span> <span class="kw">mean</span>(wgt), <span class="dt">sd_wgt =</span> <span class="kw">sd</span>(wgt))</span>
+<span id="cb47-4"><a href="simple-linear-regression.html#cb47-4"></a>bdims_summary </span></code></pre></div>
+<pre><code># A tibble: 1 x 6
+      N     r mean_hgt sd_hgt mean_wgt sd_wgt
+  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+1   507 0.717     171.   9.41     69.1   13.3</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="simple-linear-regression.html#cb49-1"></a><span class="co"># Add slope and intercept</span></span>
+<span id="cb49-2"><a href="simple-linear-regression.html#cb49-2"></a>bdims_summary <span class="op">%&gt;%</span></span>
+<span id="cb49-3"><a href="simple-linear-regression.html#cb49-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">slope =</span> r<span class="op">*</span>sd_wgt<span class="op">/</span>sd_hgt, </span>
+<span id="cb49-4"><a href="simple-linear-regression.html#cb49-4"></a>         <span class="dt">intercept =</span> mean_wgt <span class="op">-</span><span class="st"> </span>slope<span class="op">*</span>mean_hgt)</span></code></pre></div>
+<pre><code># A tibble: 1 x 8
+      N     r mean_hgt sd_hgt mean_wgt sd_wgt slope intercept
+  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+1   507 0.717     171.   9.41     69.1   13.3  1.02     -105.</code></pre>
+<iframe src="https://drive.google.com/file/d/1IVp3JECoK-DwtHWAoD_62sMeIYSP2VCo/preview" width="740" height="420">
+</iframe>
+<hr />
+</div>
+<div id="regression-to-the-mean" class="section level2">
+<h2><span class="header-section-number">4.4</span> Regression to the mean</h2>
+<p>Regression to the mean is a concept attributed to Sir Francis Galton. The basic idea is that extreme random observations will tend to be less extreme upon a second trial. This is simply due to chance alone. While “regression to the mean” and “linear regression” are not the same thing, we will examine them together in this exercise.</p>
+<p>One way to see the effects of regression to the mean is to compare the heights of parents to their children’s heights. While it is true that tall mothers and fathers tend to have tall children, those children tend to be less tall than their parents, relative to average. That is, fathers who are 3 inches taller than the average father tend to have children who may be taller than average, but by less than 3 inches.</p>
+<p>The <code>Galton_men</code> and <code>Galton_women</code> datasets contain data originally collected by Galton himself in the 1880s on the heights of men and women, respectively, along with their parents’ heights.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="simple-linear-regression.html#cb51-1"></a><span class="kw">download.file</span>(<span class="st">&quot;http://www.randomservices.org/random/data/Galton.txt&quot;</span>, <span class="dt">destfile =</span> <span class="st">&quot;./Data/Galton.txt&quot;</span>)</span>
+<span id="cb51-2"><a href="simple-linear-regression.html#cb51-2"></a>Galton &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;./Data/Galton.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb51-3"><a href="simple-linear-regression.html#cb51-3"></a>Galton_men &lt;-<span class="st"> </span>Galton <span class="op">%&gt;%</span></span>
+<span id="cb51-4"><a href="simple-linear-regression.html#cb51-4"></a><span class="st">  </span><span class="kw">filter</span>(Gender <span class="op">==</span><span class="st"> &quot;M&quot;</span>)</span>
+<span id="cb51-5"><a href="simple-linear-regression.html#cb51-5"></a>Galton_women &lt;-<span class="st"> </span>Galton <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb51-6"><a href="simple-linear-regression.html#cb51-6"></a><span class="st">  </span><span class="kw">filter</span>(Gender <span class="op">==</span><span class="st"> &quot;F&quot;</span>)</span></code></pre></div>
+<p>Compare the slope of the regression line to the slope of the diagonal line. What does this tell you?</p>
+<div id="exercise-9" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<ul>
+<li>Create a scatterplot of the height of men as a function of their father’s height. Add the simple linear regression line and a diagonal line (with slope equal to 1 and intercept equal to 0) to the plot.</li>
+</ul>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="simple-linear-regression.html#cb52-1"></a><span class="co"># Height of children vs. height of father</span></span>
+<span id="cb52-2"><a href="simple-linear-regression.html#cb52-2"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> Galton_men, <span class="kw">aes</span>(<span class="dt">x =</span> Father, <span class="dt">y =</span> Height)) <span class="op">+</span></span>
+<span id="cb52-3"><a href="simple-linear-regression.html#cb52-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb52-4"><a href="simple-linear-regression.html#cb52-4"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb52-5"><a href="simple-linear-regression.html#cb52-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb52-6"><a href="simple-linear-regression.html#cb52-6"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<pre><code>`geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="CorrRegSC_files/figure-html/unnamed-chunk-32-1.png" width="384" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Create a scatterplot of the height of women as a function of their mother’s height. Add the simple linear regression line and a diagonal line to the plot.</li>
+</ul>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="simple-linear-regression.html#cb54-1"></a><span class="co"># Height of children vs. height of mother</span></span>
+<span id="cb54-2"><a href="simple-linear-regression.html#cb54-2"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> Galton_women, <span class="kw">aes</span>(<span class="dt">x =</span> Mother, <span class="dt">y =</span> Height)) <span class="op">+</span></span>
+<span id="cb54-3"><a href="simple-linear-regression.html#cb54-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb54-4"><a href="simple-linear-regression.html#cb54-4"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb54-5"><a href="simple-linear-regression.html#cb54-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb54-6"><a href="simple-linear-regression.html#cb54-6"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<pre><code>`geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="CorrRegSC_files/figure-html/unnamed-chunk-33-1.png" width="384" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="regression-in-the-parlance-of-our-time" class="section level3 unnumbered">
+<h3>“Regression” in the parlance of our time</h3>
+<p>In an opinion piece about nepotism <a href="https://www.nytimes.com/2015/03/22/opinion/sunday/seth-stephens-davidowitz-just-how-nepotistic-are-we.html">published in The New York Times in 2015</a>, economist Seth Stephens-Davidowitz wrote that:</p>
+<blockquote>
+<p>“Regression to the mean is so powerful that once-in-a-generation talent basically never sires once-in-a-generation talent. It explains why Michael Jordan’s sons were middling college basketball players and Jakob Dylan wrote two good songs. It is why there are no American parent-child pairs among Hall of Fame players in any major professional sports league.”</p>
+</blockquote>
+<p>The author is arguing that…</p>
+<ul>
+<li><p>Because of regression to the mean, an outstanding basketball player is likely to have sons that are as good at basketball as him.</p></li>
+<li><p>Because of regression to the mean, an outstanding basketball player is likely to have sons that are not good at basketball.</p></li>
+<li><p><strong>Because of regression to the mean, an outstanding basketball player is likely to have sons that are good at basketball, but not as good as him.</strong></p></li>
+<li><p>Linear regression is incapable of evaluating musical or athletic talent.</p></li>
+</ul>
+<hr />
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="correlation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interpreting-regression-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["CorrRegSC.pdf", "CorrRegSC.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
