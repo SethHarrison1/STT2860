@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>MPG Models</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Harrison, Delph, &amp; Davis" />
+    <link rel="stylesheet" href="appstate.css" type="text/css" />
+    <link rel="stylesheet" href="appstate-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, right, inverse, title-slide
+
+# MPG Models
+### Harrison, Delph, &amp; Davis
+### updated: 2021-04-01
+
+---
+
+
+
+
+
+
+
+
+
+
+# Separating the Test and Train Set 
+
+
+```r
+#separating test set and train set
+set.seed(42221323)
+rows &lt;- sample(nrow(carData))
+carData &lt;- carData[rows, ]
+split &lt;- round(nrow(carData) * 0.70)
+train &lt;- carData[1:split, ]
+test &lt;- carData[(split + 1):nrow(carData), ]
+```
+
+---
+
+# 5 CV fold Random Forest model with `"ranger"`
+
+
+```r
+rf_trainmodel &lt;- train(
+  mpg ~.,
+  tuneLength = 3,
+  data = train, 
+  method = "ranger",
+  trControl = trainControl(method = "cv", 
+                           number = 5, 
+                           verboseIter = FALSE)
+)
+```
+
+---
+
+# Random Forest Train Results 
+
+
+```r
+rf_trainmodel$finalModel
+```
+
+```
+Ranger result
+
+Call:
+ ranger::ranger(dependent.variable.name = ".outcome", data = x,      mtry = min(param$mtry, ncol(x)), min.node.size = param$min.node.size,      splitrule = as.character(param$splitrule), write.forest = TRUE,      probability = classProbs, ...) 
+
+Type:                             Regression 
+Number of trees:                  500 
+Sample size:                      274 
+Number of independent variables:  5 
+Mtry:                             2 
+Target node size:                 5 
+Variable importance mode:         none 
+Splitrule:                        extratrees 
+Number of random splits:          1 
+OOB prediction error (MSE):       15.00156 
+R squared (OOB):                  0.7587524 
+```
+
+---
+
+# Using the model on the test data and calculating RMSE
+
+
+```r
+p &lt;- predict(rf_trainmodel, newdata = test)
+error &lt;- test$mpg - p
+head(p)
+```
+
+```
+[1] 34.82448 26.68061 27.27319 25.52428 26.20413 33.19044
+```
+
+```r
+RMSE &lt;- sqrt(mean(error^2))
+```
+The RMSE of the predicted mpg values for the test data set is 3.3855922
+
+---
+
+# 5 CV fold `lm` Model 
+
+
+```r
+lm_trainmodel &lt;- train(
+  mpg ~., 
+  tuneLength = 3,
+  data = train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", 
+                           number = 5, 
+                           verboseIter = FALSE)
+)
+```
+
+---
+
+# `lm` Train Results 
+
+
+```r
+print(lm_trainmodel)
+```
+
+```
+Linear Regression 
+
+274 samples
+  5 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 218, 220, 219, 220, 219 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  4.498961  0.6822229  3.454176
+
+Tuning parameter 'intercept' was held constant at a value of TRUE
+```
+
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+---
+
+# Using the `lm` model on the test data and calculating RMSE
+
+
+```r
+p &lt;- predict(lm_trainmodel, newdata = test)
+error &lt;- test$mpg - p
+head(p)
+```
+
+```
+       1        2        3        4        5        6 
+30.80925 26.57057 26.65377 25.79641 26.42544 31.10699 
+```
+
+```r
+RMSE &lt;- sqrt(mean(error^2))
+RMSE
+```
+
+```
+[1] 4.139654
+```
+
+The RMSE of the predicted mpg values for the test data set is 4.1396545
+
+=======
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; c591ec8385b3e45879222afd0b768db75847dffc
+---
+
+# Comparing the Models 
+
+
+```r
+model_list &lt;- list(lm = lm_trainmodel, rf = rf_trainmodel)
+comparison &lt;- resamples(model_list)
+summary(comparison, metric = "RMSE")
+```
+
+```
+
+Call:
+summary.resamples(object = comparison, metric = "RMSE")
+
+Models: lm, rf 
+Number of resamples: 5 
+
+RMSE 
+       Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
+lm 4.382775 4.406668 4.463085 4.498961 4.541427 4.700848    0
+rf 2.765739 3.546068 4.148257 3.847035 4.284212 4.490900    0
+```
+
+Using RMSE, the Random Forest model performs better for the resample comparisons. 
+
+
+---
+
+# Comparison Visualization
+
+
+```r
+bwplot(comparison, metric = "RMSE")
+```
+
+![](xariganSlides_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+# Conclusions
+
+* The Random Forest Model performed better in terms of Root Mean Squared Error between the Models
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

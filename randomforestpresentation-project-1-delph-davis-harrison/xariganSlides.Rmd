@@ -1,0 +1,179 @@
+---
+title: "MPG Models"
+author: "Harrison, Delph, & Davis"
+date: "updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    seal: true
+    # lib_dir: libs
+    css: [appstate.css, appstate-fonts.css]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: [top, right, inverse]
+      # autoplay: 40000
+      # countdown: 30000
+---
+
+```{r label = "setup", include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
+library(ISLR)
+library(tidyverse)
+```
+
+```{r, echo=FALSE}
+library(caret)
+library(ggplot2)
+```
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+##Load file
+file = "./Data/auto-mpg.data"
+data <- read.table(file, sep = "" , header = F , nrows = 398,
+                     na.strings ="?", stringsAsFactors= F)
+carData <- as.tibble(data)
+##Rename Column heads
+names(carData)[1] <- "mpg"
+names(carData)[2] <- "cylinders"
+names(carData)[3] <- "displacement"
+names(carData)[4] <- "horsepower"
+names(carData)[5] <- "weight"
+names(carData)[6] <- "acceleration"
+names(carData)[7] <- "modelYear"
+names(carData)[8] <- "origin"
+names(carData)[9] <- "carName"
+
+```
+
+```{r, echo=FALSE, include=FALSE}
+
+carData <- carData %>% select("mpg":"acceleration") %>% na.omit("horsepower")
+carData
+
+```
+
+# Separating the Test and Train Set 
+
+```{r}
+#separating test set and train set
+set.seed(42221323)
+rows <- sample(nrow(carData))
+carData <- carData[rows, ]
+split <- round(nrow(carData) * 0.70)
+train <- carData[1:split, ]
+test <- carData[(split + 1):nrow(carData), ]
+```
+
+---
+
+# 5 CV fold Random Forest model with `"ranger"`
+
+```{r}
+rf_trainmodel <- train(
+  mpg ~.,
+  tuneLength = 3,
+  data = train, 
+  method = "ranger",
+  trControl = trainControl(method = "cv", 
+                           number = 5, 
+                           verboseIter = FALSE)
+)
+```
+
+---
+
+# Random Forest Train Results 
+
+```{r}
+rf_trainmodel$finalModel
+```
+
+---
+
+# Using the model on the test data and calculating RMSE
+
+```{r}
+p <- predict(rf_trainmodel, newdata = test)
+error <- test$mpg - p
+head(p)
+RMSE <- sqrt(mean(error^2))
+```
+The RMSE of the predicted mpg values for the test data set is `r RMSE`
+
+---
+
+# 5 CV fold `lm` Model 
+
+```{r}
+lm_trainmodel <- train(
+  mpg ~., 
+  tuneLength = 3,
+  data = train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", 
+                           number = 5, 
+                           verboseIter = FALSE)
+)
+```
+
+---
+
+# `lm` Train Results 
+
+```{r}
+print(lm_trainmodel)
+```
+
+
+---
+
+# Using the `lm` model on the test data and calculating RMSE
+
+```{r}
+p <- predict(lm_trainmodel, newdata = test)
+error <- test$mpg - p
+head(p)
+RMSE <- sqrt(mean(error^2))
+RMSE
+```
+
+The RMSE of the predicted mpg values for the test data set is `r RMSE`
+
+=======
+
+
+---
+
+# Comparing the Models 
+
+```{r}
+model_list <- list(lm = lm_trainmodel, rf = rf_trainmodel)
+comparison <- resamples(model_list)
+summary(comparison, metric = "RMSE")
+```
+
+Using RMSE, the Random Forest model performs better for the resample comparisons. 
+
+
+---
+
+# Comparison Visualization
+
+```{r}
+bwplot(comparison, metric = "RMSE")
+```
+
+---
+
+# Conclusions
+
+* The Random Forest Model performed better in terms of Root Mean Squared Error between the Models
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,1508 @@
+
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="bigml" xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta http-equiv="Content-Language" content="en" />
+        <meta name="site" content="BigML.com"/>
+        
+        <meta name="description" content="Data on mileage per gallon for a series of older automobiles, based on other information about the car, such as acceleration and horsepower. Taken from the UCI machine learning repository at http://archive.ics.uci.edu/ml/datasets/Auto+MPG[*]. [*]http://archive.ics.uci.edu/ml/datasets/Auto+MPG: http://archive.ics.uci.edu/ml/datasets/Auto+MPG at BigML.com - Machine Learning Made Easy."/>
+        <meta name="keywords" content=", big data, machine learning, ml, machine learning as a service, machine learning API, API, datasets, models, decision trees, predictive models, predictions, fast predictions, evaluation, evaluate predictive models, ensembles, random decision forest, boosted trees, gradient boosted trees, gradient boosting, boosting ensembles, isolation forest, anomaly detector, anomaly score, clustering, k-means, g-means, cluster, centroids, linear regression, regression, logistic regression, lr, topic, topic modeling, topic distributions, PCA, principal component analysis, text analysis, LDA, Latent Dirichlet Allocation, partial dependence plot, scatter plot, time series forecasting, timeseries, forecast, trends, deepnets, deep learning, deep neural networks, neural network, neural networks, automl, automatic optimization, optiml, fusion, easy, model gallery, workflows, flatline, whizzml, dsl, domain-specific language, bindings, library, amazon echo, alexa, mac, desktop
+"/>
+        
+        <meta property="og:title" content="Check out this dataset &quot;auto-mpg&amp;#39;s dataset&quot;"/>
+        
+        
+        <meta property="og:description" content="Data on mileage per gallon for a series of older automobiles, based on other information about the car, such as acceleration and horsepower.  Taken from the UCI machine learning repository at http://archive.ics.uci.edu/ml/datasets/Auto+MPG[*].
+
+[*]http://archive.ics.uci.edu/ml/datasets/Auto+MPG: http://archive.ics.uci.edu/ml/datasets/Auto+MPG"/>
+        
+        <meta property="og:url" content="https://bigml.com/user/bigml/gallery/dataset/4f89d8051552686458000041"/>
+        <meta property="og:image" content="https://static.bigml.com/static/images/gallery/public/dataset/4f89d8051552686458000041.png"/>
+        <meta property="og:image:secure_url" content="https://static.bigml.com/static/images/gallery/public/dataset/4f89d8051552686458000041.png"/>
+        <title>Auto-mpg&#39;s dataset | BigML.com</title>
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="BigML.com - Machine Learning made easy" />
+        <meta property="fb:app_id" content="347587692005723"/>
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bigmlcom"/>
+        <link type="image/x-icon" href="https://static.bigml.com/static/favicon.ico?v=2" rel="shortcut icon"/>
+
+        
+        <noscript>
+            <meta http-equiv=refresh content="0; URL=/alt_home" />
+        </noscript>
+        
+
+        
+        
+
+        
+        
+        <link href="https://static.bigml.com/static/compressed/css/f5e56fa3a8e7.css" rel="stylesheet" type="text/css"/>
+        <link href="https://static.bigml.com/static/compressed/css/d8b1e6f318e7.css" rel="stylesheet" type="text/css"/>
+        <link href="https://static.bigml.com/static/compressed/css/ee5bf13857f5.css" rel="stylesheet" type="text/css"/>
+        
+        <!--[if IE]>
+        <link href="https://static.bigml.com/static/css/ie.css" rel="stylesheet" type="text/css"/>
+        <![endif]-->
+        
+        
+<link href="https://static.bigml.com/static/css/gallery.css" rel="stylesheet" type="text/css"/>
+
+        <style type="text/css">
+            .js #flash {display: none;}
+            
+
+        </style>
+
+        
+        <script src="/jsi18n/" type="text/javascript"></script>
+        
+<script type="text/javascript">
+    if (document.images) {
+        img1 = new Image();
+        img1.src = "https://static.bigml.com/static/img/icons_datatable.png?_=139971088316";
+        img2 = new Image();
+        img2.src = "https://static.bigml.com/static/img/tab_background.png";
+        img3 = new Image();
+        img3.src = "https://static.bigml.com/static/img/header_upload_bg.png";
+        img4 = new Image();
+        img4.src = "https://static.bigml.com/static/img/icons_table_title.png";
+        img5 = new Image();
+        img5.src = "https://static.bigml.com/static/img/icons_menu_actions.png";
+        img6 = new Image();
+        img6.src = "https://static.bigml.com/static/img/process_source.gif";
+        img7 = new Image();
+        img7.src = "https://static.bigml.com/static/img/process_dataset.gif";
+        img8 = new Image();
+        img8.src = "https://static.bigml.com/static/img/process_model.gif";
+    }
+    var BML_VERSION = "1686a83-06213fc-82f2c18",
+        STATIC_URL = "https://static.bigml.com/static/",
+        FREE_GALLERY = false,
+        ACTIVE_SUBSCRIPTION = false,
+        SITE_NAME = "BigML.com",
+        BIGML_IO_BASE_URL = "https://bigml.io/andromeda",
+        BIGML_IO_HOST = "bigml.io",
+        BIGML_IO_VERSION = "andromeda",
+        BIGML_IO_PORT;
+    var BMLCMT_PRESENT = false;
+    var Smoothie = {'baseURL': STATIC_URL, 'paths': ['/js/nodejs/']};
+    var DATASET_OPTIONS = {"optiml": {"max_number_of_evaluations": 200, "min_number_of_evaluations": 4, "default_number_of_evaluations": 128, "min_training_time": 1800, "default_training_time": 3600, "max_training_time": 18000}, "dataset": {"default_learning_rate": 10, "default_node_threshold": 512, "default_randomize": false, "default_stat_pruning": "auto", "default_tlp": 1, "default_early_holdout": 30, "max_n_of_iterations": 1000, "default_ensemble_sampling": true, "max_number_of_models": 1000, "max_tlp": 5, "max_node_threshold": 2000, "default_number_of_models": 10, "default_n_of_iterations": 64, "max_learning_rate": 99.9999, "min_node_threshold": 3, "default_ensemble_replacement": true, "default_step_out_of_bag": false, "default_missing_splits": false, "max_early_holdout": 100, "default_early_out_of_bag": true}, "cluster": {"min_critical_value": 1, "default_number_of_clusters": 8, "min_number_of_clusters": 1, "max_critical_value": 20, "default_critical_value": 5, "max_number_of_clusters": 300, "default_model_clusters": false, "default_numeric_value": "median"}, "linearregression": {"default_numeric_value": "", "default_bias": true}, "timeseries": {"default_damped_trend": "", "max_period": 60, "default_trend": "", "default_seasonality": "", "max_horizon": 400, "default_period": 1, "default_horizon": 50, "default_error": ""}, "topicmodel": {"default_number_of_topics": 10, "default_case_sensitive": false, "max_top_n_terms": 128, "max_term_limit": 16384, "max_number_of_topics": 64, "default_ngrams": 1, "numeric_digits": false, "stopword_removal": "selected_language", "min_name_terms": 0, "min_term_limit": 128, "non_dictionary": false, "min_top_n_terms": 2, "token_mode": "all", "default_term_limit": 4096, "default_stemwords": true, "single_tokens": false, "non_language_characters": false, "max_name_terms": 10, "default_name_terms": 1, "html_keywords": false, "min_number_of_topics": 2, "default_top_n_terms": 10, "language": "null", "default_stopwords": false, "stopword_diligence": "normal"}, "logisticregression": {"default_missing_numerics": true, "default_numeric_value": "", "min_eps": 0, "default_compute_stats": false, "default_c": 1, "max_c": 1000000, "default_eps": 0.0001, "default_balance_fields": true, "default_bias": true, "max_eps": 1, "default_regularization": "L2", "min_c": 0}, "deepnet": {"default_l1_regularization": 0.0, "default_initial_accumulator_value": 0.0, "default_learning_rate_power": -0.5, "default_learning_rate": 0.001, "default_max_training_time": 3600, "default_beta1": 0.9, "default_beta2": 0.999, "default_momentum": 0.99, "default_l2_regularization": 0.0, "default_epsilon": 1e-08, "default_decay": 0.0, "default_descent_algorithm": "adam"}, "association": {"max_discr_size": 50, "min_confidence_percent": true, "min_leverage_percent": true, "default_missing_items": false, "max_max_lhs": 10, "max_min_support": 100, "min_support_percent": true, "default_complementary_items": false, "default_significance_level": 0.05, "default_search_strategy": "leverage", "default_min_support": 0, "min_coverage_percent": true, "default_discr_type": "population", "default_discr_trim": 0, "default_min_confidence": 0, "default_min_coverage": 0, "max_max_lhs_dev": 10, "default_max_lhs": 4, "max_significance_level": 1, "max_min_coverage": 100, "default_min_lift": 1, "max_discr_trim": 0.1, "default_discr_size": 5, "max_min_confidence": 100, "max_number_of_associations": 500, "default_number_of_associations": 100, "default_pretty": true, "max_min_leverage": 100, "default_min_leverage": 0}, "pca": {"default_numeric_value": "", "default_standardized": true}, "anomaly": {"default_normalize_repeats": false, "max_forest_size_dev": 256, "max_number_of_anomalies": 1024, "default_anomaly_constraints": false, "default_forest_size": 128, "max_forest_size": 256, "default_number_of_anomalies": 10, "default_forest_size_dev": 128}};
+    var PDP_OPTIONS = {"logisticregression": {"field_limit": 1000, "objective_class_limit": 200}, "deepnet": {"field_limit": 1000, "objective_class_limit": 200}, "fusion": {"field_limit": 1000, "objective_class_limit": 200}, "linearregression": {"field_limit": 1000, "objective_class_limit": 1}, "model": {"field_limit": 1000, "objective_class_limit": 200}, "ensemble": {"field_limit": 1000, "objective_class_limit": 200}};
+    var EXTRA_ACCEPT_FILETYPES = [];
+    var EXTRA_ACCEPT_REMOTE_URL_SCHEMA = [];
+    var showNameBits = true;
+    
+    var LANGUAGE_CODE = 'en-us';
+</script>
+
+        
+        <script async src="https://static.bigml.com/static/compressed/js/bd551be8f533.js" type="text/javascript"></script>
+        <script src="https://static.bigml.com/static/compressed/js/e7440d8c3b98.js" type="text/javascript"></script>
+        
+        
+
+
+        <script type="text/javascript">
+            $('html').addClass('js');
+            $(function() {
+                $('div.widget_info a').tipsy({gravity: 'n'});
+                $.setSelect2Locale('en-us');
+            });
+        </script>
+        
+
+        
+
+        
+    
+    
+    
+    <script type="text/javascript">
+        var switchTo5x=true;
+    </script>
+    <script src="https://ws.sharethis.com/button/buttons.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        if ( typeof stLight !== 'undefined') {
+            stLight.options({
+                shorten: false,
+                doNotHash: true,
+                doNotCopy: true,
+                publisher: "6ce90450-e748-47a6-badc-71e6701d092e"
+            });
+        }
+    </script>
+
+
+    </head>
+
+    <body>
+        
+        <div id="fb-root"></div>
+        <div class="wrapper public">
+            <div id="top">
+                <div id="gobal_message_wrapper">
+                    
+<!-- supported browsers -->
+<!--googleoff: all-->
+<div id="supported-browsers-message" class="alert-message">
+    <a href="#" class="close">&times;</a>
+    <div class="container">
+        <span class="message">
+            BigML is working hard to support a wide range of browsers. Your experience will be better with:
+        </span>
+        <div class="supported-browsers">
+            <span class="browser chrome">
+                <a href="https://www.google.com/chrome" title="Chrome 17 and higher"></a>
+            </span>
+            <span class="browser firefox">
+                <a href="http://www.mozilla.org/firefox" title="Firefox 11 and higher"></a>
+            </span>
+            <span class="browser safari">
+                <a href="http://www.apple.com/safari" title="Safari 5.1 and higher"></a>
+            </span>
+            <span class="browser ie">
+                <a href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" title="Microsoft Internet Explorer 10 and higher"></a>
+            </span>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--googleon: all-->
+
+                </div>
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="top_right_widget" class="top_info_bar clearfix">
+    <div class="container">
+
+    
+        <span class="separator"></span>
+        
+        <a class="icon_info campfire widget-tasks-tooltip js-external-link" href="/a?link=https%3A%2F%2Fbigmlinc.campfirenow.com%2Ff20a0&t=online-help" target="_blank" title="Online help!"></a>
+        <span class="separator"></span>
+        
+        
+
+
+
+
+<div class="dropdown language">
+    
+    <a href="javascript:void(0)" class="dropdown-toggle">English</a>
+    <ul class="dropdownmenu">
+        
+        
+        <li>
+            <form action="/i18n/setlang/" method="post" class="js-bml-lang-sel">
+                <div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='b36dd71c8bdb23de86d9acd1a1713309' /></div>
+                <input name="next" type="hidden" value="" />
+                <input name="language" type="hidden" value="en" />
+                <input type="submit" value="English" />
+            </form>
+        </li>
+        
+        
+        
+        <li>
+            <form action="/i18n/setlang/" method="post" class="js-bml-lang-sel">
+                <div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='b36dd71c8bdb23de86d9acd1a1713309' /></div>
+                <input name="next" type="hidden" value="" />
+                <input name="language" type="hidden" value="zh-cn" />
+                <input type="submit" value="简体中文" />
+            </form>
+        </li>
+        
+        
+    </ul>
+</div>
+<span class="separator"></span>
+
+
+
+
+        <div class="dropdown loginmenu">
+            <a href="javascript:void(0);" class="dropdown-toggle">Sign up / in</a>
+            <ul class="dropdownmenu">
+                <li>
+                    <a class="js-external-link signup" href="/accounts/register/" >Sign up</a>
+                </li>
+                <li>
+                    <a class="js-external-link signin" href="/accounts/login/">Sign in</a>
+                </li>
+                <li class="group">
+                    <span class="neutral">or Sign in with...</span>
+                </li>
+                <li>
+                    <a class="amazon" rel="nofollow" href="/login/amazon/">Amazon</a>
+                </li>
+                <li>
+                    <a class="github" rel="nofollow" href="/login/github/">Github</a>
+                </li>
+                <li>
+                    <a class="gitlab" rel="nofollow" href="/login/gitlab/">GitLab</a>
+                </li>
+                <li>
+                    <a class="google" rel="nofollow" href="/login/google-oauth2/">Google</a>
+                </li>
+            </ul>
+        </div>
+        <span class="separator"></span>
+    
+    </div>
+</div>
+
+
+
+
+
+<div class="navbar-wrapper">
+    <div class="container">
+        <div class="navbar navbar-static-top" role="navigation">
+            
+            <div class="container visible-xs">
+                
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><img src="https://static.bigml.com/static/img/bigml.png" alt="BigML.com"/></a>
+                </div>
+
+                
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        
+                        <li class="login australia">
+                            <a href="https://bigml.com.au" class="iphone">Australia or New Zealand users Sign in</a>
+                        </li>
+                        
+                        <li class="product  dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle">PRODUCT<b class='arrow'></b></a>
+                            <ul class="dropdown_menu">
+                                <li class="public">
+                                    <a href="/features" class="js-external-link">Features</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/releases" class="js-external-link">Releases</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/whatsnew">What's New</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class=""><a href="/education/videos" class="js-external-link">GETTING STARTED</a></li>
+                        <li class="pricing  dropdown">
+                            <a href="/pricing" class="js-external-link dropdown-toggle">PRICING<b class='arrow'></b></a>
+                            <ul class="dropdown_menu">
+                                <li class="public">
+                                    <a href="/pricing#subscriptions" class="js-external-link">Subscriptions</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/pricing#private-deployments" class="js-external-link">Private Deployments</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/pricing#training" class="js-external-link">Training</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/pricing#certifications" class="js-external-link">Certifications</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/education/" class="js-external-link">BigML for Education</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+
+
+<li class="dropdown">
+    <a href="/a?link=https%3A%2F%2Fsupport.bigml.com&t=help" target="_blank" class="dropdown-toggle js-external-link">SUPPORT</a>
+</li>
+
+
+                    </ul> 
+                </div>
+            </div>
+
+            
+            <div class="container hidden-xs">
+                
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><img src="https://static.bigml.com/static/img/bigml.png" alt="BigML.com"/></a>
+                </div>
+
+                
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="product  dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle">PRODUCT<b class='arrow'></b></a>
+                            <ul class="dropdown_menu">
+                                <li class="public">
+                                    <a href="/features" class="js-external-link">Features</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/releases" class="js-external-link">Releases</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/whatsnew">What's New</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class=""><a href="/education/videos" class="js-external-link">GETTING STARTED</a></li>
+                        <li class="pricing  dropdown">
+                            <a href="/pricing" class="js-external-link dropdown-toggle">PRICING<b class='arrow'></b></a>
+                            <ul class="dropdown_menu">
+                                <li class="public">
+                                    <a href="/pricing#subscriptions" class="js-external-link">Subscriptions</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/pricing#private-deployments" class="js-external-link">Private Deployments</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/pricing#training" class="js-external-link">Training</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/pricing#certifications" class="js-external-link">Certifications</a>
+                                </li>
+                                <li class="public">
+                                    <a href="/education/" class="js-external-link">BigML for Education</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+
+
+<li class="dropdown">
+    <a href="/a?link=https%3A%2F%2Fsupport.bigml.com&t=help" target="_blank" class="dropdown-toggle js-external-link">SUPPORT</a>
+</li>
+
+
+                    </ul>
+
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="login australia">
+                            <a href="https://bigml.com.au" class="au tipsy-banner" title="Australia or New Zealand users<br/>Sign in"></a>
+                            <a href="https://bigml.com.au" class="iphone">Australia or New Zealand users Sign in</a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            </div> <!-- end #top -->
+
+            
+            <div class="clear"></div>
+            <div id="content" class="container_12">
+                <div id="ui_settings_content"></div>
+                <div id="projects_content"></div>
+                <div id="dashboard_content">
+                    
+    <div class="grid_12">
+        
+
+
+<div id="view_license_modal" class="modal hide fade">
+    <div class="modal-header" style="display: inherit;">
+        <h3>License</h3>
+    </div>
+    <div class="modal-body">
+        <div class="license_error alert alert-error" style="display:none">
+            <strong>Oops!</strong> We could not process your request!
+        </div>
+        <div class="license_text"></div>
+    </div>
+    <div class="modal-footer">
+        <button id="close_license_modal" type="cancel" class="button btn btn-neutral">Ok</button>
+    </div>
+</div>
+
+
+        
+        <div id="gallery-content-wrapper" class="resource_wrapper">
+            
+    
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+    if (window.location.hash == '#modified') {
+        window.location.assign(window.location.pathname + window.location.search);
+    }
+    $(function() {
+        dashboard.drawDataset('/gallery/json/dataset/4f89d8051552686458000041', true);
+    });
+</script>
+
+
+<title>Auto-mpg&#39;s dataset | BigML.com</title>
+
+
+
+
+
+
+
+<script id="embed_dataset_template" type="text/x-jquery-tmpl">
+<style>
+/*** Widget style definitions
+    All CSS rules must be preceded by #bigml_dataset_4f89d8051552686458000041 ***/
+
+#bigml_dataset_4f89d8051552686458000041 {
+    color: #333333;
+    font: 12px/18px "Lucida Grande",Lucida,Verdana,sans-serif;
+}
+#bigml_dataset_4f89d8051552686458000041  .clear {
+    clear: both;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+    visibility: hidden;
+}
+#bigml_dataset_4f89d8051552686458000041  a{
+    color:#749201;
+    text-decoration:none;
+}
+#bigml_dataset_4f89d8051552686458000041  a:hover{
+    text-decoration:underline;
+    color:#749201;
+    outline:none;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box{
+    background-color: #FFFFFF;
+    border-radius: 5px;
+        -ms-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+    margin: 0 0 18px 7px;
+    overflow: hidden;
+    width: 296px;
+    margin:0 auto;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .model {
+    position: relative;
+    text-align: center;
+    width: 296px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .model img{
+    max-height: 196px;
+    max-width: 296px;
+    outline: medium none;
+}
+#bigml_dataset_4f89d8051552686458000041  .image_zoom_icon {
+    -moz-transition: all 0.5s ease-in-out 0s;
+    background: url("https://static.bigml.com/static/img/icon_zoom.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 69px;
+    left: 50%;
+    margin: -35px 0 0 -35px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    width: 69px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .category{
+    background: url("https://static.bigml.com/static/img/bg_category_static.png") no-repeat scroll 0 0 transparent;
+    height: 38px;
+    left: 9px;
+    position: absolute;
+    top: -1px;
+    width: 30px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .category span{
+    background-image: url("https://static.bigml.com/static/img/icons_categories.png");
+    background-repeat: no-repeat;
+    height: 30px;
+    width: 30px;
+    display: block;
+}
+/* categoies */
+#bigml_dataset_4f89d8051552686458000041  .demographics_and_surveys{
+    background-position:  center -408px;
+}
+#bigml_dataset_4f89d8051552686458000041  .automotive_engineering_and_manufacturing{
+    background-position:  center 0;
+}
+#bigml_dataset_4f89d8051552686458000041  .uncategorized{
+    background-position:  center -470px;
+}
+#bigml_dataset_4f89d8051552686458000041  .sports_and_games{
+    background-position:  center -523px;
+}
+#bigml_dataset_4f89d8051552686458000041  .miscellaneous{
+    background-position:  center -358px;
+}
+#bigml_dataset_4f89d8051552686458000041  .aerospace_and_defense{
+    background-position:  center -667px;
+}
+#bigml_dataset_4f89d8051552686458000041  .banking_and_finance{
+    background-position:  center -183px;
+}
+#bigml_dataset_4f89d8051552686458000041  .chemical_and_pharmaceutical{
+    background-position:  center -845px;
+}
+#bigml_dataset_4f89d8051552686458000041  .energy_oil_and_gas{
+    background-position:  center -1367px;
+}
+#bigml_dataset_4f89d8051552686458000041  .consumer_and_retail{
+    background-position:  center -141px;
+}
+#bigml_dataset_4f89d8051552686458000041  .sports_and_games{
+    background-position:  center -523px;
+}
+#bigml_dataset_4f89d8051552686458000041  .fraud_and_crime{
+    background-position:  center -228px;
+}
+#bigml_dataset_4f89d8051552686458000041  .healthcare{
+    background-position:  center -266px;
+}
+#bigml_dataset_4f89d8051552686458000041  .life_sciences{
+    background-position:  center -310px;
+}
+#bigml_dataset_4f89d8051552686458000041  .higher_education_and_research{
+    background-position:  center -1021px;
+}
+#bigml_dataset_4f89d8051552686458000041  .human_resources_and_psychology{
+    background-position:  center -1970px;
+}
+#bigml_dataset_4f89d8051552686458000041  .insurance{
+    background-position:  center -1202px;
+}
+#bigml_dataset_4f89d8051552686458000041  .law_and_order{
+    background-position:  center -1259px;
+}
+#bigml_dataset_4f89d8051552686458000041  .media_marketing_and_advertising{
+    background-position:  center -2023px;
+}
+#bigml_dataset_4f89d8051552686458000041  .public_nonprofit{
+    background-position:  center -1474px;
+}
+#bigml_dataset_4f89d8051552686458000041  .professional_services{
+    background-position:  center -1418px;
+}
+#bigml_dataset_4f89d8051552686458000041  .technology_and_communications{
+    background-position:  center -1074px;
+}
+#bigml_dataset_4f89d8051552686458000041  .transportation_and_logistics{
+    background-position:  center -1583px;
+}
+#bigml_dataset_4f89d8051552686458000041  .travel_and_leisure{
+    background-position:  center -1640px;
+}
+#bigml_dataset_4f89d8051552686458000041  .utilities{
+    background-position:  center -1752px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box a.model_link:hover .image_zoom_icon{
+    background: transparent url(https://static.bigml.com/static/img/icon_zoom.png) no-repeat 0 0;
+    opacity: 0.35;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .head{
+    background-color: #2C424D;
+    color: #A0C0C8;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 13px;
+    padding: 8px 15px 8px 15px;
+    position: relative;
+    text-shadow: 0 -1px #000000;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .head span {
+    display: block;
+    font-weight: bold;
+    height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .head a {
+    color: #FFFFFF;
+    display: block;
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .data {
+    background-color: #F5F5F5;
+    font-size: 12px;
+    width: 296px;
+}
+#bigml_dataset_4f89d8051552686458000041 .gallery_description.viewport {
+    font-size: 12px;
+    overflow: hidden;
+    padding-top: 5px;
+    position: relative;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .gallery_description.viewport p {
+    margin: 0;
+    padding: 5px 15px 1px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .gallery_description.viewport ul {
+    padding:5px 15px;
+    margin:0 0 0 15px
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .gallery_description.viewport a{
+    padding: 0 15px;
+    text-align: right;
+    display: block;
+    font-size: 11px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .gallery_description.viewport p a, #bigml_dataset_4f89d8051552686458000041.gallery_box .gallery_description.viewport ul a{
+    padding: 0;
+    text-align: left;
+    display: inline;
+    font-size: 12px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .tags {
+    border-top: 1px solid #DDDDDD;
+    margin: 0 15px !important;
+    overflow: hidden;
+    padding: 10px 0;
+    margin:0 20px 20px;
+}
+#bigml_dataset_4f89d8051552686458000041  .data .tags span {
+    background-color: #D1D8DA;
+    border: 1px solid #C3CED2;
+    border-radius: 2px 2px 2px 2px;
+    display: block;
+    float: left;
+    margin-bottom: 3px;
+    margin-right: 4px;
+    padding: 1px 5px;
+    line-height: 15px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .numbers {
+    background-color: #9FA7AA;
+    color: #FFFFFF;
+    background: none repeat scroll 0 0 #A6AFB2;
+    border-bottom: 1px solid #91979A;
+    border-top: 1px solid #91979A;
+    margin: 0;
+    padding: 4px 0 3px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .numbers span {
+    padding: 1px 0;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .numbers .size {
+    float: left;
+    font-weight: bold;
+    margin-left: 15px;
+}
+#bigml_dataset_4f89d8051552686458000041.gallery_box .numbers .fields {
+    float: right;
+    margin-right: 15px;
+}
+#bigml_dataset_4f89d8051552686458000041 .bottom_bar_item {
+    background: url("https://static.bigml.com/static/img/embed_logo.png") no-repeat scroll right center transparent;
+    height:28px;
+}
+#bigml_dataset_4f89d8051552686458000041  ul.resource_stats {
+    display: block;
+    float: left;
+    margin: 2px 3px;
+    padding: 0;
+}
+#bigml_dataset_4f89d8051552686458000041  ul.resource_stats li {
+    background: url("https://static.bigml.com/static/img/icons_resource_stats.png") no-repeat scroll 0 0 transparent;
+    color: #2C424D;
+    display: block;
+    float: left;
+    font-size: 11px;
+    list-style: none outside none;
+    margin-left: 12px;
+    padding: 3px 0 3px 21px;
+}
+#bigml_dataset_4f89d8051552686458000041  ul.resource_stats li.divider {
+    background: none repeat scroll 0 0 #e5e5e5;
+    border-right: medium none #FFFFFF;
+    height: 15px;
+    margin: 4px 0 0 12px;
+    padding: 0;
+    width: 1px;
+}
+#bigml_dataset_4f89d8051552686458000041  ul.resource_stats li.clones {
+    background-position: 0 -74px;
+}
+#bigml_dataset_4f89d8051552686458000041  ul.resource_stats li.predictions {
+    background-position: 0 -117px;
+}
+</style>
+
+<div id="bigml_dataset_4f89d8051552686458000041" class="gallery_box">
+    <div class="model">
+        <a class="link_text model_link" href="https://bigml.com/user/bigml/gallery/dataset/4f89d8051552686458000041">
+           <img src="https://static.bigml.com/static/images/gallery/public/dataset/4f89d8051552686458000041.png" title="auto-mpg&#39;s dataset" alt="auto-mpg&#39;s dataset"/>
+           <span class="image_zoom_icon"></span>
+        </a>
+        <div class="category" title="Automotive, Engineering &amp; Manufacturing"><span class="automotive_engineering_and_manufacturing"></span></div>
+    </div>
+    <div class="head">
+        <span>auto-mpg&#39;s dataset</span>
+        <a class="link_text model_link" href="https://bigml.com/user/bigml/gallery/datasets">bigml</a>
+    </div>
+    <div class="data">
+        <div id="embedded_description_4f89d8051552686458000041" class="gallery_description viewport">
+            Data on mileage per gallon for a series of older automobiles, based on other information about the car, such as acceleration and horsepower.  Taken from the UCI machine learning repository at [http://archive.ics.uci.edu/ml/datasets/Auto+MPG](http://archive.ics.uci.edu/ml/datasets/Auto+MPG).
+
+
+        </div>
+        <div class="tags">
+        </div>
+        <div class="numbers">
+            <span class="size">21.2 KB</span>
+            <span class="fields">
+                9 fields /
+                398 instances
+            </span>
+            <div class="clear"></div>
+        </div>
+        <div class="bottom_bar_item">
+            <ul class="resource_stats">
+                <li class="clones" title="Purchased 88 times">88</li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+</script>
+
+<div id="embed_dataset_modal_4f89d8051552686458000041" class="modal hide fade export_code">
+    <div class="modal-header">
+      <a href="#" class="close">&times;</a>
+      <h3>Embed this Dataset in your web site</h3>
+    </div>
+    <div class="modal-body">
+        <label>Copy & Paste this code into your HTML code:</label>
+        <div class="rules_wrapper" style="display:none">
+            <div class="rules_output">
+                <div class="highlight">
+                    <pre><code class="html"></code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+       <button type="submit" class="close_embed_modal button btn-neutral btn">Close</button>
+    </div>
+</div>
+
+<div class="share_widget" id="share_dataset_4f89d8051552686458000041">
+    <span id="st_twitter_btn_4f89d8051552686458000041" class='st_twitter_large' displayText='Tweet' st_url="http://bml.io/T6as2c" st_title='Check out this #dataset "auto-mpg&#39;s dataset" at' st_username="bigmlcom" st_via="bigmlcom"></span>
+    <span id="st_facebook_btn_4f89d8051552686458000041" class='st_facebook_large' displayText='Facebook' st_url="http://bml.io/T6as2c" st_image="https://static.bigml.com/static/images/gallery/public/dataset/4f89d8051552686458000041.png" st_title="Check out this dataset &quot;auto-mpg&amp;#39;s dataset&quot;" st_summary="Data on mileage per gallon for a series of older automobiles, based on other information about the car, such as acceleration and horsepower.  Taken from the UCI machine learning repository at http://archive.ics.uci.edu/ml/datasets/Auto+MPG[*].
+
+[*]http://archive.ics.uci.edu/ml/datasets/Auto+MPG: http://archive.ics.uci.edu/ml/datasets/Auto+MPG"></span>
+    
+    <span id="st_linkedin_btn_4f89d8051552686458000041" class='st_linkedin_large' displayText='LinkedIn' st_url="https://bigml.com/user/BigML/gallery/dataset/4f89d8051552686458000041" st_image="https://static.bigml.com/static/images/gallery/public/dataset/4f89d8051552686458000041.png" st_title="Check out this dataset &quot;auto-mpg&amp;#39;s dataset&quot;" st_summary="Data on mileage per gallon for a series of older automobiles, based on other information about the car, such as acceleration and horsepower.  Taken from the UCI machine learning repository at http://archive.ics.uci.edu/ml/datasets/Auto+MPG[*].
+
+[*]http://archive.ics.uci.edu/ml/datasets/Auto+MPG: http://archive.ics.uci.edu/ml/datasets/Auto+MPG"></span>
+    <span id="st_email_btn_4f89d8051552686458000041" class='bigml_email_btn' displayText='Email' st_url="https://bigml.com/user/BigML/gallery/dataset/4f89d8051552686458000041" st_title="Check this out!" st_body="Check out this dataset &quot;auto-mpg&amp;#39;s dataset&quot; at https://bigml.com/user/BigML/gallery/dataset/4f89d8051552686458000041"></span>
+    <span id="st_embed_btn_4f89d8051552686458000041" class='embed_btn'>
+        <span class="stButton"><span class="stLarge"></span></span>
+    </span>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var $bigml_emailto,
+            btnId,
+            subject,
+            body;
+
+        $bigml_emailto = $('#st_email_btn_4f89d8051552686458000041');
+        if (!$('span', $bigml_emailto).exists()) {
+            btnId = $bigml_emailto.attr('id').replace('st_email_btn_', '');
+            subject = $bigml_emailto.attr('st_title');
+            body = $bigml_emailto.attr('st_body').replace(/&/g, 'and').replace(/"/g,'%22');
+
+            $bigml_emailto.append('<span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span class="stLarge"></span>');
+            $bigml_emailto.find('.stButton').append('<a id="bigml_emailto_' + btnId + '" href="mailto:?subject='+ subject + '&body=' + body + '" style="visibility:hidden;"></a>');
+            $bigml_emailto.click(function() {
+                window.location.href = $('#bigml_emailto_' + btnId).attr('href');
+            });
+        }
+        $('#st_embed_btn_4f89d8051552686458000041').click(function() {
+            gallery.showEmbeddableHtmlCode('#embed_dataset_modal_4f89d8051552686458000041');
+        });
+    })
+</script>
+
+<div id="dataset_permalink">
+    
+
+<div id="gallery-filters" class="filterbar">
+    <div class="filterbar_inner">
+        <ul class="pull-left">
+            <li id="gallery-selector" class='dropdown gallery_users'>
+                <a href="#" class="dropdown-toggle" class="user"><span class="user"></span>bigml<b class='arrow'></b></a>
+                <ul class="dropdown_menu">
+                    <li><a class="user" href="/gallery/datasets">Public</a></li>
+                    <li><a class="user" href="/user/bigml/gallery/datasets">bigml&#39;s</a></li>
+                </ul>
+            </li>
+            <li class='divider-vertical'></li>
+            
+            <li class="resource-selector gallery_item models">
+                <a href="/user/BigML/gallery/scripts"><span class="scripts"></span>Scripts<i>0</i></a>
+            </li>
+            <li class='divider-vertical'></li>
+            <li class="resource-selector gallery_item models">
+                <a href="/user/BigML/gallery/models"><span class="models"></span>Models<i>19</i></a>
+            </li>
+            <li class='divider-vertical'></li>
+            <li class="resource-selector gallery_item models">
+                <a href="/user/BigML/gallery/datasets"><span class="datasets"></span>Datasets<i>19</i></a>
+            </li>
+            <li class='divider-vertical'></li>
+            
+        </ul>
+        <ul class="pull-right">
+            
+            
+            <li class='divider-vertical'></li>
+            <li>
+                <a id="pagination_previous_link" href="/user/bigml/gallery/dataset/4f8b5eae155268783e00000d" class="tipsy-tooltip" title="Previous Dataset"></a>
+            </li>
+            <li class='divider-vertical'></li>
+            <li>
+                <a id="pagination_next_link" href="/user/bigml/gallery/dataset/4f8a873f035d074b5f000000" class="tipsy-tooltip"  title="Next Dataset"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+    <div id ="dataset_wrapper">
+        
+
+
+<div class="header_datatable">
+    <div class="header_actions left">
+        <div id="dataset_privacy" class="action privacy public whitebox"><a href="" class="action privacy public whitebox tipsy-tooltip" title="White Box"></a></div>
+        <div class="divider"></div>
+        <div class="resource_stat_header clones tipsy-tooltip" title="Purchased 88 times">88</div>
+        <div class="divider"></div>
+    </div>
+    <div class="header_actions">
+        <div id="more_info_icon" class="action options" ref="4f89d8051552686458000041"><a href="" class="tipsy-tooltip" title="More info"></a></div>
+        <div class="divider right"></div>
+        <div class="price_tag">
+        
+            <div class="gallery_price_tag">
+                <span>
+                
+                    FREE
+                
+                </span>
+                <a href="/accounts/login/?next=/gallery/dataset/4f89d8051552686458000041" style="display:none;">
+                    
+                        <span class="tipsy-tooltip" title="Purchase it for FREE">
+                    
+                    BUY
+                </span></a>
+            </div>
+        
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="table_title dataset_title no_select_text">
+        <span title="auto-mpg&#39;s dataset"><span class="icon"></span>auto-mpg&#39;s dataset</span>
+    </div>
+    <div class="clear"></div>
+</div>
+
+        
+
+
+
+
+
+
+<script id="dataset_details_template" type="text/x-jquery-tmpl">
+<table class="resource-config-details">
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Date of creation">Created</span></td>
+        <td class="config-value">Sat, 14 Apr 2012 20:03:17 +0000</td>
+    </tr>
+
+    
+    
+
+    
+    {{if term_analysis}}
+    {{if term_analysis.language}}
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Language">Language</span></td>
+        <td class="config-value">{{if term_analysis.language == 'none'}}Not a language{{else}}${ term_analysis.language }{{/if}}</td>
+    </tr>
+    {{else}}
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Language">Language</span></td>
+        <td class="config-value">Auto detect</td>
+    </tr>
+    {{/if}}
+
+    {{if term_analysis.token_mode}}
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Tokenize">Tokenize</span></td>
+        <td class="config-value">
+        {{if term_analysis.token_mode == 'all'}}
+            All
+        {{else}}
+        {{if term_analysis.token_mode == 'tokens_only'}}
+            Tokens only
+        {{else}}
+            Full terms only
+        {{/if}}
+        {{/if}}
+        </td>
+    </tr>
+    {{/if}}
+
+    {{if term_analysis.stopword_removal}}
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Stop words removal">Stop words removal</span></td>
+        <td class="config-value">
+        {{if term_analysis.stopword_removal == 'selected_language'}}
+            Yes (detected language)
+        {{else}}
+        {{if term_analysis.stopword_removal == 'all_languages'}}
+            Yes (all languages)
+        {{else}}
+            No
+        {{/if}}
+        {{/if}}
+
+        {{if term_analysis.stopword_diligence && term_analysis.stopword_removal != 'none'}}
+            {{if term_analysis.stopword_diligence == 'light'}}
+                - Light
+            {{else}}
+            {{if term_analysis.stopword_diligence == 'normal'}}
+                - Normal
+            {{else}}
+                - Aggressive
+            {{/if}}
+            {{/if}}
+        {{/if}}
+        </td>
+    </tr>
+    {{/if}}
+
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Max. n-grams">Max. n-grams</span></td>
+        <td class="config-value">
+        {{if term_analysis.ngrams}}
+            {{if term_analysis.ngrams == 1}}
+                unigram
+            {{/if}}
+            {{if term_analysis.ngrams == 2}}
+                bigram
+            {{/if}}
+            {{if term_analysis.ngrams == 3}}
+                trigram
+            {{/if}}
+            {{if term_analysis.ngrams == 4}}
+                four-gram
+            {{/if}}
+            {{if term_analysis.ngrams == 5}}
+                five-gram
+            {{/if}}
+            {{if term_analysis.ngrams > 5}}
+                ${ term_analysis.ngrams }-gram
+            {{/if}}
+        {{else}}
+            unigram
+        {{/if}}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Stem words">Stem words</span></td>
+        <td class="config-value">
+        {{if term_analysis.stem_words}}Yes{{else}}No{{/if}}
+        </td>
+    </tr>
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Case sensitive">Case sensitive</span></td>
+        <td class="config-value">
+        {{if term_analysis.case_sensitive}}Yes{{else}}No{{/if}}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Filter terms">Filter terms</span></td>
+        <td class="config-value">
+        {{if term_analysis.term_filters && term_analysis.term_filters.length > 0}}${ term_analysis.term_filters.join(' - ') }{{else}}-{{/if}}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Terms excluded from text analysis">Excluded terms</span></td>
+        <td class="config-value">
+        {{if term_analysis.excluded_terms && term_analysis.excluded_terms.length > 0}}${ term_analysis.excluded_terms.slice(0, 6).join(', ')}{{if term_analysis.excluded_terms.length > 6}}, ...{{/if}}{{else}}-{{/if}}
+        </td>
+    </tr>
+    {{/if}}
+    
+
+    
+    <tr>
+        <td class="config-attribute"><span class="tipsy-tooltip"
+                title="Date of publication">Published</span></td>
+        <td class="config-value">Wed, 10 Oct 2012 21:07:01 +0000</td>
+    </tr>
+    
+
+    
+</table>
+</script>
+
+
+
+
+<div id="resource_details_info" ref="4f89d8051552686458000041" class="clearfix resource_details gallery">
+    <div class="info_panel">
+        <div class="infopanel_folder">
+           <div class="infopanel">
+               <div class="numbers">
+                   <div class="threecol">
+                       <strong>21.2 KB</strong>
+                       <span>size</span>
+                   </div>
+                   <div class="threecol">
+                       <strong>9</strong>
+                       <span>fields</span>
+                   </div>
+                   <div class="threecol">
+                       <strong>398</strong>
+                       <span>instances</span>
+                   </div>
+                   <div class="clear"></div>
+               </div>
+            </div>
+            <div class="infopanel_col col1">
+                <div class="details extended closed">
+                    <label>Details:</label>
+                    <div class="config-details">
+                        <div id="config_details_4f89d8051552686458000041" class="scroll">
+                            <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+                            <div class="viewport">
+                                <div class="overview">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function() {
+                        $('div.config-details .scroll').tinyscrollbar({ sizethumb: 20 });
+                        if (window.location.hash == '#info') {
+                            $('#more_info_icon').click();
+                        }
+                    });
+                </script>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="infopanel_folder" >
+            <div class="infopanel_col col1">
+                <label>Description:</label>
+                <div class="grey text description_editable">
+                    <div id="description_4f89d8051552686458000041" class="scroll">
+                        <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+                        <div class="viewport">
+                            <div class="overview"><p>Data on mileage per gallon for a series of older automobiles, based on other information about the car, such as acceleration and horsepower.  Taken from the UCI machine learning repository at <a href="http://archive.ics.uci.edu/ml/datasets/Auto+MPG">http://archive.ics.uci.edu/ml/datasets/Auto+MPG</a>.</p><p>&nbsp;</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="infopanel_col col2">
+                <label style="border-top:none; padding-top:8px">Tags:</label>
+                <div class="tags">
+                    
+                    <div class="clear"></div>
+                </div>
+                <label>URL:</label>
+                <div class="url margin">
+                    
+                    <strong>http://bml.io/T6as2c</strong>
+                    
+                </div>
+                
+                
+                <div class="static_button" style="margin-top:-38px">
+                
+                    <a class="button" href="/accounts/login/?next=/user/bigml/gallery/dataset/4f89d8051552686458000041"><span></span>Dataset
+                        <span class="price"><i>FREE</i></span>
+                    </a>
+                
+                </div>
+                
+                
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="config_bottom"></div>
+
+
+        
+
+<div id="tag_cloud_modal" class="tag_cloud modal hide fade">
+    <div class="modal-header">
+      <a href="#" class="close">&times;</a>
+      <h3 data-initial="auto-mpg&#39;s dataset"></h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+        <a href="" class="cloud_image button btn tipsy-tooltip" data-format="png" target="_blank" title="Download as PNG"><i class="download"></i>PNG</a>
+        <a href="" class="cloud_image button btn tipsy-tooltip" data-format="svg" target="_blank" title="Download as SVG"><i class="download"></i>SVG</a>
+        <a href="" class="cloud_reload button btn tipsy-tooltip btn-neutral" title="Generate a new tag cloud"><i class="reload"></i>Reload</a>
+        <button id="close_tag_cloud" type="submit" class="button btn btn-neutral">Close</button>
+    </div>
+</div>
+
+        <table id="summary_table" class="display">
+            <thead>
+                <tr>
+                    <th class="ui-state-default" style="width: 240px;">Name</th>
+                    <th class="ui-state-default" style="width: 100px;">Type</th>
+                    <th class="ui-state-default" style="width: 100px;">Count</th>
+                    <th class="ui-state-default" style="width: 100px;">Missing</th>
+                    <th class="ui-state-default" style="width: 100px;">Errors</th>
+                    <th class="ui-state-default" style="width: 235px;">Histogram</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6" class="dataTables_empty">Loading data from server</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+<div class="related_container">
+    <div class="folder">RELATED DATASETS</div>
+    <div id="dataset_related_content" rel="4f89d8051552686458000041">
+        
+
+
+<script id="category_related_item_template" type="text/x-jquery-tmpl">
+    <div class="dataset related_dataset">
+        <a class="link_text model_link" href="${ url }">
+            <img src="https://static.bigml.com/static/images/${ image }" title="${ name }" alt="${ name }"/>
+
+            <div class="gallery_price_tag">
+               {{if price > 0}}
+               <span>$${ price.toFixed(2) }</span>
+               {{else}}
+               <span>FREE</span>
+               {{/if}}
+            </div>
+            {{if name.length > 52}}
+                <span>${ name.substring(0, 52) }...</span>
+            {{else}}
+                <span>${ name }</span>
+            {{/if}}
+        </a>
+    </div>
+</script>
+
+<div class="category_related">
+    <div class="header clearfix">
+        <a class="pjaxlink" href="/gallery/datasets/automotive_engineering_and_manufacturing"><i class="category automotive_engineering_and_manufacturing"></i><span>Automotive, Engineering &amp; Manufacturing</span></a>
+    </div>
+    <div class="divider"></div>
+    <div class="loading"></div>
+    <div class="related_content" style="display: none;"></div>
+    <div class="clear"></div>
+</div>
+
+        
+
+
+<script id="user_related_item_template" type="text/x-jquery-tmpl">
+    <div class="dataset related_dataset">
+        <a class="link_text model_link" href="${ url }">
+            <img src="https://static.bigml.com/static/images/${ image }" title="${ name }" alt="${ name }"/>
+
+            <div class="gallery_price_tag">
+                {{if price > 0}}
+                <span>$${ price.toFixed(2) }</span>
+                {{else}}
+                <span>FREE</span>
+                {{/if}}
+            </div>
+            {{if name.length > 52}}
+                <span>${ name.substring(0, 52) }...</span>
+            {{else}}
+                <span>${ name }</span>
+            {{/if}}
+        </a>
+    </div>
+</script>
+
+<div class="user_related">
+    <div class="header clearfix">
+        <a class="pjaxlink" href="/user/bigml/gallery/datasets"><i class="user"></i><span>BIGML</span></a>
+    </div>
+    <div class="divider"></div>
+    <div class="loading"></div>
+    <div class="related_content" style="display: none;"></div>
+    <div class="clear"></div>
+</div>
+
+    </div>
+</div>
+
+
+</div>
+<div class="clear"></div>
+
+
+        </div>
+        <div class="request-progress">Sending Request...</div>
+    </div>
+    <div class="clear"></div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div id="loading_content" class="request-progress">Sending Request...</div>
+            
+
+            
+                
+    <div id="footer">
+        <div class="container_12">
+
+            <div class="links grid_2 omega">
+                <h3>COMPANY</h3>
+                <ul>
+                    <li><a href="/about/" class="js-external-link">About</a></li>
+                    <li><a href="https://blog.bigml.com">Blog</a></li>
+                    <li><a href="/brand/" class="js-external-link">Brand Style Guide</a></li>
+                    <li><a href="/contact/" class="js-external-link">Contact</a></li>
+                    <li><a href="/internships/" class="js-external-link">Internships</a></li>
+                    <li><a href="/milestones/" class="js-external-link">Milestones</a></li>
+                    <li><a href="/openings/" class="js-external-link">Openings</a></li>
+                    <li><a href="/team/" class="js-external-link">Team</a></li>
+
+                </ul>
+            </div>
+            <div class="links grid_2 alpha omega">
+                <h3>PRODUCT</h3>
+                <ul>
+                    <li><a href="/api">API</a></li>
+                    <li><a href="/documentation/" class="js-external-link">Documentation</a></li>
+                    <li><a href="/features" class="js-external-link">Features</a></li>
+                    
+                    <li><a href="/organizations/" class="js-external-link">Organizations</a></li>
+                    <li><a href="/private-deployments/" class="js-external-link">Private Deployments</a></li>
+                    <li><a href="/releases" class="js-external-link">Releases</a></li>
+                    <li><a href="/tools" class="js-external-link">Tools</a></li>
+                    <li><a href="/whizzml/" class="js-external-link">WhizzML</a></li>
+                </ul>
+            </div>
+            <div class="links grid_2 alpha omega">
+                <h3>BUSINESS</h3>
+                <ul>
+                    <li><a href="/customers/" class="js-external-link">Customers</a></li>
+                    <li><a href="/events/" class="js-external-link">Events</a></li>
+                    <li><a href="/newsletters/" class="js-external-link">Newsletters</a></li>
+                    <li><a href="/partners/" class="js-external-link">Partners</a></li>
+                    <li><a href="/pricing" class="js-external-link">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="links grid_2 alpha omega">
+                <h3>TRAINING</h3>
+                <ul>
+                    <li><a href="/certifications" class="js-external-link">Certifications</a></li>
+                    <li><a href="/education/" class="js-external-link">Education</a></li>
+                    <li><a href="/education/#schools" class="js-external-link">ML Schools</a></li>
+                </ul>
+            </div>
+            <div class="links grid_2 alpha omega">
+                <h3>GALLERY</h3>
+                <ul>
+                    <li><a href="/gallery/datasets">Datasets</a></li>
+                    <li><a href="/gallery/models">Models</a></li>
+                    <li><a href="/gallery/scripts">WhizzML</a></li>
+                </ul>
+                
+            </div>
+            <div class="links grid_3 alpha omega">
+                <ul class="share clearfix">
+                    <li><a target="_blank" href="http://twitter.com/bigmlcom" class="twitter" rel="nofollow noopener noreferrer"></a></li>
+                    <li><a target="_blank" href="http://www.facebook.com/pages/BigML/132819120114893" class="facebook" rel="nofollow noopener noreferrer"></a></li>
+                    <li><a target="_blank" href="http://www.linkedin.com/company/bigml-inc" class="linkedin" rel="nofollow noopener noreferrer"></a></li>
+                    <li><a target="_blank" href="https://www.youtube.com/user/bigmlcom" class="youtube" rel="nofollow noopener noreferrer"></a></li>
+                </ul>
+                <div class="terms">
+                    <span class="terms"><a href="/tos/">Terms of Service</a></span>
+                    <span class="privacy"><a href="/privacy/">Privacy Policy</a></span>
+                    <span class="faq"><a href="/a?link=https%3A%2F%2Fsupport.bigml.com&t=help" target="_blank" class="js-external-link" rel="noopener noreferrer">FAQ</a></span>
+                    <span class="copyright">Copyright © 2021 BigML, Inc.</span>
+                    <a class="logo_footer" href="/"><img src="https://static.bigml.com/static/img/logo_footer.png"></a>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+        </div> <!-- end .container_12 -->
+    </div> <!-- end #footer -->
+
+
+            
+
+            
+
+
+<script>
+  var bmlCc;
+  window.onload = function(){
+    function loadScript() {
+      $.ajax({url: '/loadga', dataType: 'html', cache: true,
+        success: function(response) {
+          $('head').append(response);
+        },
+        error: function(){}
+      });
+    }
+    
+    var law = undefined;
+    
+    if (!('remove' in Element.prototype)) {
+        Element.prototype.remove = function() {
+            this.parentNode.removeChild(this);
+        };
+    }
+    cookieconsent.initialise({
+      law: law,
+      location: {
+        services: ['maxmind']
+      },
+      content: {
+        message: gettext("BigML uses cookies to understand how you use our service and to improve your experience."),
+        close: '✕',
+        link: gettext("Learn more"),
+        allow: gettext("I accept"),
+        href: '/privacy#info-collected'
+      },
+      compliance: {
+        'opt-in': '<div class="cc-compliance">{{allow}}{{close}}</div>'
+      },
+      type: 'opt-in',
+      palette: {
+        "popup":{"background":"rgba(255,255,255,0.92)","text":"#333"},
+        "button":{"background":"#A8C910","text":"#ffffff"},
+      },
+      onStatusChange: function(status) {
+        if (status == cookieconsent.status.allow) {
+          loadScript();
+        }
+        bmlCc.element.remove();
+        $('body').trigger('bmlcc-schange', [status]);
+      }
+    }, function(pp) {
+      bmlCc = pp;
+      bmlCc.revokeBtn.remove();
+      if (typeof bmlCc.options.countryHasLaw !== 'undefined' && !bmlCc.options.countryHasLaw && bmlCc.getStatus() == undefined) {
+        loadScript();
+      }
+      $('body').trigger('bmlcc-init');
+    }, function(error, pp) {
+      bmlCc = pp;
+      if (typeof bmlCc.element === 'undefined' || !bmlCc.element) {
+        bmlCc.element = $('div.cc-window.cc-banner.cc-type-opt-in.cc-theme-block');
+        bmlCc.revokeBtn = $('div.cc-revoke.cc-bottom');
+        if (bmlCc.element) {
+          bmlCc.element = bmlCc.element[0];
+        }
+        if (bmlCc.revokeBtn) {
+          bmlCc.revokeBtn = bmlCc.revokeBtn[0];
+        }
+      } else if (bmlCc.revokeBtn) {
+        bmlCc.revokeBtn.remove();
+      }
+    });
+  };
+</script>
+
+
+
+            
+            
+
+            
+
+        </div>
+    </body>
+</html>
