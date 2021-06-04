@@ -1,0 +1,91 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages}
+library(tidyverse)
+library(nycflights13)
+```
+
+```{r airlines}
+glimpse(airlines)
+head(airlines)
+```
+
+```{r airports}
+glimpse(airports)
+head(airports)
+```
+
+```{r flights}
+glimpse(flights)
+head(flights)
+```
+
+```{r planes}
+glimpse(planes)
+head(planes)
+```
+
+```{r weather}
+glimpse(weather)
+head(weather)
+```
+
+```{r}
+# add airline carrier names to the flights data
+
+flights2      <- left_join(flights, airlines, by = "carrier")
+flights2inner <- inner_join(flights, airlines, by = "carrier")
+identical(flights2, flights2inner)
+all.equal(flights2, flights2inner)
+```
+
+```{r}
+# now add airport names for the origin airport
+# what if we also want names for destination? 
+
+flights3     <- left_join(flights2, airports, by = c("origin" = "faa"))
+flights3full <- full_join(flights2, airports, by = c("origin" = "faa"))
+identical(flights3, flights3full)
+all.equal(flights3, flights3full)
+```
+
+```{r}
+# now add data about weather at origin airport 
+# which is the correct join function to use here?
+# what if the variable time_hour did not exist?
+
+flights4inner <- inner_join(flights3, weather, by = c("time_hour", "origin"))
+
+flights4left  <- left_join(flights3, weather, by = c("time_hour", "origin"))
+
+flights4right <- right_join(flights3, weather, by = c("time_hour", "origin"))
+
+flights4full  <- full_join(flights3, weather, by = c("time_hour", "origin"))
+
+flights4left2 <- left_join(flights3, weather, by = c("year", "month", "day", "hour", "origin"))
+```
+
+```{r}
+identical(flights4left, flights4left2)
+all.equal(flights4left, flights4left2)
+
+identical(flights4left$day.x, flights4left$day.y)
+all.equal(flights4left$day.x, flights4left$day.y)
+
+sum(is.na(flights4left$day.x))
+which((is.na(flights4left$day.x)))
+sum(is.na(flights4left$day.y))
+which((is.na(flights4left$day.y)))
+```
+
+```{r}
+sessionInfo()
+```
+
