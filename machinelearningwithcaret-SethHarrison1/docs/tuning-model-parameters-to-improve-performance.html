@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Tuning model parameters to improve performance | Machine Learning Toolbox</title>
+  <meta name="description" content="The output format used for these personal notes is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Tuning model parameters to improve performance | Machine Learning Toolbox" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The output format used for these personal notes is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Tuning model parameters to improve performance | Machine Learning Toolbox" />
+  
+  <meta name="twitter:description" content="The output format used for these personal notes is bookdown::gitbook." />
+  
+
+<meta name="author" content="Your Name Here" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="classification-models-fitting-them-and-evaluating-their-performance.html"/>
+<link rel="next" href="preprocessing-your-data.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Change this to your Title</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html"><i class="fa fa-check"></i><b>2</b> Regression models: fitting them and evaluating their performance</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#welcome-to-the-toolbox-video"><i class="fa fa-check"></i>Welcome to the Toolbox Video</a></li>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#in-sample-rmse-for-linear-regression"><i class="fa fa-check"></i>In-sample RMSE for linear regression</a></li>
+<li class="chapter" data-level="2.1" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#in-sample-rmse-for-linear-regression-on-diamonds"><i class="fa fa-check"></i><b>2.1</b> In-sample RMSE for linear regression on <code>diamonds</code></a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#out-of-sample-error-measures-video"><i class="fa fa-check"></i>Out-of-sample error measures video</a></li>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#out-of-sample-rmse-for-linear-regression"><i class="fa fa-check"></i>Out-of-sample RMSE for linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#randomly-order-the-data-frame"><i class="fa fa-check"></i><b>2.2</b> Randomly order the data frame</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-1"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#try-an-8020-split"><i class="fa fa-check"></i><b>2.3</b> Try an 80/20 split</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-2"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#predict-on-test-set"><i class="fa fa-check"></i><b>2.4</b> Predict on test set</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-3"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#calculate-test-set-rmse"><i class="fa fa-check"></i><b>2.5</b> Calculate test set RMSE</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-4"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#comparing-out-of-sample-rmse-to-in-sample-rmse"><i class="fa fa-check"></i>Comparing out-of-sample RMSE to in-sample RMSE</a></li>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#cross-valdiation-video"><i class="fa fa-check"></i>Cross Valdiation Video</a></li>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#advantage-of-cross-validation"><i class="fa fa-check"></i>Advantage of cross-validation</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#fold-cross-validation"><i class="fa fa-check"></i><b>2.6</b> 10-fold cross-validation</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-5"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#fold-cross-validation-1"><i class="fa fa-check"></i><b>2.7</b> 5-fold cross-validation</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-6"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#times-5-fold-cross-validation"><i class="fa fa-check"></i><b>2.8</b> <span class="math inline">\(5 \times 5\)</span>-fold cross-validation</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-7"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#making-predictions-on-new-data"><i class="fa fa-check"></i><b>2.9</b> Making predictions on new data</a><ul>
+<li class="chapter" data-level="" data-path="regression-models-fitting-them-and-evaluating-their-performance.html"><a href="regression-models-fitting-them-and-evaluating-their-performance.html#exercise-8"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html"><i class="fa fa-check"></i><b>3</b> Classification models: fitting them and evaluating their performance</a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#logistic-regression-on-sonar-video"><i class="fa fa-check"></i>Logistic regression on sonar video</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#why-a-traintest-split"><i class="fa fa-check"></i>Why a train/test split?</a></li>
+<li class="chapter" data-level="3.1" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#try-a-6040-split"><i class="fa fa-check"></i><b>3.1</b> Try a 60/40 split</a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-9"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#fit-a-logistic-regression-model"><i class="fa fa-check"></i><b>3.2</b> Fit a logistic regression model</a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-10"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#confusion-matrix-video"><i class="fa fa-check"></i>Confusion matrix video</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#confusion-matrix"><i class="fa fa-check"></i>Confusion Matrix</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#confusion-matrix-takeaways"><i class="fa fa-check"></i>Confusion matrix takeaways</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#calculate-a-confusion-matrix"><i class="fa fa-check"></i><b>3.3</b> Calculate a confusion matrix</a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-11"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-12"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#class-probabilities-and-predictions-video"><i class="fa fa-check"></i>Class probabilities and predictions video</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-13"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#try-another-threshold"><i class="fa fa-check"></i><b>3.4</b> Try another threshold</a></li>
+<li class="chapter" data-level="3.5" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#from-probabilites-to-confusion-matrix"><i class="fa fa-check"></i><b>3.5</b> From probabilites to confusion matrix</a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#introducing-the-roc-curve-video"><i class="fa fa-check"></i>Introducing the ROC curve video</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#whats-the-value-of-a-roc-curve"><i class="fa fa-check"></i>What’s the value of a ROC curve?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#plot-an-roc-curve"><i class="fa fa-check"></i><b>3.6</b> Plot an ROC curve</a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-14"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#area-under-the-curve-auc-video"><i class="fa fa-check"></i>Area under the curve (AUC) video</a></li>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#model-roc-and-auc"><i class="fa fa-check"></i>Model, ROC, and AUC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#customizing-traincontrol"><i class="fa fa-check"></i><b>3.7</b> Customizing <code>trainControl</code></a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-15"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#using-custom-traincontrol"><i class="fa fa-check"></i><b>3.8</b> Using custom <code>trainControl</code></a><ul>
+<li class="chapter" data-level="" data-path="classification-models-fitting-them-and-evaluating-their-performance.html"><a href="classification-models-fitting-them-and-evaluating-their-performance.html#exercise-16"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html"><i class="fa fa-check"></i><b>4</b> Tuning model parameters to improve performance</a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#random-forests-and-wine-video"><i class="fa fa-check"></i>Random forests and wine video</a></li>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#random-forests-vs.-linear-models"><i class="fa fa-check"></i>Random forests vs. linear models</a></li>
+<li class="chapter" data-level="4.1" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#fit-a-random-forest"><i class="fa fa-check"></i><b>4.1</b> Fit a random forest</a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#exercise-17"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#explore-a-wider-model-space-video"><i class="fa fa-check"></i>Explore a wider model space video</a></li>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#advantage-of-a-longer-tune-length"><i class="fa fa-check"></i>Advantage of a longer tune length</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#try-a-longer-tune-length"><i class="fa fa-check"></i><b>4.2</b> Try a longer tune length</a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#exercise-18"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#custom-tuning-grids-video"><i class="fa fa-check"></i>Custom tuning grids video</a></li>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#advantages-of-a-custom-tuning-grid"><i class="fa fa-check"></i>Advantages of a custom tuning grid</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#fit-a-random-forest-with-custom-tuning"><i class="fa fa-check"></i><b>4.3</b> Fit a random forest with custom tuning</a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#exercise-19"><i class="fa fa-check"></i>Exercise</a></li>
+<li><a href="tuning-model-parameters-to-improve-performance.html#introducing-glmnet-video">Introducing <code>glmnet</code> video</a></li>
+<li><a href="tuning-model-parameters-to-improve-performance.html#advantage-of-glmnet">Advantage of <code>glmnet</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#make-a-custom-traincontrol"><i class="fa fa-check"></i><b>4.4</b> Make a custom <code>trainControl</code></a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#exercise-20"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#fit-glmnet-with-custom-traincontrol"><i class="fa fa-check"></i><b>4.5</b> Fit glmnet with custom <code>trainControl</code></a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#exercise-21"><i class="fa fa-check"></i>Exercise</a></li>
+<li><a href="tuning-model-parameters-to-improve-performance.html#glmnet-with-custom-tuning-grid-video"><code>glmnet</code> with custom tuning grid video</a></li>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#why-a-custom-tuning-grid"><i class="fa fa-check"></i>Why a custom tuning grid?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#glmnet-with-custom-traincontrol-and-tuning"><i class="fa fa-check"></i><b>4.6</b> <code>glmnet</code> with custom <code>trainControl</code> and tuning</a><ul>
+<li class="chapter" data-level="" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#exercise-22"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="tuning-model-parameters-to-improve-performance.html"><a href="tuning-model-parameters-to-improve-performance.html#interpreting-glmnet-plots"><i class="fa fa-check"></i><b>4.7</b> Interpreting <code>glmnet</code> plots</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html"><i class="fa fa-check"></i><b>5</b> Preprocessing your data</a><ul>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#median-imputation-video"><i class="fa fa-check"></i>Median imputation video</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#median-imputation-vs.-omitting-rows"><i class="fa fa-check"></i>Median imputation vs. omitting rows</a></li>
+<li class="chapter" data-level="5.1" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#apply-median-imputation"><i class="fa fa-check"></i><b>5.1</b> Apply median imputation</a><ul>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#exercise-23"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#use-knn-imputation-video"><i class="fa fa-check"></i>Use KNN imputation video</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#use-knn-imputation"><i class="fa fa-check"></i><b>5.2</b> Use KNN imputation</a><ul>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#exercise-24"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#compare-knn-and-median-imputation"><i class="fa fa-check"></i>Compare KNN and median imputation</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#order-of-operations"><i class="fa fa-check"></i>Order of operations</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#combining-preprocessing-methods"><i class="fa fa-check"></i><b>5.3</b> 5.3 Combining preprocessing methods</a><ul>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#exercise-25"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#handling-low-information-predictors-video"><i class="fa fa-check"></i>Handling low-information predictors video</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#why-remove-near-zero-variance-predictors"><i class="fa fa-check"></i>Why remove near zero variance predictors?</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#remove-near-zero-variance-predictors"><i class="fa fa-check"></i><b>5.4</b> Remove near zero variance predictors</a><ul>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#exercise-26"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="5.4.1" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#preprocess-and-nearzerovar"><i class="fa fa-check"></i><b>5.4.1</b> <code>preProcess()</code> and <code>nearZeroVar()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#fit-model-on-reduced-blood-brain-data"><i class="fa fa-check"></i><b>5.5</b> Fit model on reduced blood-brain data</a><ul>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#exercise-27"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#principle-components-analysis-pca-video"><i class="fa fa-check"></i>Principle components analysis (PCA) video</a></li>
+<li class="chapter" data-level="" data-path="preprocessing-your-data.html"><a href="preprocessing-your-data.html#exercise-28"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html"><i class="fa fa-check"></i><b>6</b> Selecting models: a case study in churn prediction</a><ul>
+<li><a href="selecting-models-a-case-study-in-churn-prediction.html#reusing-a-traincontrol-video">Reusing a <code>trainControl</code> video</a></li>
+<li><a href="selecting-models-a-case-study-in-churn-prediction.html#why-reuse-a-traincontrol">Why reuse a <code>trainControl</code>?</a></li>
+<li class="chapter" data-level="6.1" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#make-custom-traintest-indices"><i class="fa fa-check"></i><b>6.1</b> Make custom train/test indices</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-29"><i class="fa fa-check"></i>Exercise</a></li>
+<li><a href="selecting-models-a-case-study-in-churn-prediction.html#reintroducing-glmnet-video">Reintroducing <code>glmnet</code> video</a></li>
+<li><a href="selecting-models-a-case-study-in-churn-prediction.html#glmnet-as-a-baseline-model"><code>glmnet</code> as a baseline model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#fit-the-baseline-model"><i class="fa fa-check"></i><b>6.2</b> Fit the baseline model</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-30"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#reintroducing-random-forest-video"><i class="fa fa-check"></i>Reintroducing random forest video</a></li>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#random-forest-drawback"><i class="fa fa-check"></i>Random Forest Drawback</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#random-forest-with-custom-traincontrol"><i class="fa fa-check"></i><b>6.3</b> Random forest with custom trainControl</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-31"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#comparing-models-video"><i class="fa fa-check"></i>Comparing models video</a></li>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#matching-traintest-indices"><i class="fa fa-check"></i>Matching train/test indices</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#create-a-resamples-object"><i class="fa fa-check"></i><b>6.4</b> Create a resamples object</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-32"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#more-on-resamples-video"><i class="fa fa-check"></i>More on resamples video</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#create-a-box-and-whisker-plot"><i class="fa fa-check"></i><b>6.5</b> Create a box-and-whisker plot</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-33"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#create-a-scatterplot"><i class="fa fa-check"></i><b>6.6</b> Create a scatterplot</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-34"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#ensembling-models"><i class="fa fa-check"></i><b>6.7</b> Ensembling models</a><ul>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#exercise-35"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="selecting-models-a-case-study-in-churn-prediction.html"><a href="selecting-models-a-case-study-in-churn-prediction.html#summary-video"><i class="fa fa-check"></i>Summary video</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><a href="https://www.datacamp.com/courses/machine-learning-toolbox">Machine Learning Toolbox</a></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tuning-model-parameters-to-improve-performance" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Tuning model parameters to improve performance</h1>
+<p>In this chapter, you will use the <code>train()</code> function to tweak model parameters through cross-validation and grid search.</p>
+<hr />
+<div id="random-forests-and-wine-video" class="section level3 unnumbered">
+<h3>Random forests and wine video</h3>
+<iframe src="https://drive.google.com/file/d/1FUEX5uhfI2fuF8YDdzqLeTp8Sof49M5k/preview" width="740" height="420">
+</iframe>
+<hr />
+</div>
+<div id="random-forests-vs.-linear-models" class="section level3 unnumbered">
+<h3>Random forests vs. linear models</h3>
+<p>What’s the primary advantage of random forests over linear models?</p>
+<ul>
+<li><p>They make you sound cooler during job interviews.</p></li>
+<li><p>You can’t understand what’s going on inside of a random forest model, so you don’t have to explain it to anyone.</p></li>
+<li><p><strong>A random forest is a more flexible model than a linear model, but just as easy to fit.</strong></p></li>
+</ul>
+<hr />
+</div>
+<div id="fit-a-random-forest" class="section level2">
+<h2><span class="header-section-number">4.1</span> Fit a random forest</h2>
+<p>As you saw in the video, random forest models are much more flexible than linear models, and can model complicated nonlinear effects as well as automatically capture interactions between variables. They tend to give very good results on real world data, so let’s try one out on the <code>wine</code> quality dataset, where the goal is to predict the human-evaluated quality of a batch of wine, given some of the machine-measured chemical and physical properties of that batch.</p>
+<p>Fitting a random forest model is exactly the same as fitting a generalized linear regression model, as you did in the previous chapter. You simply change the method argument in the train function to be <code>"ranger"</code>. The <code>ranger</code> package written by <span class="citation">Wright, Wager, and Probst (<a href="#ref-R-ranger" role="doc-biblioref">2020</a>)</span> is a rewrite of R’s classic <code>randomForest</code> package written by <span class="citation">Breiman et al. (<a href="#ref-R-randomForest" role="doc-biblioref">2018</a>)</span> and fits models much faster, but gives almost exactly the same results. We suggest that all beginners use the <code>ranger</code> package for random forest modeling.</p>
+<hr />
+<div id="exercise-17" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<ul>
+<li><p>Train a random forest called <code>model</code> on the wine quality dataset, <code>wine</code>, such that <code>quality</code> is the response variable and all other variables are explanatory variables. Data is available from <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/" class="uri">https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/</a>.</p></li>
+<li><p>Use <code>method = "ranger"</code>.</p></li>
+<li><p>Use a <code>tuneLength</code> of 1.</p></li>
+<li><p>Use 5 CV folds.</p></li>
+<li><p>Print <code>model</code> to the console.</p></li>
+</ul>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="tuning-model-parameters-to-improve-performance.html#cb108-1"></a><span class="kw">library</span>(caret)</span>
+<span id="cb108-2"><a href="tuning-model-parameters-to-improve-performance.html#cb108-2"></a><span class="co"># Load wine data set</span></span>
+<span id="cb108-3"><a href="tuning-model-parameters-to-improve-performance.html#cb108-3"></a>wine &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./Data/wine_dataset.csv&quot;</span>)</span>
+<span id="cb108-4"><a href="tuning-model-parameters-to-improve-performance.html#cb108-4"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb108-5"><a href="tuning-model-parameters-to-improve-performance.html#cb108-5"></a><span class="co"># Fit random forest: model</span></span>
+<span id="cb108-6"><a href="tuning-model-parameters-to-improve-performance.html#cb108-6"></a>model &lt;-<span class="st"> </span><span class="kw">train</span>(</span>
+<span id="cb108-7"><a href="tuning-model-parameters-to-improve-performance.html#cb108-7"></a>  quality <span class="op">~</span>.,</span>
+<span id="cb108-8"><a href="tuning-model-parameters-to-improve-performance.html#cb108-8"></a>  <span class="dt">tuneLength =</span> <span class="dv">1</span>,</span>
+<span id="cb108-9"><a href="tuning-model-parameters-to-improve-performance.html#cb108-9"></a>  <span class="dt">data =</span> wine, </span>
+<span id="cb108-10"><a href="tuning-model-parameters-to-improve-performance.html#cb108-10"></a>  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</span>
+<span id="cb108-11"><a href="tuning-model-parameters-to-improve-performance.html#cb108-11"></a>  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </span>
+<span id="cb108-12"><a href="tuning-model-parameters-to-improve-performance.html#cb108-12"></a>                           <span class="dt">number =</span> <span class="dv">5</span>, </span>
+<span id="cb108-13"><a href="tuning-model-parameters-to-improve-performance.html#cb108-13"></a>                           <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb108-14"><a href="tuning-model-parameters-to-improve-performance.html#cb108-14"></a>)</span>
+<span id="cb108-15"><a href="tuning-model-parameters-to-improve-performance.html#cb108-15"></a></span>
+<span id="cb108-16"><a href="tuning-model-parameters-to-improve-performance.html#cb108-16"></a><span class="co"># Print model to console</span></span>
+<span id="cb108-17"><a href="tuning-model-parameters-to-improve-performance.html#cb108-17"></a>model</span></code></pre></div>
+<pre><code>Random Forest 
+
+6497 samples
+  12 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 5197, 5198, 5199, 5198, 5196 
+Resampling results across tuning parameters:
+
+  splitrule   RMSE       Rsquared   MAE      
+  variance    0.5997036  0.5373856  0.4354244
+  extratrees  0.6099071  0.5312587  0.4552435
+
+Tuning parameter &#39;mtry&#39; was held constant at a value of 3
+Tuning
+ parameter &#39;min.node.size&#39; was held constant at a value of 5
+RMSE was used to select the optimal model using the smallest value.
+The final values used for the model were mtry = 3, splitrule = variance
+ and min.node.size = 5.</code></pre>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="tuning-model-parameters-to-improve-performance.html#cb110-1"></a>model<span class="op">$</span>finalModel</span></code></pre></div>
+<pre><code>Ranger result
+
+Call:
+ ranger::ranger(dependent.variable.name = &quot;.outcome&quot;, data = x,      mtry = min(param$mtry, ncol(x)), min.node.size = param$min.node.size,      splitrule = as.character(param$splitrule), write.forest = TRUE,      probability = classProbs, ...) 
+
+Type:                             Regression 
+Number of trees:                  500 
+Sample size:                      6497 
+Number of independent variables:  12 
+Mtry:                             3 
+Target node size:                 5 
+Variable importance mode:         none 
+Splitrule:                        variance 
+OOB prediction error (MSE):       0.3380852 
+R squared (OOB):                  0.5566531 </code></pre>
+<hr />
+</div>
+<div id="explore-a-wider-model-space-video" class="section level3 unnumbered">
+<h3>Explore a wider model space video</h3>
+<iframe src="https://drive.google.com/file/d/1GN5lB2MehbNuhBhlnKfZSU0crvKIEAoC/preview" width="740" height="420">
+</iframe>
+<hr />
+</div>
+<div id="advantage-of-a-longer-tune-length" class="section level3 unnumbered">
+<h3>Advantage of a longer tune length</h3>
+<p>What’s the advantage of a longer <code>tuneLength</code>?</p>
+<ul>
+<li><p><strong>You explore more potential models and can potentially find a better model.</strong></p></li>
+<li><p>Your models take less time to fit.</p></li>
+<li><p>There’s no advantage; you’ll always end up with the same final model.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="try-a-longer-tune-length" class="section level2">
+<h2><span class="header-section-number">4.2</span> Try a longer tune length</h2>
+<p>Recall from the video that random forest models have a primary tuning parameter of <code>mtry</code>, which controls how many variables are exposed to the splitting search routine at each split. For example, suppose that a tree has a total of 10 splits and <code>mtry = 2</code>. This means that there are 10 samples of 2 predictors each time a split is evaluated.</p>
+<p>Use a larger tuning grid this time, but stick to the defaults provided by the <code>train()</code> function. Try a <code>tuneLength</code> of 3, rather than 1, to explore some more potential models, and plot the resulting model using the <code>plot</code> function.</p>
+<hr />
+<div id="exercise-18" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<ul>
+<li><p>Train a random forest model, <code>model</code>, using the <code>wine</code> dataset on the <code>quality</code> variable with all other variables as explanatory variables. (This will take a few seconds to run, so be patient!)</p></li>
+<li><p>Use <code>method = "ranger"</code>.</p></li>
+<li><p>Use a <code>tuneLength</code> of 3.</p></li>
+<li><p>Use 5 CV folds.</p></li>
+<li><p>Print <code>model</code> to the console.</p></li>
+<li><p>Plot the <code>model</code> after fitting it.</p></li>
+</ul>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="tuning-model-parameters-to-improve-performance.html#cb112-1"></a><span class="co"># Fit random forest: model</span></span>
+<span id="cb112-2"><a href="tuning-model-parameters-to-improve-performance.html#cb112-2"></a>model &lt;-<span class="st"> </span><span class="kw">train</span>(</span>
+<span id="cb112-3"><a href="tuning-model-parameters-to-improve-performance.html#cb112-3"></a>  quality <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb112-4"><a href="tuning-model-parameters-to-improve-performance.html#cb112-4"></a>  <span class="dt">tuneLength =</span> <span class="dv">3</span>,</span>
+<span id="cb112-5"><a href="tuning-model-parameters-to-improve-performance.html#cb112-5"></a>  <span class="dt">data =</span> wine, <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</span>
+<span id="cb112-6"><a href="tuning-model-parameters-to-improve-performance.html#cb112-6"></a>  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>, <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb112-7"><a href="tuning-model-parameters-to-improve-performance.html#cb112-7"></a>)</span>
+<span id="cb112-8"><a href="tuning-model-parameters-to-improve-performance.html#cb112-8"></a><span class="co"># Print model to console</span></span>
+<span id="cb112-9"><a href="tuning-model-parameters-to-improve-performance.html#cb112-9"></a><span class="kw">print</span>(model)</span></code></pre></div>
+<pre><code>Random Forest 
+
+6497 samples
+  12 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 5197, 5197, 5199, 5197, 5198 
+Resampling results across tuning parameters:
+
+  mtry  splitrule   RMSE       Rsquared   MAE      
+   2    variance    0.6033807  0.5347376  0.4404720
+   2    extratrees  0.6179357  0.5247112  0.4648299
+   7    variance    0.6023769  0.5291688  0.4335351
+   7    extratrees  0.6047707  0.5306300  0.4446016
+  12    variance    0.6074915  0.5193554  0.4354236
+  12    extratrees  0.6060593  0.5253553  0.4421185
+
+Tuning parameter &#39;min.node.size&#39; was held constant at a value of 5
+RMSE was used to select the optimal model using the smallest value.
+The final values used for the model were mtry = 7, splitrule = variance
+ and min.node.size = 5.</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="tuning-model-parameters-to-improve-performance.html#cb114-1"></a><span class="co"># Plot model</span></span>
+<span id="cb114-2"><a href="tuning-model-parameters-to-improve-performance.html#cb114-2"></a><span class="kw">plot</span>(model)</span></code></pre></div>
+<p><img src="MachineLearningToolboxSC_files/figure-html/unnamed-chunk-73-1.png" width="384" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="custom-tuning-grids-video" class="section level3 unnumbered">
+<h3>Custom tuning grids video</h3>
+<iframe src="https://drive.google.com/file/d/10_bXhWjcTvjXekCkvyNhmg0MZC_LmmRB/preview" width="740" height="420">
+</iframe>
+<hr />
+</div>
+<div id="advantages-of-a-custom-tuning-grid" class="section level3 unnumbered">
+<h3>Advantages of a custom tuning grid</h3>
+<p>Why use a custom <code>tuneGrid</code>?</p>
+<ul>
+<li><p>There’s no advantage; you’ll always end up with the same final model.</p></li>
+<li><p><strong>It gives you more fine-grained control over the tuning parameters that are explored.</strong></p></li>
+<li><p>It always makes your models run faster.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="fit-a-random-forest-with-custom-tuning" class="section level2">
+<h2><span class="header-section-number">4.3</span> Fit a random forest with custom tuning</h2>
+<p>Now that you’ve explored the default tuning grids provided by the <code>train()</code> function, let’s customize your models a bit more.</p>
+<p>You can provide any number of values for <code>mtry</code>, from 2 up to the number of columns in the dataset. In practice, there are diminishing returns for much larger values of <code>mtry</code>, so you will use a custom tuning grid that explores 2 simple models (<code>mtry = 2</code> and <code>mtry = 3</code>) as well as one more complicated model (<code>mtry = 7</code>).</p>
+<hr />
+<div id="exercise-19" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<ul>
+<li><p>Define a custom tuning grid.</p>
+<ul>
+<li><p>Set the number of variables to possibly split at each node, <code>.mtry</code>, to a vector of 2, 3, and 7.</p></li>
+<li><p>Set the rule to split on, <code>.splitrule</code>, to <code>"variance"</code>.</p></li>
+<li><p>Set the minimum node size, <code>.min.node.size</code>, to 5.</p></li>
+</ul></li>
+<li><p>Train another random forest model, <code>model</code>, using the <code>wine</code> dataset on the <code>quality</code> variable with all other variables as explanatory variables.</p>
+<pre><code>+ Use `method = &quot;ranger&quot;`.
+
++ Use the custom `tuneGrid`.
+
++ Use 5 CV folds.</code></pre></li>
+</ul>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="tuning-model-parameters-to-improve-performance.html#cb116-1"></a><span class="co"># Define the tuning grid: tuneGrid</span></span>
+<span id="cb116-2"><a href="tuning-model-parameters-to-improve-performance.html#cb116-2"></a>tuneGrid &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb116-3"><a href="tuning-model-parameters-to-improve-performance.html#cb116-3"></a>  <span class="dt">.mtry =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">7</span>),</span>
+<span id="cb116-4"><a href="tuning-model-parameters-to-improve-performance.html#cb116-4"></a>  <span class="dt">.splitrule =</span> <span class="st">&quot;variance&quot;</span>,</span>
+<span id="cb116-5"><a href="tuning-model-parameters-to-improve-performance.html#cb116-5"></a>  <span class="dt">.min.node.size =</span> <span class="dv">5</span></span>
+<span id="cb116-6"><a href="tuning-model-parameters-to-improve-performance.html#cb116-6"></a>)</span>
+<span id="cb116-7"><a href="tuning-model-parameters-to-improve-performance.html#cb116-7"></a></span>
+<span id="cb116-8"><a href="tuning-model-parameters-to-improve-performance.html#cb116-8"></a><span class="co"># Fit random forest: model</span></span>
+<span id="cb116-9"><a href="tuning-model-parameters-to-improve-performance.html#cb116-9"></a>model &lt;-<span class="st"> </span><span class="kw">train</span>(</span>
+<span id="cb116-10"><a href="tuning-model-parameters-to-improve-performance.html#cb116-10"></a>  quality <span class="op">~</span><span class="st"> </span>.,</span>
+<span id="cb116-11"><a href="tuning-model-parameters-to-improve-performance.html#cb116-11"></a>  <span class="dt">tuneGrid =</span> tuneGrid,</span>
+<span id="cb116-12"><a href="tuning-model-parameters-to-improve-performance.html#cb116-12"></a>  <span class="dt">data =</span> wine, </span>
+<span id="cb116-13"><a href="tuning-model-parameters-to-improve-performance.html#cb116-13"></a>  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</span>
+<span id="cb116-14"><a href="tuning-model-parameters-to-improve-performance.html#cb116-14"></a>  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </span>
+<span id="cb116-15"><a href="tuning-model-parameters-to-improve-performance.html#cb116-15"></a>                           <span class="dt">number =</span> <span class="dv">5</span>, </span>
+<span id="cb116-16"><a href="tuning-model-parameters-to-improve-performance.html#cb116-16"></a>                           <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb116-17"><a href="tuning-model-parameters-to-improve-performance.html#cb116-17"></a>)</span></code></pre></div>
+<ul>
+<li>Print <code>model</code> to the console.</li>
+</ul>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="tuning-model-parameters-to-improve-performance.html#cb117-1"></a><span class="co"># Print model to console</span></span>
+<span id="cb117-2"><a href="tuning-model-parameters-to-improve-performance.html#cb117-2"></a>model</span></code></pre></div>
+<pre><code>Random Forest 
+
+6497 samples
+  12 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 5199, 5197, 5198, 5196, 5198 
+Resampling results across tuning parameters:
+
+  mtry  RMSE       Rsquared   MAE      
+  2     0.6000174  0.5400401  0.4378588
+  3     0.5982012  0.5396038  0.4337916
+  7     0.5978926  0.5360262  0.4305718
+
+Tuning parameter &#39;splitrule&#39; was held constant at a value of variance
+
+Tuning parameter &#39;min.node.size&#39; was held constant at a value of 5
+RMSE was used to select the optimal model using the smallest value.
+The final values used for the model were mtry = 7, splitrule = variance
+ and min.node.size = 5.</code></pre>
+<ul>
+<li>Plot the <code>model</code> after fitting it using <code>plot()</code>.</li>
+</ul>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="tuning-model-parameters-to-improve-performance.html#cb119-1"></a><span class="co"># Plot model</span></span>
+<span id="cb119-2"><a href="tuning-model-parameters-to-improve-performance.html#cb119-2"></a><span class="kw">plot</span>(model)</span></code></pre></div>
+<p><img src="MachineLearningToolboxSC_files/figure-html/unnamed-chunk-76-1.png" width="384" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="introducing-glmnet-video" class="section level3 unnumbered">
+<h3>Introducing <code>glmnet</code> video</h3>
+<iframe src="https://drive.google.com/file/d/1A2jQSOk4tkX0qeuSmIxPYyq4pDx3-EJr/preview" width="640" height="480">
+</iframe>
+<hr />
+</div>
+<div id="advantage-of-glmnet" class="section level3 unnumbered">
+<h3>Advantage of <code>glmnet</code></h3>
+<p>What’s the advantage of <code>glmnet</code> over regular <code>glm</code> models?</p>
+<ul>
+<li><p><code>glmnet</code> models automatically find interaction variables.</p></li>
+<li><p><code>glmnet</code> models don’t provide p-values or confidence intervals on predictions.</p></li>
+<li><p><strong><code>glmnet</code> models place constraints on your coefficients, which helps prevent overfitting.</strong></p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="make-a-custom-traincontrol" class="section level2">
+<h2><span class="header-section-number">4.4</span> Make a custom <code>trainControl</code></h2>
+<p>The wine quality dataset was a regression problem, but now you are looking at a classification problem. This is a simulated dataset based on the “don’t overfit” competition on Kaggle a number of years ago.</p>
+<p>Classification problems are a little more complicated than regression problems because you have to provide a custom <code>summaryFunction</code> to the <code>train()</code> function to use the <code>AUC</code> metric to rank your models. Start by making a custom <code>trainControl</code>, as you did in the previous chapter. Be sure to set <code>classProbs = TRUE</code>, otherwise the <code>twoClassSummary</code> for <code>summaryFunction</code> will break.</p>
+<hr />
+<div id="exercise-20" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Make a custom <code>trainControl</code> called <code>myControl</code> for classification using the <code>trainControl</code> function.</p>
+<ul>
+<li><p>Use 10 CV folds.</p></li>
+<li><p>Use <code>twoClassSummary</code> for the <code>summaryFunction</code>.</p></li>
+<li><p>Be sure to set <code>classProbs = TRUE</code>.</p></li>
+</ul>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="tuning-model-parameters-to-improve-performance.html#cb120-1"></a><span class="co"># Create custom trainControl: myControl</span></span>
+<span id="cb120-2"><a href="tuning-model-parameters-to-improve-performance.html#cb120-2"></a>myControl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(</span>
+<span id="cb120-3"><a href="tuning-model-parameters-to-improve-performance.html#cb120-3"></a>  <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </span>
+<span id="cb120-4"><a href="tuning-model-parameters-to-improve-performance.html#cb120-4"></a>  <span class="dt">number =</span> <span class="dv">10</span>,</span>
+<span id="cb120-5"><a href="tuning-model-parameters-to-improve-performance.html#cb120-5"></a>  <span class="dt">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb120-6"><a href="tuning-model-parameters-to-improve-performance.html#cb120-6"></a>  <span class="dt">classProbs =</span> <span class="ot">TRUE</span>, <span class="co"># IMPORTANT!</span></span>
+<span id="cb120-7"><a href="tuning-model-parameters-to-improve-performance.html#cb120-7"></a>  <span class="dt">verboseIter =</span> <span class="ot">FALSE</span></span>
+<span id="cb120-8"><a href="tuning-model-parameters-to-improve-performance.html#cb120-8"></a>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="fit-glmnet-with-custom-traincontrol" class="section level2">
+<h2><span class="header-section-number">4.5</span> Fit glmnet with custom <code>trainControl</code></h2>
+<p>Now that you have a custom <code>trainControl</code> object, fit a <code>glmnet</code> model to the “don’t overfit” dataset. Recall from the video that <code>glmnet</code> is an extension of the generalized linear regression model (or <code>glm</code>) that places constraints on the magnitude of the coefficients to prevent overfitting. This is more commonly known as “penalized” regression modeling and is a very useful technique on datasets with many predictors and few values.</p>
+<p><code>glmnet</code> is capable of fitting two different kinds of penalized models, controlled by the alpha parameter:</p>
+<ul>
+<li><p>Ridge regression (or <code>alpha = 0</code>)</p></li>
+<li><p>Lasso regression (or <code>alpha = 1</code>)</p></li>
+</ul>
+<p>You’ll now fit a <code>glmnet</code> model to the “don’t overfit” dataset using the defaults provided by the <code>caret</code> package.</p>
+<hr />
+<div id="exercise-21" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Train a <code>glmnet</code> model called model on the <code>overfit</code> data. Use the custom <code>trainControl</code> from the previous exercise (<code>myControl</code>). The variable <code>y</code> is the response variable and all other variables are explanatory variables.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="tuning-model-parameters-to-improve-performance.html#cb121-1"></a>overfit &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://assets.datacamp.com/production/course_1048/datasets/overfit.csv&quot;</span>)</span>
+<span id="cb121-2"><a href="tuning-model-parameters-to-improve-performance.html#cb121-2"></a>model &lt;-<span class="st"> </span><span class="kw">train</span>(y <span class="op">~</span><span class="st"> </span>., </span>
+<span id="cb121-3"><a href="tuning-model-parameters-to-improve-performance.html#cb121-3"></a>               <span class="dt">data =</span> overfit, </span>
+<span id="cb121-4"><a href="tuning-model-parameters-to-improve-performance.html#cb121-4"></a>               <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,</span>
+<span id="cb121-5"><a href="tuning-model-parameters-to-improve-performance.html#cb121-5"></a>               <span class="dt">trControl =</span> myControl)</span></code></pre></div>
+<pre><code>Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was not
+in the result set. ROC will be used instead.</code></pre>
+<ul>
+<li>Print the <code>model</code> to the console.</li>
+</ul>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="tuning-model-parameters-to-improve-performance.html#cb123-1"></a><span class="co"># Print model</span></span>
+<span id="cb123-2"><a href="tuning-model-parameters-to-improve-performance.html#cb123-2"></a><span class="kw">print</span>(model)</span></code></pre></div>
+<pre><code>glmnet 
+
+250 samples
+200 predictors
+  2 classes: &#39;class1&#39;, &#39;class2&#39; 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 225, 225, 226, 225, 224, 224, ... 
+Resampling results across tuning parameters:
+
+  alpha  lambda        ROC        Sens  Spec     
+  0.10   0.0001012745  0.4485507  0.05  0.9659420
+  0.10   0.0010127448  0.4402174  0.05  0.9746377
+  0.10   0.0101274483  0.4617754  0.00  0.9871377
+  0.55   0.0001012745  0.4319746  0.05  0.9532609
+  0.55   0.0010127448  0.4403080  0.05  0.9657609
+  0.55   0.0101274483  0.4725543  0.05  0.9873188
+  1.00   0.0001012745  0.3996377  0.05  0.9230072
+  1.00   0.0010127448  0.3865036  0.05  0.9489130
+  1.00   0.0101274483  0.4312500  0.05  0.9873188
+
+ROC was used to select the optimal model using the largest value.
+The final values used for the model were alpha = 0.55 and lambda = 0.01012745.</code></pre>
+<ul>
+<li>Use the <code>max()</code> function to find the maximum of the ROC statistic contained somewhere in <code>model[["results"]]</code>.</li>
+</ul>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="tuning-model-parameters-to-improve-performance.html#cb125-1"></a><span class="kw">max</span>(model[[<span class="st">&quot;results&quot;</span>]][[<span class="st">&quot;ROC&quot;</span>]])</span></code></pre></div>
+<pre><code>[1] 0.4725543</code></pre>
+<hr />
+</div>
+<div id="glmnet-with-custom-tuning-grid-video" class="section level3 unnumbered">
+<h3><code>glmnet</code> with custom tuning grid video</h3>
+<iframe src="https://drive.google.com/file/d/1Fq5ZeWQ6nzrWw7jAVFG9pVy95SQqmH4K/preview" width="640" height="480">
+</iframe>
+<hr />
+</div>
+<div id="why-a-custom-tuning-grid" class="section level3 unnumbered">
+<h3>Why a custom tuning grid?</h3>
+<p>Why use a custom tuning grid for a <code>glmnet</code> model?</p>
+<ul>
+<li><p>There’s no reason to use a custom grid; the default is always the best.</p></li>
+<li><p><strong>The default tuning grid is very small and there are many more potential <code>glmnet</code> models you want to explore.</strong></p></li>
+<li><p><code>glmnet</code> models are really slow, so you should never try more than a few tuning parameters.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="glmnet-with-custom-traincontrol-and-tuning" class="section level2">
+<h2><span class="header-section-number">4.6</span> <code>glmnet</code> with custom <code>trainControl</code> and tuning</h2>
+<p>As you saw in the video, the <code>glmnet</code> model actually fits many models at once (one of the great things about the package). You can exploit this by passing a large number of <code>lambda values</code>, which control the amount of penalization in the model. <code>train()</code> is smart enough to only fit one model per <code>alpha</code> value and pass all of the <code>lambda</code> values at once for simultaneous fitting.</p>
+<p>My favorite tuning grid for <code>glmnet</code> models is:</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="tuning-model-parameters-to-improve-performance.html#cb127-1"></a><span class="kw">expand.grid</span>(<span class="dt">alpha =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">1</span>,</span>
+<span id="cb127-2"><a href="tuning-model-parameters-to-improve-performance.html#cb127-2"></a>            <span class="dt">lambda =</span> <span class="kw">seq</span>(<span class="fl">0.0001</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">100</span>))</span></code></pre></div>
+<p>This grid explores a large number of <code>lambda</code> values (100, in fact), from a very small one to a very large one. (You could increase the maximum <code>lambda</code> to 10, but in this exercise 1 is a good upper bound.)</p>
+<p>If you want to explore fewer models, you can use a shorter <code>lambda</code> sequence. For example, <code>lambda = seq(0.0001, 1, length = 10)</code> would fit 10 models per value of <code>alpha</code>.</p>
+<p>You also look at the two forms of penalized models with this <code>tuneGrid</code>: ridge regression and lasso regression. <code>alpha = 0</code> is pure ridge regression, and <code>alpha = 1</code> is pure lasso regression. You can fit a mixture of the two models (i.e. an elastic net) using an alpha between 0 and 1. For example, <code>alpha = .05</code> would be 95% ridge regression and 5% lasso regression.</p>
+<p>In this problem you’ll just explore the 2 extremes–pure ridge and pure lasso regression–for the purpose of illustrating their differences.</p>
+<hr />
+<div id="exercise-22" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<ul>
+<li>Train a <code>glmnet</code> model on the <code>overfit</code> data such that <code>y</code> is the response variable and all other variables are explanatory variables. Make sure to use your custom <code>trainControl</code> from the previous exercise (<code>myControl</code>). Also, use a custom <code>tuneGrid</code> to explore <code>alpha = 0:1</code> and 20 values of <code>lambda</code> between 0.0001 and 1 per value of <code>alpha</code>.</li>
+</ul>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="tuning-model-parameters-to-improve-performance.html#cb128-1"></a><span class="co"># Train glmnet with custom trainControl and tuning: model</span></span>
+<span id="cb128-2"><a href="tuning-model-parameters-to-improve-performance.html#cb128-2"></a>model &lt;-<span class="st"> </span><span class="kw">train</span>(</span>
+<span id="cb128-3"><a href="tuning-model-parameters-to-improve-performance.html#cb128-3"></a>  y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> overfit,</span>
+<span id="cb128-4"><a href="tuning-model-parameters-to-improve-performance.html#cb128-4"></a>  <span class="dt">tuneGrid =</span> <span class="kw">expand.grid</span>(<span class="dt">alpha  =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, </span>
+<span id="cb128-5"><a href="tuning-model-parameters-to-improve-performance.html#cb128-5"></a>                         <span class="dt">lambda =</span> <span class="kw">seq</span>(<span class="fl">0.0001</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">20</span>)),</span>
+<span id="cb128-6"><a href="tuning-model-parameters-to-improve-performance.html#cb128-6"></a>  <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,</span>
+<span id="cb128-7"><a href="tuning-model-parameters-to-improve-performance.html#cb128-7"></a>  <span class="dt">trControl =</span> myControl</span>
+<span id="cb128-8"><a href="tuning-model-parameters-to-improve-performance.html#cb128-8"></a>)</span></code></pre></div>
+<pre><code>Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was not
+in the result set. ROC will be used instead.</code></pre>
+<ul>
+<li>Print <code>model</code> to the console.</li>
+</ul>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tuning-model-parameters-to-improve-performance.html#cb130-1"></a><span class="co"># Print model to console</span></span>
+<span id="cb130-2"><a href="tuning-model-parameters-to-improve-performance.html#cb130-2"></a>model</span></code></pre></div>
+<pre><code>glmnet 
+
+250 samples
+200 predictors
+  2 classes: &#39;class1&#39;, &#39;class2&#39; 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 226, 226, 224, 225, 224, 224, ... 
+Resampling results across tuning parameters:
+
+  alpha  lambda      ROC        Sens  Spec     
+  0      0.00010000  0.4343297  0.05  0.9786232
+  0      0.05272632  0.4539855  0.00  0.9958333
+  0      0.10535263  0.4565217  0.00  1.0000000
+  0      0.15797895  0.4501812  0.00  1.0000000
+  0      0.21060526  0.4543478  0.00  1.0000000
+  0      0.26323158  0.4587862  0.00  1.0000000
+  0      0.31585789  0.4566123  0.00  1.0000000
+  0      0.36848421  0.4608696  0.00  1.0000000
+  0      0.42111053  0.4652174  0.00  1.0000000
+  0      0.47373684  0.4695652  0.00  1.0000000
+  0      0.52636316  0.4695652  0.00  1.0000000
+  0      0.57898947  0.4696558  0.00  1.0000000
+  0      0.63161579  0.4717391  0.00  1.0000000
+  0      0.68424211  0.4760870  0.00  1.0000000
+  0      0.73686842  0.4782609  0.00  1.0000000
+  0      0.78949474  0.4782609  0.00  1.0000000
+  0      0.84212105  0.4782609  0.00  1.0000000
+  0      0.89474737  0.4782609  0.00  1.0000000
+  0      0.94737368  0.4782609  0.00  1.0000000
+  0      1.00000000  0.4782609  0.00  1.0000000
+  1      0.00010000  0.3500906  0.05  0.9141304
+  1      0.05272632  0.5300725  0.00  1.0000000
+  1      0.10535263  0.5000000  0.00  1.0000000
+  1      0.15797895  0.5000000  0.00  1.0000000
+  1      0.21060526  0.5000000  0.00  1.0000000
+  1      0.26323158  0.5000000  0.00  1.0000000
+  1      0.31585789  0.5000000  0.00  1.0000000
+  1      0.36848421  0.5000000  0.00  1.0000000
+  1      0.42111053  0.5000000  0.00  1.0000000
+  1      0.47373684  0.5000000  0.00  1.0000000
+  1      0.52636316  0.5000000  0.00  1.0000000
+  1      0.57898947  0.5000000  0.00  1.0000000
+  1      0.63161579  0.5000000  0.00  1.0000000
+  1      0.68424211  0.5000000  0.00  1.0000000
+  1      0.73686842  0.5000000  0.00  1.0000000
+  1      0.78949474  0.5000000  0.00  1.0000000
+  1      0.84212105  0.5000000  0.00  1.0000000
+  1      0.89474737  0.5000000  0.00  1.0000000
+  1      0.94737368  0.5000000  0.00  1.0000000
+  1      1.00000000  0.5000000  0.00  1.0000000
+
+ROC was used to select the optimal model using the largest value.
+The final values used for the model were alpha = 1 and lambda = 0.05272632.</code></pre>
+<ul>
+<li>Print the <code>max()</code> of the ROC statistic in <code>model[["results"]]</code>. You can access it using <code>model[["results"]][["ROC"]]</code>.</li>
+</ul>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tuning-model-parameters-to-improve-performance.html#cb132-1"></a><span class="co"># Print maximum ROC statistic</span></span>
+<span id="cb132-2"><a href="tuning-model-parameters-to-improve-performance.html#cb132-2"></a><span class="kw">max</span>(model[[<span class="st">&quot;results&quot;</span>]][[<span class="st">&quot;ROC&quot;</span>]])</span></code></pre></div>
+<pre><code>[1] 0.5300725</code></pre>
+<hr />
+</div>
+</div>
+<div id="interpreting-glmnet-plots" class="section level2">
+<h2><span class="header-section-number">4.7</span> Interpreting <code>glmnet</code> plots</h2>
+<p>Figure <a href="tuning-model-parameters-to-improve-performance.html#fig:PLR">4.1</a> shows the tuning plot for the custom tuned <code>glmnet</code> model you created in the last exercise. For the <code>overfit</code> dataset, which value of <code>alpha</code> is better?</p>
+<ul>
+<li><p><code>alpha = 0 (ridge)</code></p></li>
+<li><p><strong><code>alpha = 1 (lasso)</code></strong></p></li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:PLR"></span>
+<img src="MachineLearningToolboxSC_files/figure-html/PLR-1.png" alt="`glmnet` plot" width="384" />
+<p class="caption">
+Figure 4.1: <code>glmnet</code> plot
+</p>
+</div>
+<hr />
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-randomForest">
+<p>Breiman, Leo, Adele Cutler, Andy Liaw, and Matthew Wiener. 2018. <em>RandomForest: Breiman and Cutler’s Random Forests for Classification and Regression</em>. <a href="https://www.stat.berkeley.edu/~breiman/RandomForests/">https://www.stat.berkeley.edu/~breiman/RandomForests/</a>.</p>
+</div>
+<div id="ref-R-ranger">
+<p>Wright, Marvin N., Stefan Wager, and Philipp Probst. 2020. <em>Ranger: A Fast Implementation of Random Forests</em>. <a href="https://github.com/imbs-hl/ranger">https://github.com/imbs-hl/ranger</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="classification-models-fitting-them-and-evaluating-their-performance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="preprocessing-your-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MachineLearningToolboxSC.pdf", "MachineLearningToolboxSC.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
