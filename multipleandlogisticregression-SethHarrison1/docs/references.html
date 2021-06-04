@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>References | Multiple and Logistic Regression</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="References | Multiple and Logistic Regression" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="References | Multiple and Logistic Regression" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Seth Harrison" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="case-study-italian-restaurant-in-nyc.html"/>
+
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Multiple and Logistic Regression</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="parallel-slopes.html"><a href="parallel-slopes.html"><i class="fa fa-check"></i><b>2</b> Parallel Slopes</a><ul>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#what-if-you-have-two-groups"><i class="fa fa-check"></i>What if you have two groups?</a></li>
+<li class="chapter" data-level="2.1" data-path="parallel-slopes.html"><a href="parallel-slopes.html#fitting-a-parallel-slopes-model"><i class="fa fa-check"></i><b>2.1</b> Fitting a parallel slopes model</a><ul>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#exercise"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#reasoning-about-two-intercepts"><i class="fa fa-check"></i>Reasoning about two intercepts</a></li>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#visualizing-parallel-slopes-models"><i class="fa fa-check"></i>Visualizing parallel slopes models</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="parallel-slopes.html"><a href="parallel-slopes.html#using-geom_line-and-augment"><i class="fa fa-check"></i><b>2.2</b> Using <code>geom_line()</code> and <code>augment()</code></a><ul>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#exercise-1"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="2.2.1" data-path="parallel-slopes.html"><a href="parallel-slopes.html#an-alternative-approach-using-geom_parallel_slopes-from-moderndive"><i class="fa fa-check"></i><b>2.2.1</b> An alternative approach using <code>geom_parallel_slopes()</code> from <code>moderndive</code></a></li>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#interpreting-parallel-slopes-coefficients"><i class="fa fa-check"></i>Interpreting parallel slopes coefficients</a></li>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#intercept-interpretation"><i class="fa fa-check"></i>Intercept interpretation</a></li>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#common-slope-interpretation"><i class="fa fa-check"></i>Common slope interpretation</a></li>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#three-ways-to-describe-a-model"><i class="fa fa-check"></i>Three ways to describe a model</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="parallel-slopes.html"><a href="parallel-slopes.html#syntax-from-math"><i class="fa fa-check"></i><b>2.3</b> Syntax from math</a><ul>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#exercise-2"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="parallel-slopes.html"><a href="parallel-slopes.html#syntax-from-plot"><i class="fa fa-check"></i><b>2.4</b> Syntax from plot</a><ul>
+<li class="chapter" data-level="" data-path="parallel-slopes.html"><a href="parallel-slopes.html#exercise-3"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html"><i class="fa fa-check"></i><b>3</b> Evaluating and extending parallel slopes model</a><ul>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#model-fit-residuals-and-prediction"><i class="fa fa-check"></i>Model fit, residuals, and prediction</a></li>
+<li class="chapter" data-level="3.1" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#r-squared-vs.-adjusted-r-squared"><i class="fa fa-check"></i><b>3.1</b> R-squared vs. adjusted R-squared</a><ul>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#exercise-4"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#prediction"><i class="fa fa-check"></i><b>3.2</b> Prediction</a><ul>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#exercise-5"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#understanding-interaction"><i class="fa fa-check"></i>Understanding interaction</a></li>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#thought-experiments"><i class="fa fa-check"></i>Thought experiments</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#fitting-a-model-with-interaction"><i class="fa fa-check"></i><b>3.3</b> Fitting a model with interaction</a><ul>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#exercise-6"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#visualizing-interaction-models"><i class="fa fa-check"></i><b>3.4</b> Visualizing interaction models</a></li>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#exercise-7"><i class="fa fa-check"></i>Exercise</a><ul>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#simpsons-paradox"><i class="fa fa-check"></i>Simpson’s paradox</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#consequences-of-simpsons-paradox"><i class="fa fa-check"></i><b>3.5</b> Consequences of Simpson’s paradox</a></li>
+<li class="chapter" data-level="3.6" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#simpsons-paradox-in-action"><i class="fa fa-check"></i><b>3.6</b> Simpson’s paradox in action</a><ul>
+<li class="chapter" data-level="" data-path="evaluating-and-extending-parallel-slopes-model.html"><a href="evaluating-and-extending-parallel-slopes-model.html#exercise-8"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>4</b> Multiple Regression</a><ul>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#adding-a-numerical-explanatory-variable"><i class="fa fa-check"></i>Adding a numerical explanatory variable</a></li>
+<li class="chapter" data-level="4.1" data-path="multiple-regression.html"><a href="multiple-regression.html#fitting-a-mlr-model"><i class="fa fa-check"></i><b>4.1</b> Fitting a MLR model</a></li>
+<li class="chapter" data-level="4.2" data-path="multiple-regression.html"><a href="multiple-regression.html#tiling-the-plane"><i class="fa fa-check"></i><b>4.2</b> Tiling the plane</a><ul>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#exercise-9"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="multiple-regression.html"><a href="multiple-regression.html#models-in-3d"><i class="fa fa-check"></i><b>4.3</b> Models in 3D</a><ul>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#exercise-10"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#conditional-interpretation-of-coefficients"><i class="fa fa-check"></i>Conditional interpretation of coefficients</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#coefficient-magnitude"><i class="fa fa-check"></i>Coefficient magnitude</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#practicing-interpretation"><i class="fa fa-check"></i>Practicing interpretation</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#adding-a-third-categorical-variable"><i class="fa fa-check"></i>Adding a third (categorical) variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="multiple-regression.html"><a href="multiple-regression.html#visualizing-parallel-planes"><i class="fa fa-check"></i><b>4.4</b> Visualizing parallel planes</a><ul>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#exercise-11"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#parallel-plane-interpretation"><i class="fa fa-check"></i>Parallel plane interpretation</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#higher-dimensions"><i class="fa fa-check"></i>Higher dimensions</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#interpretation-of-coefficient-in-a-big-model"><i class="fa fa-check"></i>Interpretation of coefficient in a big model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>5</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#what-is-logistic-regression"><i class="fa fa-check"></i>What is logistic regression?</a></li>
+<li class="chapter" data-level="5.1" data-path="logistic-regression.html"><a href="logistic-regression.html#fitting-a-line-to-a-binary-response"><i class="fa fa-check"></i><b>5.1</b> Fitting a line to a binary response</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-12"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="logistic-regression.html"><a href="logistic-regression.html#fitting-a-line-to-a-binary-response-2"><i class="fa fa-check"></i><b>5.2</b> Fitting a line to a binary response (2)</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-13"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="logistic-regression.html"><a href="logistic-regression.html#fitting-a-model"><i class="fa fa-check"></i><b>5.3</b> Fitting a model</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-14"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#visualizing-logistic-regression"><i class="fa fa-check"></i>Visualizing logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="logistic-regression.html"><a href="logistic-regression.html#using-geom_smooth"><i class="fa fa-check"></i><b>5.4</b> Using geom_smooth()</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-15"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="logistic-regression.html"><a href="logistic-regression.html#using-bins"><i class="fa fa-check"></i><b>5.5</b> Using bins</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-16"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="logistic-regression.html"><a href="logistic-regression.html#three-scales-approach-to-interpretation"><i class="fa fa-check"></i><b>5.6</b> Three scales approach to interpretation</a></li>
+<li class="chapter" data-level="5.7" data-path="logistic-regression.html"><a href="logistic-regression.html#odds-scale"><i class="fa fa-check"></i><b>5.7</b> Odds scale</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-17"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="logistic-regression.html"><a href="logistic-regression.html#log-odds-scale"><i class="fa fa-check"></i><b>5.8</b> Log-odds scale</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-18"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#interpretation-of-logistic-regression"><i class="fa fa-check"></i>Interpretation of logistic regression</a></li>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#using-a-logistic-model"><i class="fa fa-check"></i>Using a logistic model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="logistic-regression.html"><a href="logistic-regression.html#making-probabilistic-predictions"><i class="fa fa-check"></i><b>5.9</b> Making probabilistic predictions</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-19"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="logistic-regression.html"><a href="logistic-regression.html#making-binary-predictions"><i class="fa fa-check"></i><b>5.10</b> Making binary predictions</a><ul>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html#exercise-20"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html"><i class="fa fa-check"></i><b>6</b> Case Study: Italian restaurant in NYC</a><ul>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#italian-restaurants-in-nyc"><i class="fa fa-check"></i>Italian restaurants in NYC</a></li>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#exploratory-data-analysis"><i class="fa fa-check"></i>Exploratory data analysis</a></li>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#excercise"><i class="fa fa-check"></i>Excercise</a></li>
+<li class="chapter" data-level="6.1" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#slr-models"><i class="fa fa-check"></i><b>6.1</b> SLR models</a><ul>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#exercise-21"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#incorporating-another-variable"><i class="fa fa-check"></i>Incorporating another variable</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#parallel-lines-with-location"><i class="fa fa-check"></i><b>6.2</b> Parallel lines with location</a></li>
+<li class="chapter" data-level="6.3" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#a-plane-in-3d"><i class="fa fa-check"></i><b>6.3</b> A plane in 3D</a><ul>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#exercise-22"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#higher-dimensions-1"><i class="fa fa-check"></i>Higher dimensions</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#parallel-planes-with-location"><i class="fa fa-check"></i><b>6.4</b> Parallel planes with location</a><ul>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#exercise-23"><i class="fa fa-check"></i>Exercise</a></li>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#interpretation-of-location-coefficient"><i class="fa fa-check"></i>Interpretation of location coefficient</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#impact-of-location"><i class="fa fa-check"></i><b>6.5</b> Impact of location</a><ul>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#exercise-24"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#full-model"><i class="fa fa-check"></i><b>6.6</b> Full model</a><ul>
+<li class="chapter" data-level="" data-path="case-study-italian-restaurant-in-nyc.html"><a href="case-study-italian-restaurant-in-nyc.html#wrap-up"><i class="fa fa-check"></i>Wrap-up</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><a href="https://www.datacamp.com/courses/multiple-and-logistic-regression">Multiple and Logistic Regression</a></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="case-study-italian-restaurant-in-nyc.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MultLogSC.pdf", "MultLogSC.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
